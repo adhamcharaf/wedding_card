@@ -1,41 +1,56 @@
+import { useEffect } from 'react'
 import { Background } from './components/Background'
 import { LangToggle } from './components/LangToggle'
-import { wedding } from './content/wedding'
-import { useDocumentLang, useT } from './i18n/useT'
+import { Countdown } from './components/sections/Countdown'
+import { End } from './components/sections/End'
+import { Hero } from './components/sections/Hero'
+import { Invitation } from './components/sections/Invitation'
+import { Practical } from './components/sections/Practical'
+import { Program } from './components/sections/Program'
+import { Registry } from './components/sections/Registry'
+import { Rsvp } from './components/sections/Rsvp'
+import { Venue } from './components/sections/Venue'
+import { Sun } from './components/Sun'
+import { useDocumentLang } from './i18n/useT'
+import { ScrollTrigger } from './lib/gsap'
 
 /**
- * Étape 1 : aperçu minimal pour valider le fond, le grain et le toggle de langue.
- * Les vraies sections arrivent à l'étape 2 et remplaceront ce contenu.
+ * Étape 2 : le scroll complet, on arrive directement sur le hero.
+ * La machine à phases (gate, intro, bridge, envelope) s'ajoute à l'étape 4.
  */
 export default function App() {
   useDocumentLang()
-  const t = useT()
+
+  // Les polices et les images changent la hauteur de page après l'init :
+  // on recalcule les déclencheurs (docs/LESSONS.md).
+  useEffect(() => {
+    let cancelled = false
+    const refresh = () => ScrollTrigger.refresh()
+    void document.fonts.ready.then(() => {
+      if (!cancelled) refresh()
+    })
+    window.addEventListener('load', refresh)
+    return () => {
+      cancelled = true
+      window.removeEventListener('load', refresh)
+    }
+  }, [])
 
   return (
     <>
       <Background />
+      <Sun endSelector="#rsvp" />
       <LangToggle />
       <main className="column">
-        <section className="screen">
-          <p className="monogram">{wedding.couple.monogram}</p>
-          <p className="gate-hint">{t(wedding.text.gate)}</p>
-        </section>
-
-        <section className="screen">
-          <h1 className="hero__title">{t(wedding.text.hero.saveTheDate)}</h1>
-          <p className="hero__name">{wedding.couple.a}</p>
-          <p className="hero__amp">{wedding.couple.ampersand}</p>
-          <p className="hero__name">{wedding.couple.b}</p>
-          <p className="hero__date">{wedding.dateLabel}</p>
-        </section>
-
-        <section className="screen">
-          <p className="invitation">{t(wedding.text.invitation)}</p>
-          <p className="celebration">{t(wedding.text.celebration)}</p>
-          <p className="detail">{t(wedding.text.time)}</p>
-          <p className="detail detail--venue">{wedding.venue.name}</p>
-          <p className="detail">{t(wedding.venue.city)}</p>
-        </section>
+        <Hero />
+        <Invitation />
+        <Venue />
+        <Countdown />
+        <Program />
+        <Practical />
+        <Registry />
+        <Rsvp />
+        <End />
       </main>
     </>
   )

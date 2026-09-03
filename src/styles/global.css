@@ -10,9 +10,10 @@
   --column: 480px;
   --gutter: 1.5rem;
   --grain-tile: 160px;
+  --sun-size: min(130vw, 640px);
 
-  /* Serif système en attendant les deux WOFF2 de l'étape 2. */
-  --font-serif: Georgia, 'Times New Roman', 'Noto Serif', serif;
+  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-script: 'Pinyon Script', 'Brush Script MT', cursive;
 
   color-scheme: light;
 }
@@ -37,7 +38,10 @@ body {
   background: var(--peach-mid);
   color: var(--ink);
   font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 1.125rem;
   line-height: 1.4;
+  font-variant-numeric: lining-nums;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -50,9 +54,15 @@ button {
   cursor: pointer;
 }
 
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
 /*
- * #root isole son contexte d'empilement : le fond en z-index négatif reste
- * au-dessus du body et sous tout le contenu, positionné ou non.
+ * #root isole son contexte d'empilement : les calques en z-index négatif
+ * (fond, soleil) restent au-dessus du body et sous tout le contenu.
  */
 #root {
   isolation: isolate;
@@ -111,6 +121,28 @@ button {
   87.5% { transform: translate3d(-131px, -109px, 0); }
 }
 
+/* ---------- Soleil ---------- */
+
+/*
+ * Fixé en bas, centré sans transform (left/right + margin auto) pour laisser
+ * GSAP piloter translateY. Un quart des rayons du bas reste hors écran.
+ */
+.sun {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--sun-size) * -0.28);
+  z-index: -1;
+  width: var(--sun-size);
+  margin: 0 auto;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.sun img {
+  width: 100%;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .bg__grain {
     animation: none;
@@ -128,6 +160,7 @@ button {
   border: 1px solid var(--ink);
   border-radius: 999px;
   overflow: hidden;
+  background: rgb(255 244 236 / 0.35);
 }
 
 .lang__btn {
@@ -135,7 +168,7 @@ button {
   padding: 0.4rem 0.9rem;
   font-size: 0.8125rem;
   letter-spacing: 0.1em;
-  opacity: 0.7;
+  opacity: 0.75;
   transition: opacity 150ms;
 }
 
@@ -147,74 +180,4 @@ button {
   opacity: 1;
   background: var(--ink);
   color: var(--cream);
-}
-
-/* ---------- Aperçu de l'étape 1 (remplacé à l'étape 2) ---------- */
-
-.screen {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  padding: 3rem 0;
-  text-align: center;
-}
-
-.monogram {
-  font-size: 2.5rem;
-  letter-spacing: 0.1em;
-}
-
-.gate-hint {
-  font-style: italic;
-  letter-spacing: 0.12em;
-  opacity: 0.85;
-}
-
-.hero__title {
-  margin-bottom: 1rem;
-  font-size: 2.75rem;
-  font-style: italic;
-  font-weight: 400;
-  line-height: 1.1;
-}
-
-.hero__name {
-  font-size: 1.75rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-}
-
-.hero__amp {
-  font-size: 1.5rem;
-  font-style: italic;
-}
-
-.hero__date {
-  margin-top: 1.5rem;
-  font-size: 1.25rem;
-  letter-spacing: 0.2em;
-}
-
-.invitation {
-  max-width: 26ch;
-  font-size: 1.25rem;
-  font-style: italic;
-  letter-spacing: 0.04em;
-}
-
-.celebration {
-  font-style: italic;
-  letter-spacing: 0.1em;
-}
-
-.detail {
-  letter-spacing: 0.08em;
-}
-
-.detail--venue {
-  margin-top: 1rem;
-  font-size: 1.25rem;
 }

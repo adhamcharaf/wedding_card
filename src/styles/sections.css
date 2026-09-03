@@ -1,0 +1,366 @@
+/* ---------- Sections ---------- */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4.5rem 0;
+  text-align: center;
+}
+
+.section + .section {
+  padding-top: 2rem;
+}
+
+.section--hero {
+  min-height: 100dvh;
+  justify-content: center;
+  padding: max(4rem, 10vh) 0 30vh;
+}
+
+.section--end {
+  min-height: 100dvh;
+  justify-content: flex-end;
+  padding-bottom: 22vh;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.stack__gap {
+  height: 1.5rem;
+}
+
+.section__title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.lead {
+  max-width: 28ch;
+  font-size: 1.4rem;
+  font-style: italic;
+  letter-spacing: 0.05em;
+  line-height: 1.45;
+}
+
+.subtitle {
+  font-size: 1.35rem;
+  font-style: italic;
+  letter-spacing: 0.1em;
+}
+
+.detail {
+  letter-spacing: 0.1em;
+}
+
+.detail--big {
+  font-size: 1.45rem;
+}
+
+.script {
+  font-family: var(--font-script);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+/* ---------- Ornements et icônes ---------- */
+
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 60%;
+  margin: 0.75rem 0;
+}
+
+.ornament::before,
+.ornament::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.8;
+}
+
+.ornament__star {
+  width: 0.8rem;
+  height: 0.8rem;
+  fill: currentColor;
+}
+
+.vline {
+  width: 1px;
+  height: 2.5rem;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+.icon {
+  width: 2.1rem;
+  height: 2.1rem;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  margin-top: 0.5rem;
+}
+
+/* ---------- Carte du hero ---------- */
+
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 400 / 560;
+  margin-top: 12%;
+}
+
+.card__ribbon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.card__heart {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  width: 60%;
+  height: auto;
+  transform: translateX(-50%);
+}
+
+.card__sun {
+  position: absolute;
+  top: -6%;
+  left: -14%;
+  width: 40%;
+  height: auto;
+}
+
+.card__body {
+  position: absolute;
+  inset: 34% 14% 16%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.card__title {
+  margin-bottom: 0.9rem;
+  font-family: var(--font-script);
+  font-size: clamp(2.6rem, 12vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1;
+  color: #2b1b17;
+}
+
+.card__name {
+  font-size: 1.55rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #2b1b17;
+}
+
+.card__amp {
+  font-size: 1.5rem;
+  font-style: italic;
+  color: #2b1b17;
+}
+
+.card__date {
+  margin-top: 1.1rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.25em;
+  color: #2b1b17;
+}
+
+/* ---------- Boutons et liens ---------- */
+
+.btn {
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0.55rem 1.5rem;
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  color: inherit;
+  font-size: 1.05rem;
+  letter-spacing: 0.12em;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.btn--solid {
+  background: var(--ink);
+  color: var(--cream);
+  text-decoration: none;
+}
+
+.btn[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.link {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
+
+/* ---------- Compte à rebours ---------- */
+
+.countdown {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 22rem;
+}
+
+.countdown__cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.countdown__num {
+  font-size: 2.4rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.countdown__label {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ---------- Listes ---------- */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 22rem;
+  padding: 0;
+  list-style: none;
+}
+
+.list__item {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  letter-spacing: 0.06em;
+}
+
+.list--center .list__item {
+  justify-content: center;
+}
+
+.list__time {
+  min-width: 5.5ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+
+.list dd {
+  margin: 0;
+}
+
+.couple {
+  width: min(60%, 220px);
+  margin-top: 2rem;
+}
+
+/* ---------- Formulaire RSVP ---------- */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 22rem;
+  margin-top: 0.5rem;
+  text-align: left;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.field__label {
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.field__input {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  font: inherit;
+  color: inherit;
+  background: rgb(255 244 236 / 0.5);
+  border: 1px solid rgb(127 47 38 / 0.45);
+  border-radius: 0.5rem;
+}
+
+.field__input:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+
+.choices {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.choice input {
+  accent-color: var(--ink);
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.form .btn {
+  align-self: center;
+}
+
+.form__note {
+  font-size: 0.9rem;
+  font-style: italic;
+  text-align: center;
+  opacity: 0.8;
+}
+
+/* ---------- Fin ---------- */
+
+.end__monogram {
+  margin-top: 1rem;
+  font-size: 3.5rem;
+  letter-spacing: 0.1em;
+  line-height: 1;
+}

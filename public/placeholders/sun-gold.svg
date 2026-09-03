@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <defs>
+    <radialGradient id="disc" cx="42%" cy="38%" r="68%">
+      <stop offset="0" stop-color="#f7de93"/>
+      <stop offset=".55" stop-color="#d9b04f"/>
+      <stop offset="1" stop-color="#a6741d"/>
+    </radialGradient>
+    <linearGradient id="ray" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b8852a"/>
+      <stop offset=".6" stop-color="#e6c25c"/>
+      <stop offset="1" stop-color="#c49630"/>
+    </linearGradient>
+    <path id="long" d="M300 8 C 283 70, 277 130, 300 170 C 313 130, 319 70, 300 8 Z" fill="url(#ray)"/>
+    <path id="short" d="M300 80 C 289 120, 287 150, 300 170 C 313 150, 311 120, 300 80 Z" fill="url(#ray)"/>
+  </defs>
+  <g>
+    <use href="#long" transform="rotate(0 300 300)"/>
+    <use href="#long" transform="rotate(30 300 300)"/>
+    <use href="#long" transform="rotate(60 300 300)"/>
+    <use href="#long" transform="rotate(90 300 300)"/>
+    <use href="#long" transform="rotate(120 300 300)"/>
+    <use href="#long" transform="rotate(150 300 300)"/>
+    <use href="#long" transform="rotate(180 300 300)"/>
+    <use href="#long" transform="rotate(210 300 300)"/>
+    <use href="#long" transform="rotate(240 300 300)"/>
+    <use href="#long" transform="rotate(270 300 300)"/>
+    <use href="#long" transform="rotate(300 300 300)"/>
+    <use href="#long" transform="rotate(330 300 300)"/>
+    <use href="#short" transform="rotate(15 300 300)"/>
+    <use href="#short" transform="rotate(45 300 300)"/>
+    <use href="#short" transform="rotate(75 300 300)"/>
+    <use href="#short" transform="rotate(105 300 300)"/>
+    <use href="#short" transform="rotate(135 300 300)"/>
+    <use href="#short" transform="rotate(165 300 300)"/>
+    <use href="#short" transform="rotate(195 300 300)"/>
+    <use href="#short" transform="rotate(225 300 300)"/>
+    <use href="#short" transform="rotate(255 300 300)"/>
+    <use href="#short" transform="rotate(285 300 300)"/>
+    <use href="#short" transform="rotate(315 300 300)"/>
+    <use href="#short" transform="rotate(345 300 300)"/>
+  </g>
+  <circle cx="300" cy="300" r="150" fill="url(#disc)"/>
+  <circle cx="300" cy="300" r="150" fill="none" stroke="#a6741d" stroke-width="3" opacity=".6"/>
+  <circle cx="300" cy="300" r="132" fill="none" stroke="#f6dc94" stroke-width="2" opacity=".5"/>
+</svg>

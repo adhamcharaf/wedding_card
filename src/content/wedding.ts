@@ -45,6 +45,7 @@ export const wedding = {
       en: 'With full hearts, we joyfully invite you to our wedding',
     },
     celebration: { fr: 'Célébration du mariage', en: 'Wedding celebration' },
+    dateLong: { fr: 'Vendredi 8 janvier 2027', en: 'Friday, January 8, 2027' },
     time: { fr: '20 h 30', en: '8:30 PM' },
     maps: { fr: 'Google Maps', en: 'Google Maps' },
 
@@ -67,6 +68,7 @@ export const wedding = {
 
     registry: {
       title: { fr: 'Liste de mariage', en: 'Gift registry' },
+      brideGroom: { fr: 'Les mariés', en: 'Bride & Groom' },
     },
 
     rsvp: {
@@ -83,6 +85,8 @@ export const wedding = {
       message: { fr: 'Un mot pour nous', en: 'A word for us' },
       send: { fr: 'Envoyer', en: 'Send' },
       sending: { fr: 'Envoi en cours', en: 'Sending' },
+      /** Affiché sous le bouton tant que le formulaire n'est pas branché (étape 3). */
+      comingSoon: { fr: 'Ouverture prochaine', en: 'Opening soon' },
       success: {
         fr: 'Merci, votre réponse est bien enregistrée.',
         en: 'Thank you, your reply has been saved.',
@@ -95,7 +99,10 @@ export const wedding = {
     },
 
     end: {
-      brideGroom: { fr: 'Les mariés', en: 'Bride & Groom' },
+      closing: {
+        fr: 'Nous avons hâte de vous retrouver',
+        en: "We can't wait to celebrate with you",
+      },
       replay: { fr: 'Revoir le film', en: 'Watch the film again' },
     },
   },
