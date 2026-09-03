@@ -7,7 +7,7 @@
 | # | Étape | Statut | Validée le |
 | --- | --- | --- | --- |
 | 1 | Squelette, contenu bilingue, fond | ✅ | 2026-09-03 |
-| 2 | Scroll complet avec soleil | ⬜ | |
+| 2 | Scroll complet avec soleil | 🟡 | |
 | 3 | RSVP Supabase | ⬜ | |
 | 4 | Bridge et enveloppe | ⬜ | |
 | 5 | Vidéo d'intro et raccord | ⬜ | |

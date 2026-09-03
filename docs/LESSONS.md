@@ -76,6 +76,12 @@
 - **Cause** : ordre de peinture CSS. Dans un contexte d'empilement, un élément positionné en `z-index: 0` est peint après le contenu en flux non positionné, donc par-dessus. Un élément en `opacity` < 1 crée son propre contexte et repasse au-dessus, ce qui masque le problème.
 - **Règle** : le fond est en `z-index: -1` dans `#root` isolé (`isolation: isolate`). Et on vérifie le rendu réel (capture headless ou téléphone), pas seulement le DOM : `getBoundingClientRect` ne dit pas si un élément est visible.
 
+### Le chiffre 1 ressemble à un i
+- **Contexte** : étape 2, compte à rebours et sélecteur du RSVP en Cormorant Garamond.
+- **Symptôme** : « 1 » rendu comme un petit i sans point, « 126 » avec des chiffres qui dansent.
+- **Cause** : Cormorant utilise par défaut des chiffres elzéviriens, à hauteur de bas de casse.
+- **Règle** : `font-variant-numeric: lining-nums` sur le body, `tabular-nums` là où les chiffres changent (compte à rebours).
+
 ### Un heredoc bash groupé rejeté avant exécution
 - **Contexte** : étape 1, écriture de huit fichiers sources en un seul script bash avec des heredocs.
 - **Symptôme** : `unexpected EOF while looking for matching quote`, aucun fichier écrit.

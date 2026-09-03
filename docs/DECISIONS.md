@@ -13,3 +13,11 @@
 | 2026-09-03 | 1 | Fins de ligne LF forcées par `.gitattributes` | Git sur Windows convertissait en CRLF et avertissait à chaque commit. |
 | 2026-09-03 | 1 | Tuile de grain placeholder générée procédurellement : 256 px, gris + alpha, 31 Ko | Asset manquant = placeholder nommé. Le générateur reste hors dépôt, l'asset définitif vient de la maquette. |
 | 2026-09-03 | 1 | Favicon placeholder SVG dans `public/placeholders/` | Même règle. Le `<title>` reste « Adham & Lara », identique dans les deux langues. |
+| 2026-09-03 | 2 | Trois WOFF2 au lieu de deux (CONCEPTION §8) : Cormorant Garamond 500 droit et italique, Pinyon Script 400 | La maquette mélange droit et italique. 92 Ko au total grâce au sous-ensemble de caractères. |
+| 2026-09-03 | 2 | Polices auto-hébergées, réduites par le paramètre `text` de l'API Google Fonts (`scripts/fetch-fonts.mjs`, `npm run fonts`) | Un fichier par fonte, pas de requête vers Google au chargement. Un caractère hors du jeu (ASCII, Latin-1, œ, ponctuation) retombe sur Georgia : relancer le script. |
+| 2026-09-03 | 2 | Chiffres alignés (`font-variant-numeric: lining-nums`) | Les chiffres elzéviriens de Cormorant rendent le 1 comme un petit i. |
+| 2026-09-03 | 2 | Découpes absentes remplacées par des SVG placeholders, chemins centralisés dans `src/content/assets.ts` | Les PNG définitifs se branchent en changeant une ligne par asset. Le dessin du couple s'appelle `couple.png`, absent de CONCEPTION §2. |
+| 2026-09-03 | 2 | Le soleil finit sa montée quand le haut de la section RSVP atteint le haut de l'écran | Avec la fin au bas de l'écran, il était plein dès les infos pratiques. Départ à +60 % comme CONCEPTION §5 : sur le hero on ne voit que la pointe des rayons, réglable dans `Sun.tsx`. |
+| 2026-09-03 | 2 | Compte à rebours mis à jour chaque seconde via `useSyncExternalStore`, sans animation | Un compteur figé avec des secondes paraît cassé. Pas de `Date.now()` pendant le rendu, pas de setState dans un effet. |
+| 2026-09-03 | 2 | Bouton d'envoi du RSVP désactivé, avec « Ouverture prochaine » dessous | Personne ne doit croire avoir répondu avant l'étape 3. |
+| 2026-09-03 | 2 | Ligne « Vendredi 8 janvier 2027 » ajoutée sous l'heure, et phrase de fin « Nous avons hâte de vous retrouver » | Absentes des maquettes. À relire ou supprimer dans `wedding.ts`. |
