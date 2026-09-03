@@ -22,4 +22,6 @@
 | 2026-09-03 | 2 | Bouton d'envoi du RSVP désactivé, avec « Ouverture prochaine » dessous | Personne ne doit croire avoir répondu avant l'étape 3. |
 | 2026-09-03 | 2 | Ligne « Vendredi 8 janvier 2027 » ajoutée sous l'heure, et phrase de fin « Nous avons hâte de vous retrouver » | Absentes des maquettes. À relire ou supprimer dans `wedding.ts`. |
 | 2026-09-03 | 2 | Police du titre : Herr Von Muellerhoff à la place de Pinyon Script | Choix d'Adham, c'est la police de la maquette. 18 Ko. |
-| 2026-09-03 | 2 | Soleil et cœur fournis sur fond blanc (`assets/`), détourés automatiquement vers `public/images/`, PNG 256 couleurs | 165 Ko et 64 Ko au lieu de 746 et 339, sans différence visible. Un export transparent depuis la maquette restera préférable pour le bord. Ruban et couple restent en placeholders. |
+| 2026-09-03 | 2 | Soleil et cœur fournis sur fond blanc (`assets/`), détourés automatiquement vers `public/images/`, PNG 256 couleurs | 165 Ko et 64 Ko au lieu de 746 et 339, sans différence visible. Un export transparent depuis la maquette restera préférable pour le bord. |
+| 2026-09-03 | 2 | Ruban et dessin du couple détourés de la même façon ; la ligne « Les mariés » supprimée | Le dessin fourni contient déjà « Bride & Groom » en écriture manuscrite, dans les deux langues. |
+| 2026-09-03 | 2 | Soleil : position finale à mi-disque, taille 115vw max 560 px, départ à +30 % au lieu de +60 % | Adham : « le soleil empêche la lecture ». Le contenu ne passe plus que sur la moitié haute du disque, comme sur la maquette 2. CONCEPTION §5 mis à jour. |

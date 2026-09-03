@@ -22,7 +22,7 @@
 .section--end {
   min-height: 100dvh;
   justify-content: flex-end;
-  padding-bottom: 19vh;
+  padding-bottom: max(5vh, env(safe-area-inset-bottom) + 1.25rem);
 }
 
 .section--end .stack {
@@ -122,11 +122,12 @@
 
 /* ---------- Carte du hero ---------- */
 
+/* Ratio de la découpe du ruban (943×1223), nœuds en haut à gauche et en bas à droite. */
 .card {
   position: relative;
   width: 100%;
   max-width: 400px;
-  aspect-ratio: 400 / 560;
+  aspect-ratio: 943 / 1223;
   margin-top: 12%;
 }
 
@@ -156,7 +157,7 @@
 
 .card__body {
   position: absolute;
-  inset: 34% 14% 16%;
+  inset: 32% 16% 18% 14%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -287,7 +288,7 @@
 }
 
 .couple {
-  width: min(60%, 220px);
+  width: min(62%, 240px);
   margin-top: 2rem;
 }
 

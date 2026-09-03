@@ -63,7 +63,7 @@ Rejouer : petit bouton en fin de page "revoir le film" qui remet la phase à `ga
 Sections, dans l'ordre : hero (Save the Date) · invitation · date, heure, lieu, Maps · compte à rebours · programme · infos pratiques · gift registry · RSVP · fin (monogramme, soleil plein).
 
 Effets, et seulement ceux-là :
-- **Soleil qui monte** : un seul `sun-gold.png` fixé en bas de l'écran, ScrollTrigger scrub 0 → 1 sur toute la page, translateY de +60 % vers 0. Il est plein au RSVP.
+- **Soleil qui monte** : un seul `sun-gold.png` fixé en bas de l'écran, ScrollTrigger scrub du haut de page jusqu'au haut de la section RSVP, translateY de +30 % vers 0. Position finale : la moitié haute du disque à l'écran (maquette 2), pour que le contenu qui passe dessus reste lisible. (Réglé à l'étape 2 avec la vraie découpe, `DECISIONS.md`.)
 - **Hirondelle qui traverse** : un ScrollTrigger par entrée de section, une hirondelle passe une fois, toujours de gauche à droite, 1,2 s.
 - **Grain** : `paper-grain.png` répété sur un calque fixe qui déborde d'une tuile à droite et en bas, déplacé par `transform: translate3d` en CSS keyframes (8 positions, `steps`), opacité 0.15. Seul `transform` est animé, jamais `background-position` (décision de l'étape 1, `DECISIONS.md`). Pas de `feTurbulence` SVG, trop lourd sur mobile.
 - **Parallaxe gyroscope** sur le hero : `deviceorientation`, gamma/beta lissés, soleil, carte, ruban à trois amplitudes (4, 8, 12 px). Désactivé sur desktop, remplacé par un suivi souris léger.

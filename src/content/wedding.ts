@@ -68,7 +68,6 @@ export const wedding = {
 
     registry: {
       title: { fr: 'Liste de mariage', en: 'Gift registry' },
-      brideGroom: { fr: 'Les mariés', en: 'Bride & Groom' },
     },
 
     rsvp: {

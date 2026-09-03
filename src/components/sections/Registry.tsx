@@ -31,7 +31,6 @@ export function Registry() {
           width={assets.couple.width}
           height={assets.couple.height}
         />
-        <p className="script">{t(wedding.text.registry.brideGroom)}</p>
       </Reveal>
     </section>
   )

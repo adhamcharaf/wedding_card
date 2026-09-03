@@ -6,7 +6,7 @@ Assets provisoires, nommés comme les assets définitifs (`CLAUDE.md`). Adham d�
 | --- | --- | --- |
 | `paper-grain.png` | tuile de grain | 512×512, PNG transparent, exportée de la maquette. Chemin dans `src/styles/global.css` |
 | `favicon.svg` | icône du site | monogramme A&L, SVG ou PNG |
-| `ribbon.svg` | `ribbon.png` | cadre ruban bleu et rouge avec la carte crème, sans le papier de fond, ratio 400×560 |
-| `couple.svg` | `couple.png` | dessin au trait du couple derrière le cœur (maquette 3), PNG transparent |
 
-Déjà remplacés : `sun-gold.png` et `heart.png`, dans `public/images/`, détourés depuis `assets/`.
+Déjà remplacés, dans `public/images/` : `sun-gold.png`, `heart.png`, `ribbon.png`, `couple.png`, détourés depuis `assets/`.
+
+Encore à venir pour les étapes suivantes : `swallow-left.png`, `swallow-right.png`, `envelope-closed.png`, `envelope-open.png`, `seal.png` (étape 4), vidéo et poster (étape 5), musique (étape 5).

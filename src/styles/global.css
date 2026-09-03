@@ -10,7 +10,7 @@
   --column: 480px;
   --gutter: 1.5rem;
   --grain-tile: 160px;
-  --sun-size: min(130vw, 640px);
+  --sun-size: min(115vw, 560px);
 
   --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --font-script: 'Herr Von Muellerhoff', 'Brush Script MT', cursive;
@@ -125,14 +125,14 @@ img {
 
 /*
  * Fixé en bas, centré sans transform (left/right + margin auto) pour laisser
- * GSAP piloter translateY. Une fois plein, le disque est entier à l'écran et
- * seuls les rayons du bas sont coupés (maquette 2).
+ * GSAP piloter translateY. Une fois plein, seule la moitié haute du disque est
+ * à l'écran (maquette 2) : le contenu qui passe dessus reste lisible.
  */
 .sun {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: calc(var(--sun-size) * -0.15);
+  bottom: calc(var(--sun-size) * -0.42);
   z-index: -1;
   width: var(--sun-size);
   margin: 0 auto;

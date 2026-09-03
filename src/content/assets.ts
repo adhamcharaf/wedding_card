@@ -8,6 +8,7 @@
 export const assets = {
   sun: { src: '/images/sun-gold.png', width: 968, height: 957 },
   heart: { src: '/images/heart.png', width: 473, height: 539 },
-  ribbon: { src: '/placeholders/ribbon.svg', width: 400, height: 560 },
-  couple: { src: '/placeholders/couple.svg', width: 300, height: 300 },
+  ribbon: { src: '/images/ribbon.png', width: 943, height: 1223 },
+  /** Dessin au trait, texte « Bride & Groom » inclus dans l'image. */
+  couple: { src: '/images/couple.png', width: 377, height: 572 },
 } as const
