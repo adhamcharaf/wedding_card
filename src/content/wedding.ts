@@ -22,8 +22,8 @@ export const wedding = {
   venue: {
     name: 'Indian by nature',
     city: { fr: "Abidjan, Côte d'Ivoire", en: 'Abidjan, Ivory Coast' },
-    /** À renseigner (docs/points-ouverts.md). Le bouton Maps reste masqué tant que vide. */
-    mapsUrl: '',
+    mapsUrl:
+      'https://www.google.com/maps/place/indian+by+nature/data=!4m2!3m1!1s0xfc1ef4a0b169bdd:0xfaf63ce27ef23d38?sa=X&ved=1t:242&ictx=111',
   },
 
   lang: {
