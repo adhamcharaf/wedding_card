@@ -6,7 +6,7 @@
 
 | # | Étape | Statut | Validée le |
 | --- | --- | --- | --- |
-| 1 | Squelette, contenu bilingue, fond | ⬜ | |
+| 1 | Squelette, contenu bilingue, fond | 🟡 | |
 | 2 | Scroll complet avec soleil | ⬜ | |
 | 3 | RSVP Supabase | ⬜ | |
 | 4 | Bridge et enveloppe | ⬜ | |

@@ -65,7 +65,7 @@ Sections, dans l'ordre : hero (Save the Date) · invitation · date, heure, lieu
 Effets, et seulement ceux-là :
 - **Soleil qui monte** : un seul `sun-gold.png` fixé en bas de l'écran, ScrollTrigger scrub 0 → 1 sur toute la page, translateY de +60 % vers 0. Il est plein au RSVP.
 - **Hirondelle qui traverse** : un ScrollTrigger par entrée de section, une hirondelle passe une fois, toujours de gauche à droite, 1,2 s.
-- **Grain** : `paper-grain.png` en `position: fixed`, `background-position` animé par CSS keyframes (8 positions, steps), opacité 0.15. Pas de `feTurbulence` SVG, trop lourd sur mobile.
+- **Grain** : `paper-grain.png` répété sur un calque fixe qui déborde d'une tuile à droite et en bas, déplacé par `transform: translate3d` en CSS keyframes (8 positions, `steps`), opacité 0.15. Seul `transform` est animé, jamais `background-position` (décision de l'étape 1, `DECISIONS.md`). Pas de `feTurbulence` SVG, trop lourd sur mobile.
 - **Parallaxe gyroscope** sur le hero : `deviceorientation`, gamma/beta lissés, soleil, carte, ruban à trois amplitudes (4, 8, 12 px). Désactivé sur desktop, remplacé par un suivi souris léger.
 - **Compte à rebours** : chiffres qui défilent verticalement à chaque changement (GSAP), pas de flip 3D.
 - Apparition des textes : fondu + 12 px de translateY, une fois, pas de répétition au retour.

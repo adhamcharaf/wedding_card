@@ -11,3 +11,5 @@
 | 4 | Version 16:9 de la vidéo pour desktop, ou colonne mobile centrée uniquement ? | provisoire : colonne mobile | Adham |
 | 5 | Programme de la soirée : contenu à fournir | à faire | Adham |
 | 6 | Infos pratiques (dress code, hébergement) : contenu à fournir | à faire | Adham |
+| 7 | URL Google Maps d'Indian by nature (`venue.mapsUrl` dans `src/content/wedding.ts`) | à faire | Adham |
+| 8 | Relecture des textes FR et EN proposés dans `src/content/wedding.ts` (invitation, RSVP, fin) | à faire | Adham |

@@ -48,7 +48,7 @@
 - **Contexte** : fond papier.
 - **Symptôme** : scroll saccadé sur téléphone.
 - **Cause** : `feTurbulence` recalculé à chaque frame.
-- **Règle** : tuile PNG en `position: fixed`, `background-position` animé par keyframes `steps()`.
+- **Règle** : tuile PNG répétée sur un calque fixe qui déborde d'une tuile, déplacé par `transform` en keyframes `steps()`. Jamais `background-position` : c'est un repaint plein écran à chaque pas, contraire à la règle transform/opacity de `CLAUDE.md`.
 
 ### Variables d'environnement Vite invisibles
 - **Contexte** : Supabase.
@@ -70,4 +70,14 @@
 
 ## Erreurs rencontrées sur le projet
 
-(au fil de l'eau)
+### Le fond fixe recouvre le texte
+- **Contexte** : étape 1. Le calque de fond (`position: fixed; z-index: 0`) est rendu par React à l'intérieur de `#root`, avant le contenu.
+- **Symptôme** : monogramme et paragraphes invisibles alors qu'ils existent dans le DOM avec les bons styles. Seuls les éléments en `opacity` < 1 ou `position: fixed` s'affichent.
+- **Cause** : ordre de peinture CSS. Dans un contexte d'empilement, un élément positionné en `z-index: 0` est peint après le contenu en flux non positionné, donc par-dessus. Un élément en `opacity` < 1 crée son propre contexte et repasse au-dessus, ce qui masque le problème.
+- **Règle** : le fond est en `z-index: -1` dans `#root` isolé (`isolation: isolate`). Et on vérifie le rendu réel (capture headless ou téléphone), pas seulement le DOM : `getBoundingClientRect` ne dit pas si un élément est visible.
+
+### Un heredoc bash groupé rejeté avant exécution
+- **Contexte** : étape 1, écriture de huit fichiers sources en un seul script bash avec des heredocs.
+- **Symptôme** : `unexpected EOF while looking for matching quote`, aucun fichier écrit.
+- **Cause** : le script entier est analysé avant d'être exécuté ; une apostrophe dans un commentaire ou un texte français suffit à casser l'analyse hors des heredocs.
+- **Règle** : un fichier par écriture, avec l'outil d'écriture dédié, jamais un script bash groupé pour du contenu avec des apostrophes.
