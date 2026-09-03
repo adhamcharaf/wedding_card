@@ -21,3 +21,5 @@
 | 2026-09-03 | 2 | Compte à rebours mis à jour chaque seconde via `useSyncExternalStore`, sans animation | Un compteur figé avec des secondes paraît cassé. Pas de `Date.now()` pendant le rendu, pas de setState dans un effet. |
 | 2026-09-03 | 2 | Bouton d'envoi du RSVP désactivé, avec « Ouverture prochaine » dessous | Personne ne doit croire avoir répondu avant l'étape 3. |
 | 2026-09-03 | 2 | Ligne « Vendredi 8 janvier 2027 » ajoutée sous l'heure, et phrase de fin « Nous avons hâte de vous retrouver » | Absentes des maquettes. À relire ou supprimer dans `wedding.ts`. |
+| 2026-09-03 | 2 | Police du titre : Herr Von Muellerhoff à la place de Pinyon Script | Choix d'Adham, c'est la police de la maquette. 18 Ko. |
+| 2026-09-03 | 2 | Soleil et cœur fournis sur fond blanc (`assets/`), détourés automatiquement vers `public/images/`, PNG 256 couleurs | 165 Ko et 64 Ko au lieu de 746 et 339, sans différence visible. Un export transparent depuis la maquette restera préférable pour le bord. Ruban et couple restent en placeholders. |

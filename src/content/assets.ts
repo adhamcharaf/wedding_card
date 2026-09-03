@@ -1,13 +1,13 @@
 /**
- * Chemins des images. Placeholders SVG pour l'instant (public/placeholders/).
- * Quand les découpes PNG définitives arrivent dans public/images/, on change
- * le chemin ici, une ligne par asset, sans toucher aux composants.
+ * Chemins des images. Les découpes définitives vivent dans public/images/,
+ * les provisoires dans public/placeholders/. Quand une découpe arrive, on
+ * change le chemin ici, une ligne par asset, sans toucher aux composants.
  * Les dimensions servent à réserver la place avant le chargement
  * (docs/LESSONS.md, « ScrollTrigger décalé après chargement »).
  */
 export const assets = {
-  sun: { src: '/placeholders/sun-gold.svg', width: 600, height: 600 },
+  sun: { src: '/images/sun-gold.png', width: 968, height: 957 },
+  heart: { src: '/images/heart.png', width: 473, height: 539 },
   ribbon: { src: '/placeholders/ribbon.svg', width: 400, height: 560 },
-  heart: { src: '/placeholders/heart.svg', width: 400, height: 360 },
   couple: { src: '/placeholders/couple.svg', width: 300, height: 300 },
 } as const

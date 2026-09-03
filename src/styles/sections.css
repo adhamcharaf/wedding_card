@@ -18,10 +18,15 @@
   padding: max(4rem, 10vh) 0 30vh;
 }
 
+/* Le monogramme se pose sur le disque du soleil plein (maquette 2). */
 .section--end {
   min-height: 100dvh;
   justify-content: flex-end;
-  padding-bottom: 22vh;
+  padding-bottom: 19vh;
+}
+
+.section--end .stack {
+  gap: 2.5rem;
 }
 
 .stack {
@@ -210,7 +215,7 @@
 }
 
 .btn[disabled] {
-  opacity: 0.45;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
@@ -318,7 +323,7 @@
   padding: 0.6rem 0.8rem;
   font: inherit;
   color: inherit;
-  background: rgb(255 244 236 / 0.5);
+  background: rgb(255 244 236 / 0.82);
   border: 1px solid rgb(127 47 38 / 0.45);
   border-radius: 0.5rem;
 }
@@ -350,10 +355,9 @@
 }
 
 .form__note {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-style: italic;
   text-align: center;
-  opacity: 0.8;
 }
 
 /* ---------- Fin ---------- */

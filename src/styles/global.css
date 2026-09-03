@@ -13,7 +13,7 @@
   --sun-size: min(130vw, 640px);
 
   --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  --font-script: 'Pinyon Script', 'Brush Script MT', cursive;
+  --font-script: 'Herr Von Muellerhoff', 'Brush Script MT', cursive;
 
   color-scheme: light;
 }
@@ -125,13 +125,14 @@ img {
 
 /*
  * Fixé en bas, centré sans transform (left/right + margin auto) pour laisser
- * GSAP piloter translateY. Un quart des rayons du bas reste hors écran.
+ * GSAP piloter translateY. Une fois plein, le disque est entier à l'écran et
+ * seuls les rayons du bas sont coupés (maquette 2).
  */
 .sun {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: calc(var(--sun-size) * -0.28);
+  bottom: calc(var(--sun-size) * -0.15);
   z-index: -1;
   width: var(--sun-size);
   margin: 0 auto;
