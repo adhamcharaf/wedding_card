@@ -1,0 +1,27 @@
+/*
+ * Trois WOFF2 auto-hébergés, réduits aux caractères utiles (scripts/fetch-fonts.mjs).
+ * Cormorant Garamond pour le texte, droit et italique. Pinyon Script pour « Save the Date ».
+ */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/cormorant-garamond-500.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/cormorant-garamond-500-italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Pinyon Script';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/pinyon-script-400.woff2') format('woff2');
+}
