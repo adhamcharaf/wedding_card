@@ -1,6 +1,7 @@
 /*
  * Trois WOFF2 auto-hébergés, réduits aux caractères utiles (scripts/fetch-fonts.mjs).
- * Cormorant Garamond pour le texte, droit et italique. Pinyon Script pour « Save the Date ».
+ * Cormorant Garamond pour le texte, droit et italique. Herr Von Muellerhoff pour
+ * « Save the Date », choisie par Adham.
  */
 @font-face {
   font-family: 'Cormorant Garamond';
@@ -19,9 +20,9 @@
 }
 
 @font-face {
-  font-family: 'Pinyon Script';
+  font-family: 'Herr Von Muellerhoff';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/fonts/pinyon-script-400.woff2') format('woff2');
+  src: url('/fonts/herr-von-muellerhoff-400.woff2') format('woff2');
 }

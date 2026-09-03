@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url'
 
 const outDir = join(dirname(fileURLToPath(import.meta.url)), '..', 'public', 'fonts')
 
-const FAMILIES = 'family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Pinyon+Script'
+const FAMILIES = 'family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Herr+Von+Muellerhoff'
 
 // Jeu de caractères : ASCII imprimable, Latin-1 supplément, ligatures et ponctuation.
 let chars = ''
