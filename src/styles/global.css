@@ -1,0 +1,220 @@
+/* Palette échantillonnée sur docs/mockups/. */
+:root {
+  --peach-top: #fbca8c;
+  --peach-mid: #f7b274;
+  --peach-bottom: #f5975f;
+  --ink: #7f2f26;
+  --gold: #d4ab55;
+  --cream: #fff4ec;
+
+  --column: 480px;
+  --gutter: 1.5rem;
+  --grain-tile: 160px;
+
+  /* Serif système en attendant les deux WOFF2 de l'étape 2. */
+  --font-serif: Georgia, 'Times New Roman', 'Noto Serif', serif;
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  background: var(--peach-mid);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+/*
+ * #root isole son contexte d'empilement : le fond en z-index négatif reste
+ * au-dessus du body et sous tout le contenu, positionné ou non.
+ */
+#root {
+  isolation: isolate;
+}
+
+/* Colonne mobile, centrée sur desktop (docs/CONCEPTION.md §5). */
+.column {
+  width: 100%;
+  max-width: var(--column);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ---------- Fond ---------- */
+
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    var(--peach-top) 0%,
+    var(--peach-mid) 55%,
+    var(--peach-bottom) 100%
+  );
+}
+
+/*
+ * Grain : une tuile répétée sur un calque qui déborde d'une tuile à droite et
+ * en bas. Le calque est déplacé par transform de moins d'une tuile, en 8 pas
+ * par seconde. Seul transform est animé : pas de repaint, composité par le GPU.
+ */
+.bg__grain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% + var(--grain-tile));
+  height: calc(100% + var(--grain-tile));
+  background: url('/placeholders/paper-grain.png') repeat 0 0 / var(--grain-tile) var(--grain-tile);
+  opacity: 0.15;
+  will-change: transform;
+  animation: grain 1s steps(1, end) infinite;
+}
+
+/* Décalages compris entre 0 et une tuile (160 px), sans motif régulier. */
+@keyframes grain {
+  0% { transform: translate3d(0, 0, 0); }
+  12.5% { transform: translate3d(-37px, -71px, 0); }
+  25% { transform: translate3d(-113px, -19px, 0); }
+  37.5% { transform: translate3d(-64px, -128px, 0); }
+  50% { transform: translate3d(-149px, -87px, 0); }
+  62.5% { transform: translate3d(-22px, -151px, 0); }
+  75% { transform: translate3d(-91px, -44px, 0); }
+  87.5% { transform: translate3d(-131px, -109px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg__grain {
+    animation: none;
+  }
+}
+
+/* ---------- Toggle de langue ---------- */
+
+.lang {
+  position: fixed;
+  top: max(0.75rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+  z-index: 10;
+  display: flex;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.lang__btn {
+  min-height: 2.25rem;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+  transition: opacity 150ms;
+}
+
+.lang__btn + .lang__btn {
+  border-left: 1px solid var(--ink);
+}
+
+.lang__btn[aria-pressed='true'] {
+  opacity: 1;
+  background: var(--ink);
+  color: var(--cream);
+}
+
+/* ---------- Aperçu de l'étape 1 (remplacé à l'étape 2) ---------- */
+
+.screen {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.monogram {
+  font-size: 2.5rem;
+  letter-spacing: 0.1em;
+}
+
+.gate-hint {
+  font-style: italic;
+  letter-spacing: 0.12em;
+  opacity: 0.85;
+}
+
+.hero__title {
+  margin-bottom: 1rem;
+  font-size: 2.75rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.hero__name {
+  font-size: 1.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.hero__amp {
+  font-size: 1.5rem;
+  font-style: italic;
+}
+
+.hero__date {
+  margin-top: 1.5rem;
+  font-size: 1.25rem;
+  letter-spacing: 0.2em;
+}
+
+.invitation {
+  max-width: 26ch;
+  font-size: 1.25rem;
+  font-style: italic;
+  letter-spacing: 0.04em;
+}
+
+.celebration {
+  font-style: italic;
+  letter-spacing: 0.1em;
+}
+
+.detail {
+  letter-spacing: 0.08em;
+}
+
+.detail--venue {
+  margin-top: 1rem;
+  font-size: 1.25rem;
+}
