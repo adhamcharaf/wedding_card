@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Background } from './components/Background'
 import { LangToggle } from './components/LangToggle'
+import { Babies } from './components/sections/Babies'
 import { Countdown } from './components/sections/Countdown'
 import { End } from './components/sections/End'
 import { Hero } from './components/sections/Hero'
@@ -44,6 +45,7 @@ export default function App() {
       <main className="column">
         <Hero />
         <Invitation />
+        <Babies />
         <Venue />
         <Countdown />
         <Program />

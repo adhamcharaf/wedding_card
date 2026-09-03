@@ -11,4 +11,6 @@ export const assets = {
   ribbon: { src: '/images/ribbon.png', width: 943, height: 1223 },
   /** Dessin au trait, texte « Bride & Groom » inclus dans l'image. */
   couple: { src: '/images/couple.png', width: 377, height: 572 },
+  babyA: { src: '/images/baby-adham.png', width: 566, height: 520 },
+  babyB: { src: '/images/baby-lara.png', width: 440, height: 542 },
 } as const

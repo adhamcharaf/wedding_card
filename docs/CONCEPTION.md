@@ -60,7 +60,7 @@ Rejouer : petit bouton en fin de page "revoir le film" qui remet la phase à `ga
 
 ## 5. Le scroll
 
-Sections, dans l'ordre : hero (Save the Date) · invitation · date, heure, lieu, Maps · compte à rebours · programme · infos pratiques · gift registry · RSVP · fin (monogramme, soleil plein).
+Sections, dans l'ordre : hero (Save the Date) · invitation · photos d'enfance · date, heure, lieu, Maps · compte à rebours · programme · infos pratiques · gift registry · RSVP · fin (monogramme, soleil plein).
 
 Effets, et seulement ceux-là :
 - **Soleil qui monte** : un seul `sun-gold.png` fixé en bas de l'écran, ScrollTrigger scrub du haut de page jusqu'au haut de la section RSVP, translateY de +30 % vers 0. Position finale : la moitié haute du disque à l'écran (maquette 2), pour que le contenu qui passe dessus reste lisible. (Réglé à l'étape 2 avec la vraie découpe, `DECISIONS.md`.)
@@ -68,6 +68,7 @@ Effets, et seulement ceux-là :
 - **Grain** : `paper-grain.png` répété sur un calque fixe qui déborde d'une tuile à droite et en bas, déplacé par `transform: translate3d` en CSS keyframes (8 positions, `steps`), opacité 0.15. Seul `transform` est animé, jamais `background-position` (décision de l'étape 1, `DECISIONS.md`). Pas de `feTurbulence` SVG, trop lourd sur mobile.
 - **Parallaxe gyroscope** sur le hero : `deviceorientation`, gamma/beta lissés, soleil, carte, ruban à trois amplitudes (4, 8, 12 px). Désactivé sur desktop, remplacé par un suivi souris léger.
 - **Compte à rebours** : chiffres qui défilent verticalement à chaque changement (GSAP), pas de flip 3D.
+- **Photos d'enfance qui sautillent** (ajout du 2026-09-03, `DECISIONS.md`) : section « These two are getting married » entre l'invitation et la date. Les deux photos oscillent de ±4° autour du pied avec un petit saut à chaque changement d'appui, en alternance, CSS keyframes sur `transform`, cycle de 1,4 s, en pause hors écran, désactivé sous `prefers-reduced-motion`.
 - Apparition des textes : fondu + 12 px de translateY, une fois, pas de répétition au retour.
 
 Desktop : le site reste une colonne mobile de 480 px max, centrée sur un fond pêche plein écran avec le grain. Pas de mise en page desktop spécifique en V1.

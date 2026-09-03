@@ -45,6 +45,13 @@ export const wedding = {
       en: 'With full hearts, we joyfully invite you to our wedding',
     },
     celebration: { fr: 'Célébration du mariage', en: 'Wedding celebration' },
+
+    /** Section photos d'enfance, ajoutée par Adham le 2026-09-03 (DECISIONS.md). */
+    babies: {
+      title: { fr: 'Ces deux-là se marient', en: 'These two are getting married' },
+      altA: { fr: 'Adham enfant', en: 'Adham as a child' },
+      altB: { fr: 'Lara enfant', en: 'Lara as a child' },
+    },
     dateLong: { fr: 'Vendredi 8 janvier 2027', en: 'Friday, January 8, 2027' },
     time: { fr: '20 h 30', en: '8:30 PM' },
     maps: { fr: 'Google Maps', en: 'Google Maps' },

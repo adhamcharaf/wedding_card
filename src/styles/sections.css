@@ -77,6 +77,55 @@
   line-height: 1;
 }
 
+.script--title {
+  font-size: clamp(2.4rem, 11vw, 3rem);
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+/* ---------- Photos d'enfance ---------- */
+
+.babies {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4%;
+  width: 100%;
+  padding-top: 1rem;
+}
+
+.babies__photo {
+  width: 40%;
+  height: auto;
+  transform-origin: 50% 100%;
+  will-change: transform;
+  animation: hop 1.4s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.babies__photo + .babies__photo {
+  animation-delay: -0.7s;
+}
+
+.babies.is-playing .babies__photo {
+  animation-play-state: running;
+}
+
+/* Oscillation autour du pied, petit saut à chaque changement d'appui. */
+@keyframes hop {
+  0% { transform: rotate(-4deg) translateY(0); }
+  25% { transform: rotate(0deg) translateY(-10px); }
+  50% { transform: rotate(4deg) translateY(0); }
+  75% { transform: rotate(0deg) translateY(-10px); }
+  100% { transform: rotate(-4deg) translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .babies__photo {
+    animation: none;
+  }
+}
+
 /* ---------- Ornements et icônes ---------- */
 
 .ornament {
