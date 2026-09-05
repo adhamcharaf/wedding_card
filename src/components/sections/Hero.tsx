@@ -9,8 +9,8 @@ export function Hero() {
   const t = useT()
   return (
     <section className="section section--hero" id="hero">
-      <Sun />
       <Reveal className="card">
+        <Sun />
         <img
           className="card__ribbon"
           src={assets.ribbon.src}

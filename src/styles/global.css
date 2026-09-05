@@ -18,6 +18,8 @@
    */
   --sun-size: min(78vw, 380px);
   --sun-height: calc(var(--sun-size) * 957 / 968);
+  /* Écart entre le bas du ruban et la pointe des rayons. */
+  --sun-gap: 0.75rem;
 
   --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --font-script: 'Herr Von Muellerhoff', 'Brush Script MT', cursive;
@@ -42,7 +44,9 @@ html {
 
 body {
   min-height: 100dvh;
-  background: var(--peach-mid);
+  /* Même teinte que le bas du dégradé : rien de plus clair ne peut apparaître
+     sous le calque de fond quand la barre d'iOS se rétracte. */
+  background: var(--peach-bottom);
   color: var(--ink);
   font-family: var(--font-serif);
   font-weight: 500;
@@ -85,9 +89,17 @@ img {
 
 /* ---------- Fond ---------- */
 
+/*
+ * Hauteur en `lvh` et non `inset: 0` : un calque fixe calé sur le petit
+ * viewport laisse une bande découverte quand la barre du navigateur se
+ * rétracte, et le fond du body s'y voyait, plus clair que le dégradé.
+ */
 .bg {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100lvh;
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
@@ -131,15 +143,15 @@ img {
 /* ---------- Soleil ---------- */
 
 /*
- * Le soleil appartient à la page, pas à l'écran : il est posé à cheval sur le
- * bas du hero, moitié dedans moitié dessous. Sur le premier écran on en voit
- * la moitié haute ; en descendant, le reste se découvre sans que le soleil
- * bouge d'un pixel ; une fois dépassé, il sort du champ et ne revient pas.
- * Aucune animation, aucun ScrollTrigger.
+ * Le soleil appartient à la page, pas à l'écran, et il est accroché à la
+ * carte : ses rayons les plus hauts frôlent le bas du ruban, quelle que soit
+ * la taille de l'écran. On en voit le haut au premier écran, le reste se
+ * découvre en descendant sans qu'il bouge d'un pixel, et une fois dépassé il
+ * ne revient pas. Aucune animation, aucun ScrollTrigger.
  */
 .sun {
   position: absolute;
-  bottom: calc(var(--sun-height) / -2);
+  top: calc(100% + var(--sun-gap));
   left: 50%;
   z-index: -1;
   width: var(--sun-size);

@@ -12,21 +12,15 @@
   padding-top: 2rem;
 }
 
-/* Repère du soleil, qui déborde de la moitié de sa hauteur sous le hero. */
+/*
+ * Le soleil est accroché sous la carte et sort du flux. Le padding du bas lui
+ * réserve exactement sa place, de sorte qu'aucun texte ne passe sur l'or :
+ * c'est l'espacement qui règle la lisibilité, pas un fondu sur la découpe.
+ */
 .section--hero {
-  position: relative;
   min-height: 100dvh;
   justify-content: center;
-  padding: max(4rem, 10vh) 0 30vh;
-}
-
-/*
- * Le soleil déborde sous le hero de la moitié de sa hauteur. La section
- * suivante démarre en dessous, pour qu'aucun texte ne passe sur l'or : c'est
- * l'espacement qui règle la lisibilité, pas un fondu sur la découpe.
- */
-.section--hero + .section {
-  padding-top: calc(var(--sun-height) / 2 + 2rem);
+  padding: max(4rem, 10vh) 0 calc(var(--sun-gap) + var(--sun-height) + 3rem);
 }
 
 /* Fin de page : le monogramme seul, le soleil est resté en haut de la page. */
