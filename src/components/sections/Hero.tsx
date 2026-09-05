@@ -2,12 +2,14 @@ import { assets } from '../../content/assets'
 import { wedding } from '../../content/wedding'
 import { useT } from '../../i18n/useT'
 import { Reveal } from '../Reveal'
+import { Sun } from '../Sun'
 
 /** La carte Save the Date dans son cadre ruban (docs/mockups/HERO_Section.png). */
 export function Hero() {
   const t = useT()
   return (
     <section className="section section--hero" id="hero">
+      <Sun />
       <Reveal className="card">
         <img
           className="card__ribbon"

@@ -6,21 +6,18 @@
   --ink: #7f2f26;
   --gold: #d4ab55;
   --cream: #fff4ec;
-  /* Halo posé derrière le texte qui chevauche le soleil. Teinte du fond. */
-  --halo: rgb(247 178 116 / 0.92);
 
   --column: 480px;
   --gutter: 1.5rem;
   --grain-tile: 160px;
   /*
-   * Soleil : mesuré sur la dernière image de la vidéo d'intro (360 x 640).
-   * Les rayons y démarrent à 79 % de la hauteur et le haut du disque tombe à
-   * 91,5 %, ce qui donne une image large de 78 % de l'écran, débordant de
-   * 51 % de sa propre taille sous le bas. La largeur sert de référence, pas
-   * la hauteur : les téléphones sont plus allongés que la vidéo.
+   * Soleil : largeur mesurée sur la dernière image de la vidéo d'intro
+   * (360 x 640), où les rayons démarrent à 79 % de la hauteur. La largeur
+   * sert de référence, pas la hauteur : les téléphones sont plus allongés
+   * que la vidéo. La hauteur suit le ratio de la découpe (968 x 957).
    */
   --sun-size: min(78vw, 380px);
-  --sun-offset: calc(var(--sun-size) * -0.51);
+  --sun-height: calc(var(--sun-size) * 957 / 968);
 
   --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --font-script: 'Herr Von Muellerhoff', 'Brush Script MT', cursive;
@@ -134,37 +131,20 @@ img {
 /* ---------- Soleil ---------- */
 
 /*
- * Fixé en bas de l'écran, centré, immobile : mêmes taille et débordement que
- * sur la dernière image de la vidéo d'intro, quelle que soit la section.
- *
- * Fondu du haut : les rayons sont la partie la plus découpée et la plus
- * contrastée de la découpe, et c'est là que passe le texte. Un masque en
- * dégradé les dissout dans le fond pêche ; le disque reste plein. Les deux
- * bornes sont exprimées en pourcentage de la hauteur de l'image, à régler
- * ici seulement : `start` = premier rayon, `end` = haut du disque.
+ * Le soleil appartient à la page, pas à l'écran : il est posé à cheval sur le
+ * bas du hero, moitié dedans moitié dessous. Sur le premier écran on en voit
+ * la moitié haute ; en descendant, le reste se découvre sans que le soleil
+ * bouge d'un pixel ; une fois dépassé, il sort du champ et ne revient pas.
+ * Aucune animation, aucun ScrollTrigger.
  */
 .sun {
-  --sun-fade-start: 4%;
-  --sun-fade-end: 34%;
-
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: var(--sun-offset);
+  position: absolute;
+  bottom: calc(var(--sun-height) / -2);
+  left: 50%;
   z-index: -1;
   width: var(--sun-size);
-  margin: 0 auto;
+  transform: translateX(-50%);
   pointer-events: none;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent var(--sun-fade-start),
-    #000 var(--sun-fade-end)
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent var(--sun-fade-start),
-    #000 var(--sun-fade-end)
-  );
 }
 
 .sun img {

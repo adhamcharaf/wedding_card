@@ -1,31 +1,35 @@
 /* ---------- Sections ---------- */
 
-/*
- * Le soleil est fixe : tout texte finit par passer devant lui. Deux ombres
- * floues couleur du fond font un halo qui détache le brun de l'or, sans boîte
- * ni cadre. Hérité par tous les descendants, retiré sur les éléments qui ont
- * déjà leur propre fond (champs, bouton plein).
- */
 .section {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 4.5rem 0;
   text-align: center;
-  text-shadow: 0 0 0.5rem var(--halo), 0 0 1.5rem var(--halo);
 }
 
 .section + .section {
   padding-top: 2rem;
 }
 
+/* Repère du soleil, qui déborde de la moitié de sa hauteur sous le hero. */
 .section--hero {
+  position: relative;
   min-height: 100dvh;
   justify-content: center;
   padding: max(4rem, 10vh) 0 30vh;
 }
 
-/* Le monogramme se pose sur le disque du soleil plein (maquette 2). */
+/*
+ * Le soleil déborde sous le hero de la moitié de sa hauteur. La section
+ * suivante démarre en dessous, pour qu'aucun texte ne passe sur l'or : c'est
+ * l'espacement qui règle la lisibilité, pas un fondu sur la découpe.
+ */
+.section--hero + .section {
+  padding-top: calc(var(--sun-height) / 2 + 2rem);
+}
+
+/* Fin de page : le monogramme seul, le soleil est resté en haut de la page. */
 .section--end {
   min-height: 100dvh;
   justify-content: flex-end;
@@ -269,7 +273,6 @@
   background: var(--ink);
   color: var(--cream);
   text-decoration: none;
-  text-shadow: none;
 }
 
 .btn[disabled] {
@@ -381,7 +384,6 @@
   padding: 0.6rem 0.8rem;
   font: inherit;
   color: inherit;
-  text-shadow: none;
   background: rgb(255 244 236 / 0.82);
   border: 1px solid rgb(127 47 38 / 0.45);
   border-radius: 0.5rem;

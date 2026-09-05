@@ -11,7 +11,6 @@ import { Program } from './components/sections/Program'
 import { Registry } from './components/sections/Registry'
 import { Rsvp } from './components/sections/Rsvp'
 import { Venue } from './components/sections/Venue'
-import { Sun } from './components/Sun'
 import { useDocumentLang } from './i18n/useT'
 import { ScrollTrigger } from './lib/gsap'
 
@@ -40,7 +39,6 @@ export default function App() {
   return (
     <>
       <Background />
-      <Sun />
       <LangToggle />
       <main className="column">
         <Hero />

@@ -38,17 +38,17 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 
 ## Étape 2 — Scroll complet avec soleil
 
-**Objectif** : toutes les sections du site avec leur contenu, le soleil qui monte au scroll, les apparitions de texte. Pas d'intro, on arrive directement sur le hero.
+**Objectif** : toutes les sections du site avec leur contenu, le soleil posé sur la page, les apparitions de texte. Pas d'intro, on arrive directement sur le hero.
 
 **Livrables**
 - Sections : hero, invitation, date/lieu + Maps, compte à rebours (statique), programme, infos pratiques, gift registry, RSVP (formulaire non branché), fin
-- Soleil fixe en bas, immobile, calé sur la dernière image de la vidéo d'intro
+- Soleil immobile posé à cheval sur le bas du hero, moitié visible au premier écran
 - Apparitions fondu + translateY, une seule fois
 - Typographies chargées (deux WOFF2 max)
 
 **Critères de validation**
 - Le scroll est fluide sur téléphone, sans à-coups
-- Le soleil est au même endroit sur toutes les sections, et au même endroit que sur la dernière image de la vidéo d'intro
+- Au premier écran on voit la moitié du soleil, le reste se découvre au scroll sans qu'il bouge, et il ne réapparaît plus une fois dépassé
 - Chaque section correspond à sa maquette en esprit (pas au pixel)
 
 ## Étape 3 — RSVP Supabase

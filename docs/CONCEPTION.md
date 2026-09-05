@@ -60,11 +60,11 @@ Rejouer : petit bouton en fin de page "revoir le film" qui remet la phase à `ga
 
 ## 5. Le scroll
 
-Sections, dans l'ordre : hero (Save the Date) · invitation · photos d'enfance · date, heure, lieu, Maps · compte à rebours · programme · infos pratiques · gift registry · RSVP · fin (monogramme posé sur le soleil).
+Sections, dans l'ordre : hero (Save the Date) · invitation · photos d'enfance · date, heure, lieu, Maps · compte à rebours · programme · infos pratiques · gift registry · RSVP · fin (monogramme seul, sans soleil).
 
 Effets, et seulement ceux-là :
-- **Soleil fixe** : un seul `sun-gold.png` fixé en bas de l'écran, immobile, identique sur toutes les sections. Taille et débordement repris de la dernière image de la vidéo d'intro : largeur 78 % de l'écran, débordement de 51 % de sa propre taille sous le bas (`--sun-size`, `--sun-offset`). Plus de montée au scroll : elle rendait le texte illisible sur les rayons et n'apportait rien (décision du 2026-09-05, `DECISIONS.md`).
-- **Lisibilité du texte sur le soleil**, deux règles solidaires (ajout du 2026-09-05, `DECISIONS.md`) : le haut de la découpe est fondu par un `mask-image` en dégradé, les rayons se dissolvent dans le fond pêche et le disque reste plein ; et tout texte de section porte un halo de la couleur du fond (deux `text-shadow` flous, aucun cadre). Les deux bornes du fondu sont des variables CSS sur `.sun`.
+- **Soleil posé sur la page** : un seul `sun-gold.png`, immobile, à cheval sur le bas du hero, moitié dedans moitié dessous. Sur le premier écran on en voit la moitié haute ; en descendant, le reste se découvre sans que le soleil bouge ; une fois dépassé, il ne revient pas. Il n'y a plus de soleil au-delà de l'invitation. Largeur 78 % de l'écran, reprise de la dernière image de la vidéo d'intro (`--sun-size`). Aucune animation, aucun ScrollTrigger.
+- **Lisibilité sur le soleil** : réglée par l'espacement, pas par un effet. La section qui suit le hero démarre sous le soleil (`.section--hero + .section`, padding égal à la moitié de la hauteur du soleil), donc aucun texte ne passe sur l'or. Ni fondu, ni halo (décision du 2026-09-05, `DECISIONS.md`).
 - **Hirondelle qui traverse** : un ScrollTrigger par entrée de section, une hirondelle passe une fois, toujours de gauche à droite, 1,2 s.
 - **Grain** : `paper-grain.png` répété sur un calque fixe qui déborde d'une tuile à droite et en bas, déplacé par `transform: translate3d` en CSS keyframes (8 positions, `steps`), opacité 0.15. Seul `transform` est animé, jamais `background-position` (décision de l'étape 1, `DECISIONS.md`). Pas de `feTurbulence` SVG, trop lourd sur mobile.
 - **Parallaxe gyroscope** sur le hero : `deviceorientation`, gamma/beta lissés, soleil, carte, ruban à trois amplitudes (4, 8, 12 px). Désactivé sur desktop, remplacé par un suivi souris léger.

@@ -14,5 +14,5 @@
 | 7 | URL Google Maps d'Indian by nature (`venue.mapsUrl` dans `src/content/wedding.ts`) | tranché le 2026-09-03 : renseignée | Adham |
 | 8 | Relecture des textes FR et EN proposés dans `src/content/wedding.ts` (invitation, RSVP, fin) | à faire | Adham |
 | 9 | Vidéo d'intro : la version « Save the Date » du 2026-09-03 remplace-t-elle celle prévue dans CONCEPTION §2 (mains vers la lune) ? La bande blanche de 12 px en haut a été recadrée (360 x 628), le fichier et son poster attendent d'être versés au dépôt. | provisoire : la nouvelle | Adham |
-| 10 | Fin de page : le monogramme se pose maintenant sur les rayons et non sur le disque, le soleil ayant baissé. À garder ou à recaler. | ouvert | Adham |
+| 10 | Fin de page : sans soleil, l'écran de fin ne porte plus que la phrase de fin et le monogramme, et paraît vide. À étoffer ou à laisser. | ouvert | Adham |
 | 11 | Raccord vidéo / site : le pêche du fond de la vidéo (autour de #e7af80 en haut, #e7834f en bas) est plus sourd que celui du site (#fbca8c à #f5975f). À aligner à l'étape 5, sur la vidéo ou sur le site. | ouvert | Adham |
