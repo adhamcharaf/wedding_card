@@ -42,13 +42,13 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 
 **Livrables**
 - Sections : hero, invitation, date/lieu + Maps, compte à rebours (statique), programme, infos pratiques, gift registry, RSVP (formulaire non branché), fin
-- Soleil fixe en bas, ScrollTrigger scrub, plein au RSVP
+- Soleil fixe en bas, immobile, calé sur la dernière image de la vidéo d'intro
 - Apparitions fondu + translateY, une seule fois
 - Typographies chargées (deux WOFF2 max)
 
 **Critères de validation**
 - Le scroll est fluide sur téléphone, sans à-coups
-- Le soleil finit sa montée exactement à la section RSVP
+- Le soleil est au même endroit sur toutes les sections, et au même endroit que sur la dernière image de la vidéo d'intro
 - Chaque section correspond à sa maquette en esprit (pas au pixel)
 
 ## Étape 3 — RSVP Supabase

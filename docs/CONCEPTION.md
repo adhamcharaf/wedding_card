@@ -60,10 +60,10 @@ Rejouer : petit bouton en fin de page "revoir le film" qui remet la phase à `ga
 
 ## 5. Le scroll
 
-Sections, dans l'ordre : hero (Save the Date) · invitation · photos d'enfance · date, heure, lieu, Maps · compte à rebours · programme · infos pratiques · gift registry · RSVP · fin (monogramme, soleil plein).
+Sections, dans l'ordre : hero (Save the Date) · invitation · photos d'enfance · date, heure, lieu, Maps · compte à rebours · programme · infos pratiques · gift registry · RSVP · fin (monogramme posé sur le soleil).
 
 Effets, et seulement ceux-là :
-- **Soleil qui monte** : un seul `sun-gold.png` fixé en bas de l'écran, ScrollTrigger scrub du haut de page jusqu'au haut de la section RSVP, translateY de +30 % vers 0. Position finale : la moitié haute du disque à l'écran (maquette 2), pour que le contenu qui passe dessus reste lisible. (Réglé à l'étape 2 avec la vraie découpe, `DECISIONS.md`.)
+- **Soleil fixe** : un seul `sun-gold.png` fixé en bas de l'écran, immobile, identique sur toutes les sections. Taille et débordement repris de la dernière image de la vidéo d'intro : largeur 78 % de l'écran, débordement de 51 % de sa propre taille sous le bas (`--sun-size`, `--sun-offset`). Plus de montée au scroll : elle rendait le texte illisible sur les rayons et n'apportait rien (décision du 2026-09-05, `DECISIONS.md`).
 - **Lisibilité du texte sur le soleil**, deux règles solidaires (ajout du 2026-09-05, `DECISIONS.md`) : le haut de la découpe est fondu par un `mask-image` en dégradé, les rayons se dissolvent dans le fond pêche et le disque reste plein ; et tout texte de section porte un halo de la couleur du fond (deux `text-shadow` flous, aucun cadre). Les deux bornes du fondu sont des variables CSS sur `.sun`.
 - **Hirondelle qui traverse** : un ScrollTrigger par entrée de section, une hirondelle passe une fois, toujours de gauche à droite, 1,2 s.
 - **Grain** : `paper-grain.png` répété sur un calque fixe qui déborde d'une tuile à droite et en bas, déplacé par `transform: translate3d` en CSS keyframes (8 positions, `steps`), opacité 0.15. Seul `transform` est animé, jamais `background-position` (décision de l'étape 1, `DECISIONS.md`). Pas de `feTurbulence` SVG, trop lourd sur mobile.

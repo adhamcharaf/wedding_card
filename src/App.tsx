@@ -40,7 +40,7 @@ export default function App() {
   return (
     <>
       <Background />
-      <Sun endSelector="#rsvp" />
+      <Sun />
       <LangToggle />
       <main className="column">
         <Hero />

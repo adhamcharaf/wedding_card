@@ -12,7 +12,15 @@
   --column: 480px;
   --gutter: 1.5rem;
   --grain-tile: 160px;
-  --sun-size: min(115vw, 560px);
+  /*
+   * Soleil : mesuré sur la dernière image de la vidéo d'intro (360 x 640).
+   * Les rayons y démarrent à 79 % de la hauteur et le haut du disque tombe à
+   * 91,5 %, ce qui donne une image large de 78 % de l'écran, débordant de
+   * 51 % de sa propre taille sous le bas. La largeur sert de référence, pas
+   * la hauteur : les téléphones sont plus allongés que la vidéo.
+   */
+  --sun-size: min(78vw, 380px);
+  --sun-offset: calc(var(--sun-size) * -0.51);
 
   --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --font-script: 'Herr Von Muellerhoff', 'Brush Script MT', cursive;
@@ -126,9 +134,8 @@ img {
 /* ---------- Soleil ---------- */
 
 /*
- * Fixé en bas, centré sans transform (left/right + margin auto) pour laisser
- * GSAP piloter translateY. Une fois plein, seule la moitié haute du disque est
- * à l'écran (maquette 2) : le contenu qui passe dessus reste lisible.
+ * Fixé en bas de l'écran, centré, immobile : mêmes taille et débordement que
+ * sur la dernière image de la vidéo d'intro, quelle que soit la section.
  *
  * Fondu du haut : les rayons sont la partie la plus découpée et la plus
  * contrastée de la découpe, et c'est là que passe le texte. Un masque en
@@ -143,12 +150,11 @@ img {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: calc(var(--sun-size) * -0.42);
+  bottom: var(--sun-offset);
   z-index: -1;
   width: var(--sun-size);
   margin: 0 auto;
   pointer-events: none;
-  will-change: transform;
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent var(--sun-fade-start),
