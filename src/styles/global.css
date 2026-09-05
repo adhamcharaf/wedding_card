@@ -6,6 +6,8 @@
   --ink: #7f2f26;
   --gold: #d4ab55;
   --cream: #fff4ec;
+  /* Halo posé derrière le texte qui chevauche le soleil. Teinte du fond. */
+  --halo: rgb(247 178 116 / 0.92);
 
   --column: 480px;
   --gutter: 1.5rem;
@@ -127,8 +129,17 @@ img {
  * Fixé en bas, centré sans transform (left/right + margin auto) pour laisser
  * GSAP piloter translateY. Une fois plein, seule la moitié haute du disque est
  * à l'écran (maquette 2) : le contenu qui passe dessus reste lisible.
+ *
+ * Fondu du haut : les rayons sont la partie la plus découpée et la plus
+ * contrastée de la découpe, et c'est là que passe le texte. Un masque en
+ * dégradé les dissout dans le fond pêche ; le disque reste plein. Les deux
+ * bornes sont exprimées en pourcentage de la hauteur de l'image, à régler
+ * ici seulement : `start` = premier rayon, `end` = haut du disque.
  */
 .sun {
+  --sun-fade-start: 4%;
+  --sun-fade-end: 34%;
+
   position: fixed;
   left: 0;
   right: 0;
@@ -138,6 +149,16 @@ img {
   margin: 0 auto;
   pointer-events: none;
   will-change: transform;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent var(--sun-fade-start),
+    #000 var(--sun-fade-end)
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent var(--sun-fade-start),
+    #000 var(--sun-fade-end)
+  );
 }
 
 .sun img {

@@ -64,6 +64,7 @@ Sections, dans l'ordre : hero (Save the Date) · invitation · photos d'enfance 
 
 Effets, et seulement ceux-là :
 - **Soleil qui monte** : un seul `sun-gold.png` fixé en bas de l'écran, ScrollTrigger scrub du haut de page jusqu'au haut de la section RSVP, translateY de +30 % vers 0. Position finale : la moitié haute du disque à l'écran (maquette 2), pour que le contenu qui passe dessus reste lisible. (Réglé à l'étape 2 avec la vraie découpe, `DECISIONS.md`.)
+- **Lisibilité du texte sur le soleil**, deux règles solidaires (ajout du 2026-09-05, `DECISIONS.md`) : le haut de la découpe est fondu par un `mask-image` en dégradé, les rayons se dissolvent dans le fond pêche et le disque reste plein ; et tout texte de section porte un halo de la couleur du fond (deux `text-shadow` flous, aucun cadre). Les deux bornes du fondu sont des variables CSS sur `.sun`.
 - **Hirondelle qui traverse** : un ScrollTrigger par entrée de section, une hirondelle passe une fois, toujours de gauche à droite, 1,2 s.
 - **Grain** : `paper-grain.png` répété sur un calque fixe qui déborde d'une tuile à droite et en bas, déplacé par `transform: translate3d` en CSS keyframes (8 positions, `steps`), opacité 0.15. Seul `transform` est animé, jamais `background-position` (décision de l'étape 1, `DECISIONS.md`). Pas de `feTurbulence` SVG, trop lourd sur mobile.
 - **Parallaxe gyroscope** sur le hero : `deviceorientation`, gamma/beta lissés, soleil, carte, ruban à trois amplitudes (4, 8, 12 px). Désactivé sur desktop, remplacé par un suivi souris léger.
