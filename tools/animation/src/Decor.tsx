@@ -1,4 +1,4 @@
-import { CREME, TRAIT } from './style'
+import { TRAIT } from './style'
 
 /*
  * Décors placeholder, dessinés au trait dans l'esprit des doodles, en attendant
@@ -7,7 +7,7 @@ import { CREME, TRAIT } from './style'
  */
 
 const trait = { stroke: TRAIT, strokeWidth: 7, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, fill: 'none' }
-const plein = { ...trait, fill: CREME }
+const plein = { ...trait, fill: 'none' }
 
 export function PlanLointain() {
   return (
