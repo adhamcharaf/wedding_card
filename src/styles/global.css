@@ -178,6 +178,11 @@ html.is-locked body {
   height: 100%;
 }
 
+/* Le contenu attend derrière la gate sans se montrer, mais garde sa place. */
+.column.is-attente {
+  visibility: hidden;
+}
+
 .intro {
   position: fixed;
   inset: 0;

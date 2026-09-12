@@ -50,7 +50,8 @@ export default function App() {
       <Background />
       <Intro key={tour} />
       <LangToggle />
-      <main className="column">
+      {/* Invisible tant que le film n'est pas fini, mais en page : les images se chargent et ScrollTrigger mesure juste. */}
+      <main className={phase === 'scroll' ? 'column' : 'column is-attente'}>
         <Hero />
         <Invitation />
         <Babies />
