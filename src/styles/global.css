@@ -189,7 +189,7 @@ html.is-locked body {
   z-index: 20;
 }
 
-/* La vidéo est là dès la gate pour se précharger, mais invisible. */
+/* Dès la gate, la vidéo est visible, arrêtée sur l'enveloppe fermée. */
 .intro__video {
   position: absolute;
   inset: 0;
@@ -199,68 +199,44 @@ html.is-locked body {
   transition: opacity 700ms ease;
 }
 
-.intro__video.is-cachee {
-  visibility: hidden;
-}
-
 .intro__video.is-finie {
   opacity: 0;
 }
 
-/* La gate est transparente : c'est le fond pêche et son grain qu'on voit. */
+/* Toute la surface est le bouton ; le texte se pose sous le sceau, dans la
+   bande vide entre le sceau (58 % de la hauteur du film) et l'ornement (63 %). */
 .gate {
   position: absolute;
   inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
   width: 100%;
   color: var(--ink);
   -webkit-tap-highlight-color: transparent;
 }
 
-.gate__monogram {
-  font-size: 3.5rem;
-  letter-spacing: 0.1em;
-  line-height: 1;
-}
-
 .gate__hint {
-  font-size: 1.1rem;
+  position: absolute;
+  top: 60.5%;
+  left: 0;
+  right: 0;
+  font-size: 1.2rem;
   font-style: italic;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
+  text-align: center;
+  /* Halo crème : le brun reste lisible sur le papier gaufré. */
+  text-shadow:
+    0 0 2px var(--cream),
+    0 0 12px rgb(255 244 236 / 0.9),
+    0 0 24px rgb(255 244 236 / 0.7);
   animation: respire 2.4s ease-in-out infinite;
 }
 
 @keyframes respire {
-  0%, 100% { opacity: 0.55; }
+  0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }
 
-.intro__skip {
-  position: absolute;
-  right: max(1rem, env(safe-area-inset-right));
-  bottom: max(1.25rem, env(safe-area-inset-bottom));
-  padding: 0.45rem 1.1rem;
-  border: 1px solid var(--ink);
-  border-radius: 999px;
-  background: rgb(255 244 236 / 0.35);
-  color: var(--ink);
-  font-size: 0.9rem;
-  letter-spacing: 0.12em;
-  animation: apparait 400ms ease-out both;
-}
-
-@keyframes apparait {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .gate__hint,
-  .intro__skip {
+  .gate__hint {
     animation: none;
   }
 

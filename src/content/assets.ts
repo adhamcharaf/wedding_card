@@ -13,6 +13,6 @@ export const assets = {
   couple: { src: '/images/couple.png', width: 377, height: 572 },
   babyA: { src: '/images/baby-adham.png', width: 566, height: 520 },
   babyB: { src: '/images/baby-lara.png', width: 440, height: 542 },
-  /** Film d'intro (enveloppe, sceau, carte), sans piste audio. Le poster est sa dernière image. */
+  /** Film d'intro (enveloppe, sceau, carte), sans piste audio. Le poster est sa première image : l'enveloppe fermée de la gate. */
   intro: { src: '/video/intro.mp4', poster: '/video/intro-poster.jpg', width: 720, height: 1280 },
 } as const

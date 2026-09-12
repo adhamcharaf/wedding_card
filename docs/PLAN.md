@@ -71,7 +71,7 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 
 **Livrables**
 - `public/video/intro.mp4` sans piste audio et son poster, référencés dans `assets.ts`
-- Machine à phases `gate → intro → scroll`, écran d'accueil, bouton « passer » après 3 s, scroll bloqué jusqu'à la fin
+- Machine à phases `gate → intro → scroll`, écran d'accueil sur l'enveloppe fermée, pas de bouton « passer », scroll bloqué jusqu'à la fin
 - Raccord : hero imprimé sur les 300 dernières ms, vidéo fondue en 700 ms, fallback direct si la vidéo échoue
 - Impression de la carte en GSAP dans `Hero.tsx`, réglée dans `tools/animation/Impression.tsx`
 - Bouton « revoir le film » en fin de page
@@ -79,7 +79,7 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 
 **Critères de validation**
 - Sur téléphone : tap, film, la carte s'imprime sur le papier sans saut visible, scroll
-- Impossible de scroller avant la fin du film, « passer » fonctionne
+- Impossible de scroller avant la fin du film
 - « Revoir le film » relance tout depuis l'écran d'accueil
 - Avec « réduire les animations » on arrive directement sur le hero
 - Console vide

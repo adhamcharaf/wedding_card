@@ -2,7 +2,7 @@
 
 ## 1. Le film (mis à jour le 2026-09-12)
 
-Une seule vidéo générée, 9:16, 8 s : une enveloppe pêche gaufrée, le sceau de cire A&L, le rabat qui s'ouvre, la carte qui sort et remplit l'écran, jusqu'à un aplat pêche texturé. Fichier `public/video/intro.mp4`, 720 x 1280 H.264, 2,3 Mo, piste audio retirée (pas de son pour l'instant). Sa dernière image, `public/video/intro-poster.jpg`, sert de poster.
+Une seule vidéo générée, 9:16, 8 s : une enveloppe pêche gaufrée, le sceau de cire A&L, le rabat qui s'ouvre, la carte qui sort et remplit l'écran, jusqu'à un aplat pêche texturé. Fichier `public/video/intro.mp4`, 720 x 1280 H.264, 2,3 Mo, piste audio retirée (pas de son pour l'instant). Sa première image, `public/video/intro-poster.jpg`, sert de poster : c'est l'enveloppe fermée de l'écran d'accueil.
 
 La dernière image est un dégradé pêche à moins de 5 % du fond du site (#f4c286 en haut, #e6965d en bas). C'est ce qui rend la coupure invisible : sur les 300 dernières millisecondes, le hero s'imprime derrière la vidéo pendant qu'elle se fond en 700 ms.
 
@@ -37,8 +37,8 @@ Toutes en PNG transparent, exportées depuis la maquette :
 gate → intro → scroll
 ```
 
-- **gate** : fond pêche et son grain, monogramme, « toucher pour ouvrir / tap to open ». La vidéo est déjà dans le DOM, invisible, en `preload="auto"`. Le tap lance `video.play()` dans le même geste (iOS l'exige), et débloquera l'audio le jour où il y en aura. Le bouton FR/EN reste accessible au-dessus.
-- **intro** : vidéo plein écran, `object-fit: cover`, `playsinline`, muette. Bouton « passer » discret après 3 s. À `timeupdate` sur les 300 dernières ms, la phase passe à `scroll` : le hero s'imprime derrière (voir 5) pendant que la vidéo se fond en 700 ms, puis elle est retirée du DOM. Si la vidéo échoue, on arrive directement sur le hero, sans impression.
+- **gate** : l'enveloppe fermée, c'est-à-dire la vidéo arrêtée sur sa première image (son poster), avec « toucher pour ouvrir / tap to open » posé sous le sceau, en brun avec un halo crème pour rester lisible sur le papier gaufré. Toute la surface est le bouton. Le tap lance `video.play()` dans le même geste (iOS l'exige), et débloquera l'audio le jour où il y en aura. Le bouton FR/EN reste accessible au-dessus.
+- **intro** : vidéo plein écran, `object-fit: cover`, `playsinline`, muette. Pas de bouton pour passer (choix d'Adham, le film fait 8 s). À `timeupdate` sur les 300 dernières ms, la phase passe à `scroll` : le hero s'imprime derrière (voir 5) pendant que la vidéo se fond en 700 ms, puis elle est retirée du DOM. Si la vidéo échoue, on arrive directement sur le hero, sans impression.
 - **scroll** : sections, voir 5. Scroll bloqué (`html.is-locked`) tant qu'on n'y est pas, `ScrollTrigger.refresh()` au déblocage.
 
 `prefers-reduced-motion` : on saute gate et intro, on arrive sur le hero directement.

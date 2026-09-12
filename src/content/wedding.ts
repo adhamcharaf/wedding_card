@@ -34,7 +34,6 @@ export const wedding = {
 
   text: {
     gate: { fr: 'Toucher pour ouvrir', en: 'Tap to open' },
-    skip: { fr: 'Passer', en: 'Skip' },
 
     hero: {
       saveTheDate: { fr: 'Save the Date', en: 'Save the Date' },

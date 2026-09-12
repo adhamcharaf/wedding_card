@@ -7,16 +7,16 @@ import { useAppStore } from '../store/useAppStore'
 
 /** Fenêtre, en secondes avant la fin, où le hero commence à s'imprimer derrière la vidéo. */
 const RACCORD = 0.3
-/** Le bouton « passer » apparaît après ce délai. */
-const DELAI_PASSER_MS = 3000
 /** Durée du fondu de sortie de la vidéo, alignée sur le CSS. */
 const FONDU_MS = 700
 
 /**
  * Écran d'accueil et film d'intro (docs/CONCEPTION.md §4).
- * La vidéo est dans le DOM dès la gate, invisible, pour se précharger ; le tap
- * la lance dans le même geste (iOS l'exige). Sur les dernières 300 ms, le hero
- * s'imprime derrière et la vidéo se fond. Sans son pour l'instant.
+ * La gate, c'est l'enveloppe fermée : la vidéo est dans le DOM dès le départ,
+ * arrêtée sur sa première image (qui est aussi son poster), avec « toucher
+ * pour ouvrir » par-dessus. Le tap la lance dans le même geste (iOS l'exige).
+ * Pas de bouton pour passer. Sur les dernières 300 ms, le hero s'imprime
+ * derrière et la vidéo se fond. Sans son pour l'instant.
  * Remonté à neuf à chaque « revoir le film » via la clé `tour` (App.tsx).
  */
 export function Intro() {
@@ -27,7 +27,6 @@ export function Intro() {
   const reduced = useReducedMotion()
 
   const video = useRef<HTMLVideoElement>(null)
-  const [passable, setPassable] = useState(false)
   const [finie, setFinie] = useState(false)
   const [montee, setMontee] = useState(true)
 
@@ -35,12 +34,6 @@ export function Intro() {
   useEffect(() => {
     if (reduced && phase !== 'scroll') finirIntro(false)
   }, [reduced, phase, finirIntro])
-
-  useEffect(() => {
-    if (phase !== 'intro') return
-    const id = window.setTimeout(() => setPassable(true), DELAI_PASSER_MS)
-    return () => window.clearTimeout(id)
-  }, [phase])
 
   function terminer(impression: boolean) {
     if (finie) return
@@ -68,7 +61,7 @@ export function Intro() {
     <div className="intro">
       <video
         ref={video}
-        className={`intro__video${phase === 'gate' ? ' is-cachee' : ''}${finie ? ' is-finie' : ''}`}
+        className={finie ? 'intro__video is-finie' : 'intro__video'}
         src={assets.intro.src}
         poster={assets.intro.poster}
         width={assets.intro.width}
@@ -83,14 +76,7 @@ export function Intro() {
 
       {phase === 'gate' && (
         <button type="button" className="gate" onClick={ouvrir}>
-          <span className="gate__monogram">{wedding.couple.monogram}</span>
           <span className="gate__hint">{t(wedding.text.gate)}</span>
-        </button>
-      )}
-
-      {phase === 'intro' && passable && !finie && (
-        <button type="button" className="intro__skip" onClick={() => terminer(true)}>
-          {t(wedding.text.skip)}
         </button>
       )}
     </div>
