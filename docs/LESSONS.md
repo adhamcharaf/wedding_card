@@ -93,3 +93,9 @@
 - **Symptôme** : la balise vidéo passe en erreur avant le tap, la gate disparaît aussitôt ; Remotion refuse de démarrer le navigateur « Old Headless mode has been removed ».
 - **Cause** : le Chromium de Playwright n'embarque pas les codecs propriétaires, et Remotion attend le binaire `headless_shell`, pas `chrome`.
 - **Règle** : pour tester le parcours, servir un WebM VP9 équivalent à la place du MP4 via `page.route` ; pour Remotion, `CHROME_PATH=/opt/pw-browsers/chromium_headless_shell-*/chrome-linux/headless_shell`. Le vrai H.264 se valide sur téléphone.
+
+### Le film démarre avec un temps mort au tap
+- **Contexte** : étape 4, écran d'accueil sur l'enveloppe fermée, `play()` au tap.
+- **Symptôme** : au tap, un blanc d'une demi-seconde, « comme un changement de page », puis le film part.
+- **Cause** : iOS Safari ignore `preload="auto"` et ne télécharge que les métadonnées ; les octets partent au moment de `play()`.
+- **Règle** : télécharger la vidéo en mémoire pendant la gate (`fetch` → blob → `URL.createObjectURL`), une fois par visite, et lire depuis le blob. Élargir la fenêtre de raccord à 0,45 s : `timeupdate` ne tombe que 4 fois par seconde sur iOS.

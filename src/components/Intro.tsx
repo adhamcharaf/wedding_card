@@ -5,10 +5,28 @@ import { useReducedMotion } from '../hooks/useReducedMotion'
 import { useT } from '../i18n/useT'
 import { useAppStore } from '../store/useAppStore'
 
-/** Fenêtre, en secondes avant la fin, où le hero commence à s'imprimer derrière la vidéo. */
-const RACCORD = 0.3
+/**
+ * Fenêtre, en secondes avant la fin, où le hero commence à s'imprimer derrière
+ * la vidéo. iOS n'émet `timeupdate` que 4 fois par seconde : la fenêtre doit
+ * être plus large que cet intervalle pour être attrapée.
+ */
+const RACCORD = 0.45
 /** Durée du fondu de sortie de la vidéo, alignée sur le CSS. */
 const FONDU_MS = 700
+
+/**
+ * iOS ignore `preload="auto"` : au tap, la vidéo partait chercher ses octets
+ * et le film démarrait avec un temps mort. On télécharge donc le fichier en
+ * mémoire dès l'affichage de la gate, une seule fois par visite, et la vidéo
+ * lit depuis ce blob : le tap démarre sans rien attendre du réseau.
+ */
+let filmEnMemoire: Promise<string> | null = null
+function prechargerFilm(src: string): Promise<string> {
+  filmEnMemoire ??= fetch(src)
+    .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(String(r.status)))))
+    .then((blob) => URL.createObjectURL(blob))
+  return filmEnMemoire
+}
 
 /**
  * Écran d'accueil et film d'intro (docs/CONCEPTION.md §4).
@@ -30,6 +48,21 @@ export function Intro() {
   const [finie, setFinie] = useState(false)
   const [montee, setMontee] = useState(true)
 
+  // Le fichier arrive en mémoire pendant que l'enveloppe est à l'écran. Si le
+  // téléchargement échoue, on retombe sur l'URL réseau au moment du tap.
+  useEffect(() => {
+    let actif = true
+    prechargerFilm(assets.intro.src)
+      .then((url) => {
+        const v = video.current
+        if (actif && v && !v.src) v.src = url
+      })
+      .catch(() => {})
+    return () => {
+      actif = false
+    }
+  }, [])
+
   // Reduced-motion : ni gate ni film, on arrive sur le hero.
   useEffect(() => {
     if (reduced && phase !== 'scroll') finirIntro(false)
@@ -46,6 +79,8 @@ export function Intro() {
     setPhase('intro')
     const v = video.current
     if (!v) return terminer(false)
+    // Tap avant la fin du préchargement : on lit depuis le réseau, tant pis pour l'attente.
+    if (!v.src) v.src = assets.intro.src
     v.play().catch(() => terminer(false))
   }
 
@@ -62,7 +97,6 @@ export function Intro() {
       <video
         ref={video}
         className={finie ? 'intro__video is-finie' : 'intro__video'}
-        src={assets.intro.src}
         poster={assets.intro.poster}
         width={assets.intro.width}
         height={assets.intro.height}

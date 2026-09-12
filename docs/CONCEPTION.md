@@ -37,7 +37,7 @@ Toutes en PNG transparent, exportées depuis la maquette :
 gate → intro → scroll
 ```
 
-- **gate** : l'enveloppe fermée, c'est-à-dire la vidéo arrêtée sur sa première image (son poster), avec « toucher pour ouvrir / tap to open » posé sous le sceau, en brun avec un halo crème pour rester lisible sur le papier gaufré. Toute la surface est le bouton. Le tap lance `video.play()` dans le même geste (iOS l'exige), et débloquera l'audio le jour où il y en aura. Le bouton FR/EN reste accessible au-dessus.
+- **gate** : l'enveloppe fermée, c'est-à-dire la vidéo arrêtée sur sa première image (son poster), avec « toucher pour ouvrir / tap to open » posé sous le sceau, en brun avec un halo crème pour rester lisible sur le papier gaufré. Toute la surface est le bouton. Pendant la gate, le fichier vidéo est téléchargé en mémoire (`fetch` puis blob), car iOS ignore `preload="auto"` : le tap lance `video.play()` dans le même geste (iOS l'exige) depuis le blob, sans attendre le réseau, et débloquera l'audio le jour où il y en aura. Le bouton FR/EN reste accessible au-dessus.
 - **intro** : vidéo plein écran, `object-fit: cover`, `playsinline`, muette. Pas de bouton pour passer (choix d'Adham, le film fait 8 s). À `timeupdate` sur les 300 dernières ms, la phase passe à `scroll` : le hero s'imprime derrière (voir 5) pendant que la vidéo se fond en 700 ms, puis elle est retirée du DOM. Si la vidéo échoue, on arrive directement sur le hero, sans impression.
 - **scroll** : sections, voir 5. Scroll bloqué (`html.is-locked`) tant qu'on n'y est pas, `ScrollTrigger.refresh()` au déblocage.
 
