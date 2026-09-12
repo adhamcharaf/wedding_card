@@ -9,8 +9,8 @@
 | 1 | Squelette, contenu bilingue, fond | ✅ | 2026-09-03 |
 | 2 | Scroll complet avec soleil | 🟡 | |
 | 3 | RSVP Supabase | ⬜ | |
-| 4 | Bridge et enveloppe | ⬜ | |
-| 5 | Vidéo d'intro et raccord | ⬜ | |
+| 4 | Intro au scroll : l'histoire en trois temps, dézoom vers la carte | 🟡 | |
+| 5 | Fusionnée dans la 4 : plus de vidéo ni d'enveloppe (décision du 2026-09-12) | | |
 | 6 | Finitions : gyroscope, hirondelles, compte à rebours | ⬜ | |
 | 7 | Performance et mise en ligne | ⬜ | |
 
@@ -65,35 +65,23 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 - Un second envoi sans nom est refusé avec un message clair
 - La clé anon n'apparaît pas dans le dépôt
 
-## Étape 4 — Bridge et enveloppe
+## Étape 4 — Intro au scroll
 
-**Objectif** : les hirondelles apportent l'enveloppe, l'utilisateur ouvre le sceau, la carte devient le hero.
-
-**Livrables**
-- Machine à phases complète avec écran `gate` (sans vidéo : le tap mène au bridge)
-- Timeline GSAP du bridge avec les découpes PNG (ou placeholders)
-- Draggable sur le sceau, fallback tap, animation d'ouverture et de sortie de carte
-- Scroll bloqué jusqu'à l'ouverture, `prefers-reduced-motion` respecté
-
-**Critères de validation**
-- Sur téléphone : tap, hirondelles, enveloppe, glissement du sceau, carte, scroll
-- Impossible de scroller avant d'avoir ouvert
-- Avec "réduire les animations" activé dans iOS, on arrive directement sur le hero
-
-## Étape 5 — Vidéo d'intro et raccord
-
-**Objectif** : le film joue après le tap et se termine sans coupure visible sur le bridge.
+**Objectif** : après le tap de l'écran d'accueil, le scroll raconte l'histoire d'Adham et Lara en trois temps, puis la caméra recule et révèle la carte, qui est le hero. Remplace l'enveloppe et la vidéo (décision du 2026-09-12).
 
 **Livrables**
-- Préchargement pendant la gate, lecture au tap avec le son, bouton "passer" après 3 s
-- Fondu vidéo vers DOM sur les 300 dernières ms, poster identique à la dernière image
-- Musique Howler lancée au tap, continue sur le scroll
-- Fallback poster si la vidéo échoue
+- Atelier `tools/animation/` (Remotion) : une composition par temps, rendus validés par Adham avant portage
+- Personnages doodle en cut-out (tête, buste, jambes), respiration, balancement décalé, tête qui suit le buste
+- Section d'intro épinglée, une timeline GSAP pilotée par le scroll : temps 1, 2, 3, puis dézoom vers la carte
+- Plans de décor en profondeur, placeholders SVG tant que les dessins ne sont pas là
+- Écran `gate` (tap = musique), bouton « passer », `prefers-reduced-motion` = arrivée directe sur le hero
+- Textes des trois temps dans `wedding.ts`
 
 **Critères de validation**
-- La coupure vidéo/site est invisible sur téléphone
-- Le son démarre au tap, pas avant
-- Le bouton "revoir le film" en fin de page relance tout
+- Sur téléphone, un mouvement de pouce traverse l'intro, un scroll lent la savoure, on peut remonter
+- La carte finale est le hero au pixel près, sans saut
+- Aucune couture visible sur les personnages, pas de saccade au scroll
+- Avec « réduire les animations » on arrive directement sur le hero
 
 ## Étape 6 — Finitions
 
@@ -109,10 +97,10 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 ## Étape 7 — Performance et mise en ligne
 
 **Livrables**
-- Images WebP, vidéo sous 5 Mo, polices en swap
+- Images WebP, polices en swap
 - `vercel.json` si nécessaire, variables d'environnement documentées
 - Lighthouse mobile
 
 **Critères de validation**
 - Lighthouse mobile > 85 en performance
-- Le lien Vercel fonctionne sur un téléphone en 4G en moins de 3 s jusqu'à la gate
+- Le lien Vercel fonctionne sur un téléphone en 4G en moins de 3 s jusqu'à l'écran d'accueil

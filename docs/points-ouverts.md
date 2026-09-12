@@ -16,3 +16,6 @@
 | 9 | Vidéo d'intro : la version « Save the Date » du 2026-09-03 remplace-t-elle celle prévue dans CONCEPTION §2 (mains vers la lune) ? La bande blanche de 12 px en haut a été recadrée (360 x 628), le fichier et son poster attendent d'être versés au dépôt. | provisoire : la nouvelle | Adham |
 | 10 | Fin de page : sans soleil, l'écran de fin ne porte plus que la phrase de fin et le monogramme, et paraît vide. À étoffer ou à laisser. | ouvert | Adham |
 | 11 | Raccord vidéo / site : tranché le 2026-09-05, la vidéo sera regénérée depuis le hero du site. Reste à savoir dans quel format le générateur travaille : en 9:16 affiché en `cover` sur un téléphone 9:19,5, les bords sont rognés de 22 % et la superposition tombe à côté. | ouvert | Adham |
+| 12 | Intro : Lara à 12 ans et Adham à 25 ans en casual n'existent pas ; les deux Lara casual (débardeur, top fleuri) n'ont pas d'âge assigné. Décider ou générer. | à faire | Adham |
+| 13 | Intro : les trois phrases de l'histoire, FR et EN, une par temps. Un placeholder tient la place dans `tools/animation`. | à faire | Adham et Lara |
+| 14 | Intro : les plans de décor, un par époque, même style doodle au trait, centre vide. Des SVG placeholder tiennent la place. | à faire | Adham |
