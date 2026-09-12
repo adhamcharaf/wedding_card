@@ -87,3 +87,9 @@
 - **Symptôme** : `unexpected EOF while looking for matching quote`, aucun fichier écrit.
 - **Cause** : le script entier est analysé avant d'être exécuté ; une apostrophe dans un commentaire ou un texte français suffit à casser l'analyse hors des heredocs.
 - **Règle** : un fichier par écriture, avec l'outil d'écriture dédié, jamais un script bash groupé pour du contenu avec des apostrophes.
+
+### Le Chromium de l'environnement ne lit pas le H.264
+- **Contexte** : étape 4, test du film d'intro sous Playwright, et rendus Remotion dans `tools/animation`.
+- **Symptôme** : la balise vidéo passe en erreur avant le tap, la gate disparaît aussitôt ; Remotion refuse de démarrer le navigateur « Old Headless mode has been removed ».
+- **Cause** : le Chromium de Playwright n'embarque pas les codecs propriétaires, et Remotion attend le binaire `headless_shell`, pas `chrome`.
+- **Règle** : pour tester le parcours, servir un WebM VP9 équivalent à la place du MP4 via `page.route` ; pour Remotion, `CHROME_PATH=/opt/pw-browsers/chromium_headless_shell-*/chrome-linux/headless_shell`. Le vrai H.264 se valide sur téléphone.

@@ -13,9 +13,7 @@
 | 6 | Infos pratiques (dress code, hébergement) : contenu à fournir | à faire | Adham |
 | 7 | URL Google Maps d'Indian by nature (`venue.mapsUrl` dans `src/content/wedding.ts`) | tranché le 2026-09-03 : renseignée | Adham |
 | 8 | Relecture des textes FR et EN proposés dans `src/content/wedding.ts` (invitation, RSVP, fin) | à faire | Adham |
-| 9 | Vidéo d'intro : la version « Save the Date » du 2026-09-03 remplace-t-elle celle prévue dans CONCEPTION §2 (mains vers la lune) ? La bande blanche de 12 px en haut a été recadrée (360 x 628), le fichier et son poster attendent d'être versés au dépôt. | provisoire : la nouvelle | Adham |
+| 9 | Vidéo d'intro : tranché le 2026-09-12, c'est le film de l'enveloppe (`public/video/intro.mp4`). Reste ouvert : le son (aucun pour l'instant) et une version 1080 x 1920 si l'outil la sort un jour. | provisoire | Adham |
 | 10 | Fin de page : sans soleil, l'écran de fin ne porte plus que la phrase de fin et le monogramme, et paraît vide. À étoffer ou à laisser. | ouvert | Adham |
-| 11 | Raccord vidéo / site : tranché le 2026-09-05, la vidéo sera regénérée depuis le hero du site. Reste à savoir dans quel format le générateur travaille : en 9:16 affiché en `cover` sur un téléphone 9:19,5, les bords sont rognés de 22 % et la superposition tombe à côté. | ouvert | Adham |
-| 12 | Intro : Lara à 12 ans et Adham à 25 ans en casual n'existent pas ; les deux Lara casual (débardeur, top fleuri) n'ont pas d'âge assigné. Décider ou générer. | à faire | Adham |
-| 13 | Intro : les trois phrases de l'histoire, FR et EN, une par temps. Un placeholder tient la place dans `tools/animation`. | à faire | Adham et Lara |
-| 14 | Intro : les plans de décor, un par époque, même style doodle au trait, centre vide. Des SVG placeholder tiennent la place. | à faire | Adham |
+| 11 | Raccord vidéo / site : réglé le 2026-09-12, la dernière image du film est à moins de 5 % du fond du site, fondu de 700 ms. | tranché | |
+| 12 | Fond blanc cassé visible dans les coins hauts quand le rabat de l'enveloppe se soulève (2 s). À corriger si le film est regénéré, avec un fond pêche derrière l'enveloppe. | ouvert | Adham |

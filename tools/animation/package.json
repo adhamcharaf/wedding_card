@@ -2,7 +2,7 @@
   "name": "al-wedding-animation",
   "private": true,
   "version": "0.1.0",
-  "description": "Atelier Remotion : on y règle les animations image par image avant de les porter en GSAP dans le site. Jamais chargé par le site.",
+  "description": "Atelier Remotion : on y règle les animations du site image par image avant de les porter en GSAP. Jamais chargé par le site.",
   "type": "module",
   "scripts": {
     "studio": "remotion studio src/index.ts",

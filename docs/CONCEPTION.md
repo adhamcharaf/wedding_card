@@ -1,25 +1,14 @@
 # Site de mariage A&L : conception technique
 
-## 1. Le film (ce qu'on produit avant de coder)
+## 1. Le film (mis à jour le 2026-09-12)
 
-Une seule vidéo montée, 9:16, environ 18 s, sans son intégré. Quatre clips :
+Une seule vidéo générée, 9:16, 8 s : une enveloppe pêche gaufrée, le sceau de cire A&L, le rabat qui s'ouvre, la carte qui sort et remplit l'écran, jusqu'à un aplat pêche texturé. Fichier `public/video/intro.mp4`, 720 x 1280 H.264, 2,3 Mo, piste audio retirée (pas de son pour l'instant). Sa dernière image, `public/video/intro-poster.jpg`, sert de poster.
 
-| # | Clip | Source | Durée | Rôle |
-|---|------|--------|-------|------|
-| 1 | Oiseaux sur les vagues | Frames-to-Video sur la photo oiseaux | 6 s | Ouverture, mouvement |
-| 2 | Mains sur la plage | Tournage réel ou Frames-to-Video | 5 s | Émotion, "nous" |
-| 3 | Mains vers la lune | Frames-to-Video, start = photo lune, end = aplat pêche + soleil doré en bas | 5 s | Le pont : déjà sur fond pêche, c'est lui qui fait passer du réel au papier |
-| 4 | Aplat pêche final | Dernière image du clip 3, tenue 1 s | 1 s | Point de raccord avec le site |
+La dernière image est un dégradé pêche à moins de 5 % du fond du site (#f4c286 en haut, #e6965d en bas). C'est ce qui rend la coupure invisible : sur les 300 dernières millisecondes, le hero s'imprime derrière la vidéo pendant qu'elle se fond en 700 ms.
 
-Le clip 3 est le plus important. Sa dernière image doit être identique au fond du site : même hex pêche, même grain, soleil doré à la même position que sur la carte. On exporte cette dernière image en PNG, elle devient le `poster` et le fond du hero. C'est ça qui rend la coupure vidéo/site invisible.
+Format : le 9:16 est affiché en `object-fit: cover` sur des téléphones en 9:19,5. La composition étant centrée et symétrique, le rognage des côtés ne coupe que des fleurs gaufrées.
 
-Montage dans Scenebuilder (Flow) ou n'importe quel éditeur. Exports :
-- `intro-portrait.mp4` 1080x1920 H.264, cible 5 Mo max
-- `intro-portrait.webm` AV1 ou VP9, même cadrage
-- `intro-poster.png` (dernière image)
-- Optionnel plus tard : `intro-landscape.mp4` 16:9 pour desktop
-
-Musique : une seule piste, `theme.mp3` + `theme.ogg`, démarre au tap, continue sur le scroll, boucle avec fondu.
+L'enveloppe, le sceau et la sortie de la carte sont dans la vidéo : il n'y a plus de phases DOM `bridge` ni `envelope`, ni de découpes d'hirondelles, d'enveloppe ou de sceau.
 
 ## 2. Découpes PNG à préparer
 
@@ -45,24 +34,23 @@ Toutes en PNG transparent, exportées depuis la maquette :
 ## 4. Machine à phases
 
 ```
-gate → intro → bridge → envelope → scroll
+gate → intro → scroll
 ```
 
-- **gate** : fond pêche, monogramme, "toucher pour ouvrir / tap to open". Le tap fait trois choses dans le même geste : débloque l'audio (Howler), demande la permission gyroscope (iOS l'exige dans un geste utilisateur), lance `video.play()`. La vidéo est préchargée pendant la gate (`preload="auto"`).
-- **intro** : vidéo plein écran, `object-fit: cover`, `playsinline`, non muette après le tap. Bouton "passer" discret après 3 s. À `timeupdate` proche de la fin (dernières 300 ms), on rend visible le DOM hero derrière la vidéo avec exactement le poster en fond, puis on fond la vidéo à 0 en 400 ms. La vidéo est retirée du DOM ensuite.
-- **bridge** : timeline GSAP, 4 s. Les deux hirondelles entrent par les bords, trajectoire courbe, battement d'ailes via 2 ou 3 images alternées. Elles déposent l'enveloppe au centre. Le soleil doré monte de 40 px. Scroll bloqué (`overflow: hidden` sur body).
-- **envelope** : Draggable GSAP sur le sceau, axe vertical. Au-delà de 80 px de glissement (ou d'un tap simple, fallback), le sceau se fend (deux moitiés PNG qui s'écartent), le rabat s'ouvre, la carte glisse vers le haut, le ruban se déploie autour (scale 0.9 vers 1 + léger rebond). La carte devient le hero. Scroll débloqué.
-- **scroll** : sections, voir 5.
+- **gate** : fond pêche et son grain, monogramme, « toucher pour ouvrir / tap to open ». La vidéo est déjà dans le DOM, invisible, en `preload="auto"`. Le tap lance `video.play()` dans le même geste (iOS l'exige), et débloquera l'audio le jour où il y en aura. Le bouton FR/EN reste accessible au-dessus.
+- **intro** : vidéo plein écran, `object-fit: cover`, `playsinline`, muette. Bouton « passer » discret après 3 s. À `timeupdate` sur les 300 dernières ms, la phase passe à `scroll` : le hero s'imprime derrière (voir 5) pendant que la vidéo se fond en 700 ms, puis elle est retirée du DOM. Si la vidéo échoue, on arrive directement sur le hero, sans impression.
+- **scroll** : sections, voir 5. Scroll bloqué (`html.is-locked`) tant qu'on n'y est pas, `ScrollTrigger.refresh()` au déblocage.
 
-`prefers-reduced-motion` : on saute intro, bridge et envelope, on arrive sur le hero directement. Même chose si la vidéo échoue à charger (fallback poster).
+`prefers-reduced-motion` : on saute gate et intro, on arrive sur le hero directement.
 
-Rejouer : petit bouton en fin de page "revoir le film" qui remet la phase à `gate`.
+Rejouer : bouton « revoir le film » en fin de page, qui remonte l'intro à neuf (`rejouer()` dans le store, clé `tour` sur le composant).
 
 ## 5. Le scroll
 
 Sections, dans l'ordre : hero (Save the Date) · invitation · photos d'enfance · date, heure, lieu, Maps · compte à rebours · programme · infos pratiques · gift registry · RSVP · fin (monogramme seul, sans soleil).
 
 Effets, et seulement ceux-là :
+- **Impression de la carte** (arrivée depuis le film) : le ruban se pose (scale 1,4 → 1, fondu, 1,2 s), le cœur descend avec un léger rebond, le petit soleil arrive en tournant (−120° → 0), le grand soleil monte du bas, les lignes de texte s'écrivent en cascade. Une timeline GSAP dans `Hero.tsx`, réglée dans l'atelier `tools/animation` (`Impression.tsx`). En arrivée directe, simple fondu.
 - **Soleil posé sous la carte** : un seul `sun-gold.png`, immobile, accroché au bas du ruban (`--sun-gap`), donc à la même place par rapport à la carte quelle que soit la taille de l'écran. On en voit le haut au premier écran, le reste se découvre en descendant sans qu'il bouge ; une fois dépassé, il ne revient pas. Il n'y a plus de soleil au-delà du hero. Largeur 78 % de l'écran (`--sun-size`). Aucune animation, aucun ScrollTrigger.
 - **Lisibilité sur le soleil** : réglée par l'espacement, pas par un effet. Le padding bas du hero réserve exactement la place du soleil, donc aucun texte ne passe sur l'or. Ni fondu, ni halo (décision du 2026-09-05, `DECISIONS.md`).
 - **Hirondelle qui traverse** : un ScrollTrigger par entrée de section, une hirondelle passe une fois, toujours de gauche à droite, 1,2 s.

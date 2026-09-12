@@ -169,13 +169,109 @@ img {
   }
 }
 
+/* ---------- Écran d'accueil et film ---------- */
+
+/* Scroll bloqué pendant la gate et le film. */
+html.is-locked,
+html.is-locked body {
+  overflow: hidden;
+  height: 100%;
+}
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+}
+
+/* La vidéo est là dès la gate pour se précharger, mais invisible. */
+.intro__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 700ms ease;
+}
+
+.intro__video.is-cachee {
+  visibility: hidden;
+}
+
+.intro__video.is-finie {
+  opacity: 0;
+}
+
+/* La gate est transparente : c'est le fond pêche et son grain qu'on voit. */
+.gate {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gate__monogram {
+  font-size: 3.5rem;
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+
+.gate__hint {
+  font-size: 1.1rem;
+  font-style: italic;
+  letter-spacing: 0.12em;
+  animation: respire 2.4s ease-in-out infinite;
+}
+
+@keyframes respire {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+.intro__skip {
+  position: absolute;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  padding: 0.45rem 1.1rem;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: rgb(255 244 236 / 0.35);
+  color: var(--ink);
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  animation: apparait 400ms ease-out both;
+}
+
+@keyframes apparait {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gate__hint,
+  .intro__skip {
+    animation: none;
+  }
+
+  .intro__video {
+    transition: none;
+  }
+}
+
 /* ---------- Toggle de langue ---------- */
 
+/* Au-dessus de la gate et du film : on choisit sa langue avant d'ouvrir. */
 .lang {
   position: fixed;
   top: max(0.75rem, env(safe-area-inset-top));
   right: max(1rem, env(safe-area-inset-right));
-  z-index: 10;
+  z-index: 30;
   display: flex;
   border: 1px solid var(--ink);
   border-radius: 999px;

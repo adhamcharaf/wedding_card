@@ -9,8 +9,8 @@
 | 1 | Squelette, contenu bilingue, fond | ✅ | 2026-09-03 |
 | 2 | Scroll complet avec soleil | 🟡 | |
 | 3 | RSVP Supabase | ⬜ | |
-| 4 | Intro au scroll : l'histoire en trois temps, dézoom vers la carte | 🟡 | |
-| 5 | Fusionnée dans la 4 : plus de vidéo ni d'enveloppe (décision du 2026-09-12) | | |
+| 4 | Film d'intro et raccord | 🟡 | |
+| 5 | Fusionnée dans la 4 : l'enveloppe est dans le film (décision du 2026-09-12) | | |
 | 6 | Finitions : gyroscope, hirondelles, compte à rebours | ⬜ | |
 | 7 | Performance et mise en ligne | ⬜ | |
 
@@ -65,23 +65,24 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 - Un second envoi sans nom est refusé avec un message clair
 - La clé anon n'apparaît pas dans le dépôt
 
-## Étape 4 — Intro au scroll
+## Étape 4 — Film d'intro et raccord
 
-**Objectif** : après le tap de l'écran d'accueil, le scroll raconte l'histoire d'Adham et Lara en trois temps, puis la caméra recule et révèle la carte, qui est le hero. Remplace l'enveloppe et la vidéo (décision du 2026-09-12).
+**Objectif** : après le tap de l'écran d'accueil, le film de l'enveloppe joue et se termine sans coupure visible sur le hero, où la carte s'imprime. Remplace l'enveloppe DOM et l'intro au scroll (décisions du 2026-09-12).
 
 **Livrables**
-- Atelier `tools/animation/` (Remotion) : une composition par temps, rendus validés par Adham avant portage
-- Personnages doodle en cut-out (tête, buste, jambes), respiration, balancement décalé, tête qui suit le buste
-- Section d'intro épinglée, une timeline GSAP pilotée par le scroll : temps 1, 2, 3, puis dézoom vers la carte
-- Plans de décor en profondeur, placeholders SVG tant que les dessins ne sont pas là
-- Écran `gate` (tap = musique), bouton « passer », `prefers-reduced-motion` = arrivée directe sur le hero
-- Textes des trois temps dans `wedding.ts`
+- `public/video/intro.mp4` sans piste audio et son poster, référencés dans `assets.ts`
+- Machine à phases `gate → intro → scroll`, écran d'accueil, bouton « passer » après 3 s, scroll bloqué jusqu'à la fin
+- Raccord : hero imprimé sur les 300 dernières ms, vidéo fondue en 700 ms, fallback direct si la vidéo échoue
+- Impression de la carte en GSAP dans `Hero.tsx`, réglée dans `tools/animation/Impression.tsx`
+- Bouton « revoir le film » en fin de page
+- `prefers-reduced-motion` = arrivée directe sur le hero
 
 **Critères de validation**
-- Sur téléphone, un mouvement de pouce traverse l'intro, un scroll lent la savoure, on peut remonter
-- La carte finale est le hero au pixel près, sans saut
-- Aucune couture visible sur les personnages, pas de saccade au scroll
+- Sur téléphone : tap, film, la carte s'imprime sur le papier sans saut visible, scroll
+- Impossible de scroller avant la fin du film, « passer » fonctionne
+- « Revoir le film » relance tout depuis l'écran d'accueil
 - Avec « réduire les animations » on arrive directement sur le hero
+- Console vide
 
 ## Étape 6 — Finitions
 
