@@ -14,10 +14,10 @@
    * Soleil : largeur mesurée sur la dernière image de la vidéo d'intro
    * (360 x 640), où les rayons démarrent à 79 % de la hauteur. La largeur
    * sert de référence, pas la hauteur : les téléphones sont plus allongés
-   * que la vidéo. La hauteur suit le ratio de la découpe (968 x 957).
+   * que la vidéo. La hauteur suit le ratio de la découpe (1000 x 985).
    */
   --sun-size: min(78vw, 380px);
-  --sun-height: calc(var(--sun-size) * 957 / 968);
+  --sun-height: calc(var(--sun-size) * 985 / 1000);
   /* Écart entre le bas du ruban et la pointe des rayons. */
   --sun-gap: 0.75rem;
 
@@ -72,6 +72,16 @@ img {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+/* Texte pour les lecteurs d'écran et le titre du document, invisible à l'écran. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /*
@@ -191,7 +201,7 @@ html.is-locked body {
   z-index: 20;
 }
 
-/* Dès la gate, la vidéo est visible, arrêtée sur l'enveloppe fermée. */
+/* Dès la gate, la vidéo est visible, arrêtée sur sa première image : les oiseaux et l'enveloppe. */
 .intro__video {
   position: absolute;
   inset: 0;
@@ -205,8 +215,9 @@ html.is-locked body {
   opacity: 0;
 }
 
-/* Toute la surface est le bouton ; le texte se pose sous le sceau, dans la
-   bande vide entre le sceau (58 % de la hauteur du film) et l'ornement (63 %). */
+/* Toute la surface est le bouton ; le texte se pose dans la bande de ciel
+   entre l'enveloppe portée par les oiseaux (jusqu'à 47 % de la hauteur du film)
+   et les premiers rayons du soleil (55 %). */
 .gate {
   position: absolute;
   inset: 0;
@@ -217,7 +228,7 @@ html.is-locked body {
 
 .gate__hint {
   position: absolute;
-  top: 60.5%;
+  top: 50.5%;
   left: 0;
   right: 0;
   font-size: 1.2rem;
