@@ -81,7 +81,7 @@ export const wedding = {
 };
 ```
 
-Langue : `navigator.language` au premier chargement, bouton FR/EN en haut à droite, choix mémorisé en localStorage. Hook `useT()` qui renvoie la bonne clé. Le RSVP et ses messages d'erreur passent aussi par là.
+Langue : anglais au premier chargement pour tout le monde (décision du 2026-09-13, plus de détection du navigateur), bouton FR/EN en haut à droite, choix mémorisé en localStorage. Hook `useT()` qui renvoie la bonne clé. Le RSVP et ses messages d'erreur passent aussi par là.
 
 ## 7. RSVP (Supabase)
 

@@ -29,11 +29,8 @@ interface AppState {
 
 const STORAGE_KEY = 'al-wedding'
 
-/** Français si le navigateur est en français, anglais sinon. */
-function detectLang(): Lang {
-  const tag = typeof navigator === 'undefined' ? '' : navigator.language
-  return tag.toLowerCase().startsWith('fr') ? 'fr' : 'en'
-}
+/** Anglais pour tout le monde au premier chargement (décision du 2026-09-13), le bouton FR/EN fait le reste. */
+const LANG_PAR_DEFAUT: Lang = 'en'
 
 export const useAppStore = create<AppState>()(
   persist(
@@ -41,7 +38,7 @@ export const useAppStore = create<AppState>()(
       phase: 'gate',
       impression: false,
       tour: 0,
-      lang: detectLang(),
+      lang: LANG_PAR_DEFAUT,
       setPhase: (phase) => set({ phase, impression: false }),
       rejouer: () => set((s) => ({ phase: 'gate', impression: false, tour: s.tour + 1 })),
       finirIntro: (impression) => set({ phase: 'scroll', impression }),
