@@ -110,3 +110,9 @@
 - **Contexte** : calque de fond fixe en `height: 100lvh` après la correction de la bande claire.
 - **Symptôme** : une ligne de rupture derrière la barre de Safari, sans grain et d'une teinte proche.
 - **Règle** : un calque fixe de fond déborde franchement sous le viewport (`bottom: -60vh`), le dégradé reste calé sur `100lvh` et le reste prend la teinte de fin. On ne fait pas confiance aux unités de viewport pour un bord d'écran.
+
+### Un élément plus large que l'écran décale toute la page sur iOS
+- **Contexte** : demi-soleil de fin en `min(118vw, 600px)`.
+- **Symptôme** : sur iPhone, une bande vide à droite, tout le contenu paraît décalé vers la gauche. Rien en headless.
+- **Cause** : iOS ignore `overflow-x: hidden` posé sur le body seul ; le débordement élargit le viewport de mise en page.
+- **Règle** : aucun élément au-delà de 100 vw, et `overflow-x: clip` sur `html`. Vérifier `document.documentElement.scrollWidth === innerWidth` dans les tests.

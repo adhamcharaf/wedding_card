@@ -50,7 +50,8 @@
 }
 
 .end__sun {
-  --end-sun: min(118vw, 600px);
+  /* Jamais plus large que l'écran : un débordement horizontal élargit la page sur iOS et décale tout. */
+  --end-sun: min(92vw, 460px);
   /* On montre 56 % de la découpe : le disque (29 % à 66 % de sa hauteur) reste lisible. */
   position: relative;
   width: var(--end-sun);
@@ -448,19 +449,21 @@
 /* ---------- Fin ---------- */
 
 /*
- * Initiales dans le disque : centre du disque à 48 % de la largeur et 47,5 %
- * de la hauteur de la découpe, on les pose un peu au-dessus, dans la partie
- * visible. Brun sur or, gros corps : le contraste tient pour un titre, et une
- * ombre claire très courte détache le trait du grain de l'or.
+ * Initiales gravées dans le disque, comme sur le sceau de cire du film : un
+ * brun doré profond, un filet clair juste en dessous, et l'or de la découpe
+ * qui reste la matière. Centre du disque à 48 % de la largeur ; on pose les
+ * lettres à 41 % de la hauteur, dans la partie visible.
  */
 .end__monogram {
   position: absolute;
   top: calc(var(--end-sun) * 957 / 968 * 0.41);
   left: 48%;
   transform: translate(-50%, -50%);
-  font-size: clamp(3rem, 14vw, 4.5rem);
-  letter-spacing: 0.08em;
+  font-size: clamp(2.6rem, 12vw, 3.8rem);
+  letter-spacing: 0.12em;
   line-height: 1;
-  color: var(--ink);
-  text-shadow: 0 1px 0 rgb(255 244 236 / 0.55);
+  color: rgb(84 52 14 / 0.9);
+  text-shadow:
+    0 1px 0 rgb(255 236 190 / 0.55),
+    0 -1px 0 rgb(60 35 5 / 0.35);
 }

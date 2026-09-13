@@ -40,6 +40,9 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* Un élément plus large que l'écran ne doit jamais élargir la page : iOS
+     ignore `overflow-x: hidden` sur le body seul et décale tout le contenu. */
+  overflow-x: clip;
 }
 
 body {
