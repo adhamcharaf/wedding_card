@@ -84,6 +84,8 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 - Avec « réduire les animations » on arrive directement sur le hero
 - Console vide
 
+**Où on en est (2026-09-13)** : tout est en place et fusionné dans `main`, avec le film de 16 s, la carte dessinée d'un seul tenant et les soleils dessinés. Reste à ajuster les vidéos d'intro elles-mêmes (Adham les régénère quand ses crédits Google Flow se renouvellent) ; l'étape se valide sur le film final.
+
 ## Étape 6 — Finitions
 
 **Livrables**
