@@ -218,12 +218,17 @@
   height: 100%;
 }
 
-/* Petit soleil dans le coin, à cheval sur le nœud du ruban. */
+/*
+ * Petit soleil à cheval sur le coin de la carte, comme sur la maquette
+ * (docs/mockups/HERO_Section.png) : son disque couvre le nœud du ruban et
+ * frôle le bord gauche du cœur. Mesures prises sur la maquette : largeur 43 %
+ * de la carte, centre à 15 % de sa largeur et 21 % de sa hauteur.
+ */
 .card__sun {
   position: absolute;
-  top: -8%;
-  left: -16%;
-  width: 40%;
+  top: 7%;
+  left: -6%;
+  width: 43%;
   height: auto;
 }
 
