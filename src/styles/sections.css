@@ -438,23 +438,3 @@
 }
 
 /* ---------- Fin ---------- */
-
-/*
- * Initiales gravées dans le disque, comme sur le sceau de cire du film : un
- * brun doré profond, un filet clair juste en dessous, et l'or de la découpe
- * qui reste la matière. Centre du disque à 48 % de la largeur ; on pose les
- * lettres à 41 % de la hauteur, dans la partie visible.
- */
-.end__monogram {
-  position: absolute;
-  top: calc(var(--end-sun) * 957 / 968 * 0.41);
-  left: 48%;
-  transform: translate(-50%, -50%);
-  font-size: clamp(2.6rem, 12vw, 3.8rem);
-  letter-spacing: 0.12em;
-  line-height: 1;
-  color: rgb(84 52 14 / 0.9);
-  text-shadow:
-    0 1px 0 rgb(255 236 190 / 0.55),
-    0 -1px 0 rgb(60 35 5 / 0.35);
-}
