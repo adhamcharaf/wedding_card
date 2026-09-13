@@ -22,7 +22,7 @@ export function End() {
     <section className="section section--end" id="end">
       <Reveal className="stack">
         <p className="subtitle">{t(wedding.text.end.closing)}</p>
-        <button type="button" className="btn" onClick={revoir}>
+        <button type="button" className="end__replay" onClick={revoir}>
           {t(wedding.text.end.replay)}
         </button>
       </Reveal>

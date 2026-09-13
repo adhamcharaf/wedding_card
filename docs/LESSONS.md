@@ -99,3 +99,14 @@
 - **Symptôme** : au tap, un blanc d'une demi-seconde, « comme un changement de page », puis le film part.
 - **Cause** : iOS Safari ignore `preload="auto"` et ne télécharge que les métadonnées ; les octets partent au moment de `play()`.
 - **Règle** : télécharger la vidéo en mémoire pendant la gate (`fetch` → blob → `URL.createObjectURL`), une fois par visite, et lire depuis le blob. Élargir la fenêtre de raccord à 0,45 s : `timeupdate` ne tombe que 4 fois par seconde sur iOS.
+
+### Une section en `min-height: 100dvh` avec peu de contenu fait un écran de vide
+- **Contexte** : fin de page, phrase de fin et demi-soleil poussés en bas d'une section haute d'un écran.
+- **Symptôme** : sur téléphone, un écran entier de pêche vide avant la fin ; « pas cadré, bricolé ».
+- **Cause** : `min-height: 100dvh` était un réflexe hérité du hero, où il a un sens. Ailleurs il crée du vide.
+- **Règle** : une section fait la hauteur de son contenu. Seul le hero occupe l'écran.
+
+### Sur iPhone, l'écran affiché peut dépasser `100lvh`
+- **Contexte** : calque de fond fixe en `height: 100lvh` après la correction de la bande claire.
+- **Symptôme** : une ligne de rupture derrière la barre de Safari, sans grain et d'une teinte proche.
+- **Règle** : un calque fixe de fond déborde franchement sous le viewport (`bottom: -60vh`), le dégradé reste calé sur `100lvh` et le reste prend la teinte de fin. On ne fait pas confiance aux unités de viewport pour un bord d'écran.

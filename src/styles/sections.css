@@ -29,14 +29,24 @@
  * bas : le soleil est coupé par le bord de la page.
  */
 .section--end {
-  min-height: 100dvh;
-  justify-content: flex-end;
-  padding-bottom: 0;
+  padding: 3rem 0 0;
 }
 
 .section--end .stack {
-  gap: 1.5rem;
-  margin-bottom: 1rem;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+/* « Revoir le film » : un lien discret, pas un bouton. */
+.end__replay {
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+  text-decoration-thickness: 1px;
 }
 
 .end__sun {
