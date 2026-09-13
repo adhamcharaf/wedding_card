@@ -1,14 +1,17 @@
-import type { FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import { wedding } from '../../content/wedding'
 import { useT } from '../../i18n/useT'
 import { Reveal } from '../Reveal'
 
-const GUEST_OPTIONS = [1, 2, 3, 4, 5, 6]
+/** Deux personnes au plus par réponse (décision du 2026-09-13). */
+const MAX_GUESTS = 2
+const GUEST_OPTIONS = Array.from({ length: MAX_GUESTS }, (_, i) => i + 1)
 
 /** Formulaire RSVP. Non branché à cette étape : l'envoi arrive à l'étape 3. */
 export function Rsvp() {
   const t = useT()
   const r = wedding.text.rsvp
+  const [guests, setGuests] = useState(1)
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -41,7 +44,12 @@ export function Rsvp() {
 
           <label className="field">
             <span className="field__label">{t(r.guests)}</span>
-            <select className="field__input" name="guests" defaultValue="1">
+            <select
+              className="field__input"
+              name="guests"
+              value={guests}
+              onChange={(e) => setGuests(Number(e.target.value))}
+            >
               {GUEST_OPTIONS.map((n) => (
                 <option key={n} value={n}>
                   {n}
@@ -49,6 +57,13 @@ export function Rsvp() {
               ))}
             </select>
           </label>
+
+          {guests > 1 && (
+            <label className="field">
+              <span className="field__label">{t(r.guestName)}</span>
+              <input className="field__input" name="guestName" type="text" autoComplete="off" required />
+            </label>
+          )}
 
           <label className="field">
             <span className="field__label">{t(r.message)}</span>

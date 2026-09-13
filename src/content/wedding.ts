@@ -88,6 +88,7 @@ export const wedding = {
       yes: { fr: 'Avec joie', en: 'Joyfully yes' },
       no: { fr: 'Avec regret', en: 'Regretfully no' },
       guests: { fr: 'Nombre de personnes, vous compris', en: 'Number of guests, including you' },
+      guestName: { fr: 'Nom de la deuxième personne', en: "Second guest's name" },
       message: { fr: 'Un mot pour nous', en: 'A word for us' },
       send: { fr: 'Envoyer', en: 'Send' },
       sending: { fr: 'Envoi en cours', en: 'Sending' },

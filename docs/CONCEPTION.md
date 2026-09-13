@@ -93,7 +93,8 @@ create table rsvp (
   created_at timestamptz default now(),
   name text not null,
   attending boolean not null,
-  guests int default 0 check (guests between 0 and 6),
+  guests int not null default 1 check (guests between 1 and 2),
+  guest_name text,
   message text,
   lang text
 );
@@ -101,7 +102,7 @@ alter table rsvp enable row level security;
 create policy "anon insert" on rsvp for insert to anon with check (true);
 ```
 
-Aucune policy de lecture pour anon : le formulaire écrit, personne ne lit depuis le site. Vous consultez dans le dashboard Supabase. Clé anon dans `.env` (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`). Champ honeypot caché contre les bots, désactivation du bouton pendant l'envoi, message de confirmation bilingue.
+Deux personnes au plus par réponse (décision du 2026-09-13) : `guests` vaut 1 ou 2, et `guest_name` porte le nom de la seconde personne, demandé dans le formulaire dès que 2 est choisi. Aucune policy de lecture pour anon : le formulaire écrit, personne ne lit depuis le site. Vous consultez dans le dashboard Supabase. Clé anon dans `.env` (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`). Champ honeypot caché contre les bots, désactivation du bouton pendant l'envoi, message de confirmation bilingue.
 
 ## 8. Performance
 
