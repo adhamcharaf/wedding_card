@@ -13,6 +13,8 @@ export const assets = {
   couple: { src: '/images/couple.png', width: 377, height: 572 },
   babyA: { src: '/images/baby-adham.png', width: 566, height: 520 },
   babyB: { src: '/images/baby-lara.png', width: 440, height: 542 },
+  /** Demi-soleil de fin de page, dessiné par Adham, initiales gravées dans l'image. */
+  sunEnd: { src: '/images/sun-end.png', width: 1200, height: 603 },
   /** Film d'intro (enveloppe, sceau, carte), sans piste audio. Le poster est sa première image : l'enveloppe fermée de la gate. */
   intro: { src: '/video/intro.mp4', poster: '/video/intro-poster.jpg', width: 720, height: 1280 },
 } as const
