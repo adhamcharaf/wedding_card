@@ -124,9 +124,10 @@
   padding-top: 1rem;
 }
 
+/* Même hauteur pour les deux, pieds alignés : la paire se lit comme un duo. */
 .babies__photo {
-  width: 40%;
-  height: auto;
+  width: auto;
+  height: min(52vw, 230px);
   transform-origin: 50% 100%;
   will-change: transform;
   animation: hop 1.4s ease-in-out infinite;
