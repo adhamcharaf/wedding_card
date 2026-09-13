@@ -202,76 +202,29 @@
 
 /* ---------- Carte du hero ---------- */
 
-/* Ratio de la découpe du ruban (943×1223), nœuds en haut à gauche et en bas à droite. */
+/* Ratio de la carte dessinée (1000 x 1540), nœuds du ruban en haut à gauche et en bas à droite. */
 .card {
   position: relative;
   width: 100%;
   max-width: 400px;
-  aspect-ratio: 943 / 1223;
+  aspect-ratio: 1000 / 1540;
   margin-top: 12%;
 }
 
-.card__ribbon {
+.card__art {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 }
 
-.card__heart {
-  position: absolute;
-  top: -20%;
-  left: 50%;
-  width: 60%;
-  height: auto;
-  transform: translateX(-50%);
-}
-
+/* Petit soleil dans le coin, à cheval sur le nœud du ruban. */
 .card__sun {
   position: absolute;
-  top: -6%;
-  left: -14%;
+  top: -8%;
+  left: -16%;
   width: 40%;
   height: auto;
-}
-
-.card__body {
-  position: absolute;
-  inset: 32% 16% 18% 14%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-}
-
-.card__title {
-  margin-bottom: 0.9rem;
-  font-family: var(--font-script);
-  font-size: clamp(2.6rem, 12vw, 3.4rem);
-  font-weight: 400;
-  line-height: 1;
-  color: #2b1b17;
-}
-
-.card__name {
-  font-size: 1.55rem;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: #2b1b17;
-}
-
-.card__amp {
-  font-size: 1.5rem;
-  font-style: italic;
-  color: #2b1b17;
-}
-
-.card__date {
-  margin-top: 1.1rem;
-  font-size: 1.2rem;
-  letter-spacing: 0.25em;
-  color: #2b1b17;
 }
 
 /* ---------- Boutons et liens ---------- */

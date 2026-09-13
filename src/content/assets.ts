@@ -7,8 +7,8 @@
  */
 export const assets = {
   sun: { src: '/images/sun-gold.png', width: 1000, height: 985 },
-  heart: { src: '/images/heart.png', width: 473, height: 539 },
-  ribbon: { src: '/images/ribbon.png', width: 943, height: 1223 },
+  /** La carte Save the Date complète, dessinée par Adham, texte compris (identique dans les deux langues). */
+  card: { src: '/images/card.png', width: 1000, height: 1540 },
   /** Dessin au trait, texte « Bride & Groom » inclus dans l'image. */
   couple: { src: '/images/couple.png', width: 377, height: 572 },
   babyA: { src: '/images/baby-adham.png', width: 350, height: 560 },

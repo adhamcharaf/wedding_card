@@ -74,6 +74,16 @@ img {
   height: auto;
 }
 
+/* Texte pour les lecteurs d'écran et le titre du document, invisible à l'écran. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 /*
  * #root isole son contexte d'empilement : les calques en z-index négatif
  * (fond, soleil) restent au-dessus du body et sous tout le contenu.
