@@ -7,7 +7,7 @@
 | # | Étape | Statut | Validée le |
 | --- | --- | --- | --- |
 | 1 | Squelette, contenu bilingue, fond | ✅ | 2026-09-03 |
-| 2 | Scroll complet avec soleil | 🟡 | |
+| 2 | Scroll complet avec soleil | ✅ | 2026-09-13 |
 | 3 | RSVP Supabase | ⬜ | |
 | 4 | Film d'intro et raccord | 🟡 | |
 | 5 | Fusionnée dans la 4 : l'enveloppe est dans le film (décision du 2026-09-12) | | |

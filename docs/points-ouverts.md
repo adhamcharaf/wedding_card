@@ -18,3 +18,5 @@
 | 11 | Raccord vidéo / site : réglé le 2026-09-12, la dernière image du film est à moins de 5 % du fond du site, fondu de 700 ms. | tranché | |
 | 12 | Fond blanc cassé visible dans les coins hauts quand le rabat de l'enveloppe se soulève (2 s). À corriger si le film est regénéré, avec un fond pêche derrière l'enveloppe. | ouvert | Adham |
 | 13 | Liste de mariage : les liens de « Lovely home » et « Cilya home », et les coordonnées du compte en banque (et comment les afficher : IBAN en clair, ou sur demande). | à faire | Adham et Lara |
+| 14 | Intro allongée : deux vidéos qui s'enchaînent, à fournir par Adham. À concaténer en un seul fichier (même définition, même cadence, sans son) pour qu'aucune coupure ne soit visible à la jonction. La première image de la première vidéo reste l'écran d'accueil. | à faire | Adham |
+| 15 | Soleil entier dessiné pour le hero (sous la carte et dans son coin), même style que le demi-soleil de fin, pour retirer la photo dorée partout. | à faire | Adham |
