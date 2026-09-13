@@ -1,8 +1,8 @@
 # Site de mariage A&L : conception technique
 
-## 1. Le film (mis à jour le 2026-09-12)
+## 1. Le film (mis à jour le 2026-09-13)
 
-Une seule vidéo générée, 9:16, 8 s : une enveloppe pêche gaufrée, le sceau de cire A&L, le rabat qui s'ouvre, la carte qui sort et remplit l'écran, jusqu'à un aplat pêche texturé. Fichier `public/video/intro.mp4`, 720 x 1280 H.264, 2,3 Mo, piste audio retirée (pas de son pour l'instant). Sa première image, `public/video/intro-poster.jpg`, sert de poster : c'est l'enveloppe fermée de l'écran d'accueil.
+Deux vidéos générées, 9:16, 8 s chacune, concaténées en un seul fichier de 16 s : deux oiseaux apportent l'enveloppe au-dessus de la mer au soleil couchant, puis l'enveloppe pêche gaufrée, le sceau de cire A&L, le rabat qui s'ouvre, la carte qui sort et remplit l'écran, jusqu'à un aplat pêche texturé. Originaux dans `assets/intro_1_oiseaux.mp4` et `assets/intro_2_enveloppe.mp4` ; fichier servi `public/video/intro.mp4`, 720 x 1280 H.264 réencodé en CRF 23, 4 Mo, piste audio retirée. La jonction est invisible : la dernière image de la première et la première de la seconde sont identiques. Sa première image, `public/video/intro-poster.jpg`, sert de poster : c'est l'écran d'accueil.
 
 La dernière image est un dégradé pêche à moins de 5 % du fond du site (#f4c286 en haut, #e6965d en bas). C'est ce qui rend la coupure invisible : sur les 300 dernières millisecondes, le hero s'imprime derrière la vidéo pendant qu'elle se fond en 700 ms.
 

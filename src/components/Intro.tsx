@@ -30,9 +30,9 @@ function prechargerFilm(src: string): Promise<string> {
 
 /**
  * Écran d'accueil et film d'intro (docs/CONCEPTION.md §4).
- * La gate, c'est l'enveloppe fermée : la vidéo est dans le DOM dès le départ,
- * arrêtée sur sa première image (qui est aussi son poster), avec « toucher
- * pour ouvrir » par-dessus. Le tap la lance dans le même geste (iOS l'exige).
+ * La gate, c'est la première image du film, les oiseaux qui apportent
+ * l'enveloppe : la vidéo est dans le DOM dès le départ, arrêtée dessus (c'est
+ * aussi son poster), avec « toucher pour ouvrir » par-dessus. Le tap la lance dans le même geste (iOS l'exige).
  * Pas de bouton pour passer. Sur les dernières 300 ms, le hero s'imprime
  * derrière et la vidéo se fond. Sans son pour l'instant.
  * Remonté à neuf à chaque « revoir le film » via la clé `tour` (App.tsx).
