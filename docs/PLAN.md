@@ -26,7 +26,7 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 - Projet Vite + React + TS, ESLint, scripts `dev`, `build`, `lint`, `typecheck`
 - `src/content/wedding.ts` rempli avec les textes visibles dans `docs/mockups/`
 - Store Zustand : `phase`, `lang`
-- Hook `useT()`, bouton FR/EN, langue par défaut depuis `navigator.language`, mémorisée en localStorage
+- Hook `useT()`, bouton FR/EN, langue par défaut anglais (détection du navigateur retirée le 2026-09-13), mémorisée en localStorage
 - Fond pêche dégradé + grain animé, colonne 480 px centrée sur desktop
 - `.env.example`, `.gitignore`, `.claude/settings.json`
 
