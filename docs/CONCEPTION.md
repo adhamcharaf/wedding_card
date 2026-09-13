@@ -47,7 +47,7 @@ Rejouer : bouton « revoir le film » en fin de page, qui remonte l'intro à neu
 
 ## 5. Le scroll
 
-Sections, dans l'ordre : hero (Save the Date) · invitation · photos d'enfance · date, heure, lieu, Maps · compte à rebours · programme · infos pratiques · gift registry · RSVP · fin (monogramme seul, sans soleil).
+Sections, dans l'ordre (croquis de Lara, 2026-09-13) : hero (Save the Date) · photos d'enfance · invitation · date, heure, lieu, Maps · compte à rebours · liste de mariage avec le dessin du couple · RSVP · fin (phrase, « revoir le film », demi-soleil avec les initiales dans le disque).
 
 Effets, et seulement ceux-là :
 - **Impression de la carte** (arrivée depuis le film) : le ruban se pose (scale 1,4 → 1, fondu, 1,2 s), le cœur descend avec un léger rebond, le petit soleil arrive en tournant (−120° → 0), le grand soleil monte du bas, les lignes de texte s'écrivent en cascade. Une timeline GSAP dans `Hero.tsx`, réglée dans l'atelier `tools/animation` (`Impression.tsx`). En arrivée directe, simple fondu.

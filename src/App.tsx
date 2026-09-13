@@ -7,8 +7,6 @@ import { Countdown } from './components/sections/Countdown'
 import { End } from './components/sections/End'
 import { Hero } from './components/sections/Hero'
 import { Invitation } from './components/sections/Invitation'
-import { Practical } from './components/sections/Practical'
-import { Program } from './components/sections/Program'
 import { Registry } from './components/sections/Registry'
 import { Rsvp } from './components/sections/Rsvp'
 import { Venue } from './components/sections/Venue'
@@ -53,12 +51,10 @@ export default function App() {
       {/* Invisible tant que le film n'est pas fini, mais en page : les images se chargent et ScrollTrigger mesure juste. */}
       <main className={phase === 'scroll' ? 'column' : 'column is-attente'}>
         <Hero />
-        <Invitation />
         <Babies />
+        <Invitation />
         <Venue />
         <Countdown />
-        <Program />
-        <Practical />
         <Registry />
         <Rsvp />
         <End />
