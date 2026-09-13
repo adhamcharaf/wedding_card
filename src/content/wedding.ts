@@ -21,7 +21,7 @@ export const wedding = {
 
   venue: {
     name: 'Indian by nature',
-    city: { fr: "Abidjan, Côte d'Ivoire", en: 'Abidjan, Ivory Coast' },
+    city: { fr: "Abidjan, Côte d'Ivoire", en: "Abidjan, Côte d'Ivoire" },
     mapsUrl:
       'https://www.google.com/maps/place/indian+by+nature/data=!4m2!3m1!1s0xfc1ef4a0b169bdd:0xfaf63ce27ef23d38?sa=X&ved=1t:242&ictx=111',
   },
@@ -34,21 +34,21 @@ export const wedding = {
 
   text: {
     gate: { fr: 'Toucher pour ouvrir', en: 'Tap to open' },
-    skip: { fr: 'Passer', en: 'Skip' },
 
     hero: {
       saveTheDate: { fr: 'Save the Date', en: 'Save the Date' },
     },
 
+    /** Textes de Lara, 2026-09-13. */
     invitation: {
-      fr: 'Le cœur plein de joie, nous vous invitons à célébrer notre mariage',
+      fr: "C'est avec joie et bonheur que nous vous invitons à célébrer notre mariage",
       en: 'With full hearts, we joyfully invite you to our wedding',
     },
     celebration: { fr: 'Célébration du mariage', en: 'Wedding celebration' },
 
-    /** Section photos d'enfance, ajoutée par Adham le 2026-09-03 (DECISIONS.md). */
+    /** Section photos d'enfance, ajoutée par Adham le 2026-09-03 (DECISIONS.md). Titre de Lara. */
     babies: {
-      title: { fr: 'Ces deux-là se marient', en: 'These two are getting married' },
+      title: { fr: 'Ces deux-là vont se dire oui !', en: 'These two are getting married!' },
       altA: { fr: 'Adham enfant', en: 'Adham as a child' },
       altB: { fr: 'Lara enfant', en: 'Lara as a child' },
     },
@@ -113,7 +113,12 @@ export const wedding = {
     },
   },
 
-  registry: [{ label: { fr: "Cilya's home", en: "Cilya's home" }, url: '' }],
+  /** Liste de Lara, 2026-09-13. Les liens et les coordonnées bancaires restent à fournir (points-ouverts.md). */
+  registry: [
+    { label: { fr: 'Lovely home', en: 'Lovely home' }, url: '' },
+    { label: { fr: 'Cilya home', en: 'Cilya home' }, url: '' },
+    { label: { fr: 'Compte en banque', en: 'Bank account' }, url: '' },
+  ],
 
   /** Contenu à compléter (docs/points-ouverts.md, point 5). */
   program: [{ time: '20:30', label: { fr: 'Début de la célébration', en: 'Celebration begins' } }],

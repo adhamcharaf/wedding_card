@@ -87,3 +87,32 @@
 - **Symptôme** : `unexpected EOF while looking for matching quote`, aucun fichier écrit.
 - **Cause** : le script entier est analysé avant d'être exécuté ; une apostrophe dans un commentaire ou un texte français suffit à casser l'analyse hors des heredocs.
 - **Règle** : un fichier par écriture, avec l'outil d'écriture dédié, jamais un script bash groupé pour du contenu avec des apostrophes.
+
+### Le Chromium de l'environnement ne lit pas le H.264
+- **Contexte** : étape 4, test du film d'intro sous Playwright, et rendus Remotion dans `tools/animation`.
+- **Symptôme** : la balise vidéo passe en erreur avant le tap, la gate disparaît aussitôt ; Remotion refuse de démarrer le navigateur « Old Headless mode has been removed ».
+- **Cause** : le Chromium de Playwright n'embarque pas les codecs propriétaires, et Remotion attend le binaire `headless_shell`, pas `chrome`.
+- **Règle** : pour tester le parcours, servir un WebM VP9 équivalent à la place du MP4 via `page.route` ; pour Remotion, `CHROME_PATH=/opt/pw-browsers/chromium_headless_shell-*/chrome-linux/headless_shell`. Le vrai H.264 se valide sur téléphone.
+
+### Le film démarre avec un temps mort au tap
+- **Contexte** : étape 4, écran d'accueil sur l'enveloppe fermée, `play()` au tap.
+- **Symptôme** : au tap, un blanc d'une demi-seconde, « comme un changement de page », puis le film part.
+- **Cause** : iOS Safari ignore `preload="auto"` et ne télécharge que les métadonnées ; les octets partent au moment de `play()`.
+- **Règle** : télécharger la vidéo en mémoire pendant la gate (`fetch` → blob → `URL.createObjectURL`), une fois par visite, et lire depuis le blob. Élargir la fenêtre de raccord à 0,45 s : `timeupdate` ne tombe que 4 fois par seconde sur iOS.
+
+### Une section en `min-height: 100dvh` avec peu de contenu fait un écran de vide
+- **Contexte** : fin de page, phrase de fin et demi-soleil poussés en bas d'une section haute d'un écran.
+- **Symptôme** : sur téléphone, un écran entier de pêche vide avant la fin ; « pas cadré, bricolé ».
+- **Cause** : `min-height: 100dvh` était un réflexe hérité du hero, où il a un sens. Ailleurs il crée du vide.
+- **Règle** : une section fait la hauteur de son contenu. Seul le hero occupe l'écran.
+
+### Sur iPhone, l'écran affiché peut dépasser `100lvh`
+- **Contexte** : calque de fond fixe en `height: 100lvh` après la correction de la bande claire.
+- **Symptôme** : une ligne de rupture derrière la barre de Safari, sans grain et d'une teinte proche.
+- **Règle** : un calque fixe de fond déborde franchement sous le viewport (`bottom: -60vh`), le dégradé reste calé sur `100lvh` et le reste prend la teinte de fin. On ne fait pas confiance aux unités de viewport pour un bord d'écran.
+
+### Un élément plus large que l'écran décale toute la page sur iOS
+- **Contexte** : demi-soleil de fin en `min(118vw, 600px)`.
+- **Symptôme** : sur iPhone, une bande vide à droite, tout le contenu paraît décalé vers la gauche. Rien en headless.
+- **Cause** : iOS ignore `overflow-x: hidden` posé sur le body seul ; le débordement élargit le viewport de mise en page.
+- **Règle** : aucun élément au-delà de 100 vw, et `overflow-x: clip` sur `html`. Vérifier `document.documentElement.scrollWidth === innerWidth` dans les tests.

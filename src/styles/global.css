@@ -10,7 +10,16 @@
   --column: 480px;
   --gutter: 1.5rem;
   --grain-tile: 160px;
-  --sun-size: min(115vw, 560px);
+  /*
+   * Soleil : largeur mesurée sur la dernière image de la vidéo d'intro
+   * (360 x 640), où les rayons démarrent à 79 % de la hauteur. La largeur
+   * sert de référence, pas la hauteur : les téléphones sont plus allongés
+   * que la vidéo. La hauteur suit le ratio de la découpe (968 x 957).
+   */
+  --sun-size: min(78vw, 380px);
+  --sun-height: calc(var(--sun-size) * 957 / 968);
+  /* Écart entre le bas du ruban et la pointe des rayons. */
+  --sun-gap: 0.75rem;
 
   --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --font-script: 'Herr Von Muellerhoff', 'Brush Script MT', cursive;
@@ -31,11 +40,16 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* Un élément plus large que l'écran ne doit jamais élargir la page : iOS
+     ignore `overflow-x: hidden` sur le body seul et décale tout le contenu. */
+  overflow-x: clip;
 }
 
 body {
   min-height: 100dvh;
-  background: var(--peach-mid);
+  /* Même teinte que le bas du dégradé : rien de plus clair ne peut apparaître
+     sous le calque de fond quand la barre d'iOS se rétracte. */
+  background: var(--peach-bottom);
   color: var(--ink);
   font-family: var(--font-serif);
   font-weight: 500;
@@ -78,18 +92,25 @@ img {
 
 /* ---------- Fond ---------- */
 
+/*
+ * Le calque déborde largement sous le viewport : sur iPhone, la zone derrière
+ * la barre de Safari peut dépasser `100lvh` et une bande sans grain ni
+ * dégradé apparaissait. Le dégradé reste calé sur 100lvh, la suite est
+ * remplie de la même teinte que sa fin, le grain couvre tout le calque.
+ */
 .bg {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: -60vh;
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    var(--peach-top) 0%,
-    var(--peach-mid) 55%,
-    var(--peach-bottom) 100%
-  );
+  background:
+    linear-gradient(180deg, var(--peach-top) 0%, var(--peach-mid) 55%, var(--peach-bottom) 100%)
+      top / 100% 100lvh no-repeat,
+    var(--peach-bottom);
 }
 
 /*
@@ -124,20 +145,20 @@ img {
 /* ---------- Soleil ---------- */
 
 /*
- * Fixé en bas, centré sans transform (left/right + margin auto) pour laisser
- * GSAP piloter translateY. Une fois plein, seule la moitié haute du disque est
- * à l'écran (maquette 2) : le contenu qui passe dessus reste lisible.
+ * Le soleil appartient à la page, pas à l'écran, et il est accroché à la
+ * carte : ses rayons les plus hauts frôlent le bas du ruban, quelle que soit
+ * la taille de l'écran. On en voit le haut au premier écran, le reste se
+ * découvre en descendant sans qu'il bouge d'un pixel, et une fois dépassé il
+ * ne revient pas. Aucune animation, aucun ScrollTrigger.
  */
 .sun {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: calc(var(--sun-size) * -0.42);
+  position: absolute;
+  top: calc(100% + var(--sun-gap));
+  left: 50%;
   z-index: -1;
   width: var(--sun-size);
-  margin: 0 auto;
+  transform: translateX(-50%);
   pointer-events: none;
-  will-change: transform;
 }
 
 .sun img {
@@ -150,18 +171,105 @@ img {
   }
 }
 
+/* ---------- Écran d'accueil et film ---------- */
+
+/* Scroll bloqué pendant la gate et le film. */
+html.is-locked,
+html.is-locked body {
+  overflow: hidden;
+  height: 100%;
+}
+
+/* Le contenu attend derrière la gate sans se montrer, mais garde sa place. */
+.column.is-attente {
+  visibility: hidden;
+}
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+}
+
+/* Dès la gate, la vidéo est visible, arrêtée sur l'enveloppe fermée. */
+.intro__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 700ms ease;
+}
+
+.intro__video.is-finie {
+  opacity: 0;
+}
+
+/* Toute la surface est le bouton ; le texte se pose sous le sceau, dans la
+   bande vide entre le sceau (58 % de la hauteur du film) et l'ornement (63 %). */
+.gate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gate__hint {
+  position: absolute;
+  top: 60.5%;
+  left: 0;
+  right: 0;
+  font-size: 1.2rem;
+  font-style: italic;
+  letter-spacing: 0.14em;
+  text-align: center;
+  /* Halo crème : le brun reste lisible sur le papier gaufré. */
+  text-shadow:
+    0 0 2px var(--cream),
+    0 0 12px rgb(255 244 236 / 0.9),
+    0 0 24px rgb(255 244 236 / 0.7);
+  animation: respire 2.4s ease-in-out infinite;
+}
+
+@keyframes respire {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gate__hint {
+    animation: none;
+  }
+
+  .intro__video {
+    transition: none;
+  }
+}
+
 /* ---------- Toggle de langue ---------- */
 
+/* Au-dessus de la gate et du film : on choisit sa langue avant d'ouvrir. */
 .lang {
   position: fixed;
   top: max(0.75rem, env(safe-area-inset-top));
   right: max(1rem, env(safe-area-inset-right));
-  z-index: 10;
+  z-index: 30;
   display: flex;
   border: 1px solid var(--ink);
   border-radius: 999px;
   overflow: hidden;
   background: rgb(255 244 236 / 0.35);
+}
+
+/* Une fois le hero passé, le bouton s'efface : on choisit sa langue au début. */
+.lang.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lang {
+  transition: opacity 250ms ease;
 }
 
 .lang__btn {

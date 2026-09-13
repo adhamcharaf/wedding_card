@@ -9,8 +9,8 @@
 | 1 | Squelette, contenu bilingue, fond | ✅ | 2026-09-03 |
 | 2 | Scroll complet avec soleil | 🟡 | |
 | 3 | RSVP Supabase | ⬜ | |
-| 4 | Bridge et enveloppe | ⬜ | |
-| 5 | Vidéo d'intro et raccord | ⬜ | |
+| 4 | Film d'intro et raccord | 🟡 | |
+| 5 | Fusionnée dans la 4 : l'enveloppe est dans le film (décision du 2026-09-12) | | |
 | 6 | Finitions : gyroscope, hirondelles, compte à rebours | ⬜ | |
 | 7 | Performance et mise en ligne | ⬜ | |
 
@@ -38,17 +38,17 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 
 ## Étape 2 — Scroll complet avec soleil
 
-**Objectif** : toutes les sections du site avec leur contenu, le soleil qui monte au scroll, les apparitions de texte. Pas d'intro, on arrive directement sur le hero.
+**Objectif** : toutes les sections du site avec leur contenu, le soleil posé sur la page, les apparitions de texte. Pas d'intro, on arrive directement sur le hero.
 
 **Livrables**
 - Sections : hero, invitation, date/lieu + Maps, compte à rebours (statique), programme, infos pratiques, gift registry, RSVP (formulaire non branché), fin
-- Soleil fixe en bas, ScrollTrigger scrub, plein au RSVP
+- Soleil immobile posé à cheval sur le bas du hero, moitié visible au premier écran
 - Apparitions fondu + translateY, une seule fois
 - Typographies chargées (deux WOFF2 max)
 
 **Critères de validation**
 - Le scroll est fluide sur téléphone, sans à-coups
-- Le soleil finit sa montée exactement à la section RSVP
+- Au premier écran on voit la moitié du soleil, le reste se découvre au scroll sans qu'il bouge, et il ne réapparaît plus une fois dépassé
 - Chaque section correspond à sa maquette en esprit (pas au pixel)
 
 ## Étape 3 — RSVP Supabase
@@ -65,35 +65,24 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 - Un second envoi sans nom est refusé avec un message clair
 - La clé anon n'apparaît pas dans le dépôt
 
-## Étape 4 — Bridge et enveloppe
+## Étape 4 — Film d'intro et raccord
 
-**Objectif** : les hirondelles apportent l'enveloppe, l'utilisateur ouvre le sceau, la carte devient le hero.
-
-**Livrables**
-- Machine à phases complète avec écran `gate` (sans vidéo : le tap mène au bridge)
-- Timeline GSAP du bridge avec les découpes PNG (ou placeholders)
-- Draggable sur le sceau, fallback tap, animation d'ouverture et de sortie de carte
-- Scroll bloqué jusqu'à l'ouverture, `prefers-reduced-motion` respecté
-
-**Critères de validation**
-- Sur téléphone : tap, hirondelles, enveloppe, glissement du sceau, carte, scroll
-- Impossible de scroller avant d'avoir ouvert
-- Avec "réduire les animations" activé dans iOS, on arrive directement sur le hero
-
-## Étape 5 — Vidéo d'intro et raccord
-
-**Objectif** : le film joue après le tap et se termine sans coupure visible sur le bridge.
+**Objectif** : après le tap de l'écran d'accueil, le film de l'enveloppe joue et se termine sans coupure visible sur le hero, où la carte s'imprime. Remplace l'enveloppe DOM et l'intro au scroll (décisions du 2026-09-12).
 
 **Livrables**
-- Préchargement pendant la gate, lecture au tap avec le son, bouton "passer" après 3 s
-- Fondu vidéo vers DOM sur les 300 dernières ms, poster identique à la dernière image
-- Musique Howler lancée au tap, continue sur le scroll
-- Fallback poster si la vidéo échoue
+- `public/video/intro.mp4` sans piste audio et son poster, référencés dans `assets.ts`
+- Machine à phases `gate → intro → scroll`, écran d'accueil sur l'enveloppe fermée, pas de bouton « passer », scroll bloqué jusqu'à la fin
+- Raccord : hero imprimé sur les 300 dernières ms, vidéo fondue en 700 ms, fallback direct si la vidéo échoue
+- Impression de la carte en GSAP dans `Hero.tsx`, réglée dans `tools/animation/Impression.tsx`
+- Bouton « revoir le film » en fin de page
+- `prefers-reduced-motion` = arrivée directe sur le hero
 
 **Critères de validation**
-- La coupure vidéo/site est invisible sur téléphone
-- Le son démarre au tap, pas avant
-- Le bouton "revoir le film" en fin de page relance tout
+- Sur téléphone : tap, film, la carte s'imprime sur le papier sans saut visible, scroll
+- Impossible de scroller avant la fin du film
+- « Revoir le film » relance tout depuis l'écran d'accueil
+- Avec « réduire les animations » on arrive directement sur le hero
+- Console vide
 
 ## Étape 6 — Finitions
 
@@ -109,10 +98,10 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 ## Étape 7 — Performance et mise en ligne
 
 **Livrables**
-- Images WebP, vidéo sous 5 Mo, polices en swap
+- Images WebP, polices en swap
 - `vercel.json` si nécessaire, variables d'environnement documentées
 - Lighthouse mobile
 
 **Critères de validation**
 - Lighthouse mobile > 85 en performance
-- Le lien Vercel fonctionne sur un téléphone en 4G en moins de 3 s jusqu'à la gate
+- Le lien Vercel fonctionne sur un téléphone en 4G en moins de 3 s jusqu'à l'écran d'accueil

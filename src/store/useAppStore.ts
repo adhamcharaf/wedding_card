@@ -3,15 +3,27 @@ import { persist } from 'zustand/middleware'
 import type { Lang } from '../content/wedding'
 
 /**
- * Machine à phases (docs/CONCEPTION.md §4).
- * Démarre en `scroll` tant que l'écran d'accueil n'existe pas (étape 4).
+ * Machine à phases (docs/CONCEPTION.md §4) : gate → intro → scroll.
+ * L'enveloppe et la carte qui en sort sont dans la vidéo, il n'y a plus de
+ * phases DOM entre l'intro et le scroll.
  */
-export type Phase = 'gate' | 'intro' | 'bridge' | 'envelope' | 'scroll'
+export type Phase = 'gate' | 'intro' | 'scroll'
 
 interface AppState {
   phase: Phase
+  /**
+   * Vrai quand on arrive sur le hero depuis la fin de la vidéo : la carte
+   * s'imprime sur le papier. Faux en arrivée directe (reduced-motion, erreur).
+   */
+  impression: boolean
+  /** Compteur de visionnages : remonte l'intro à neuf quand on rejoue le film. */
+  tour: number
   lang: Lang
   setPhase: (phase: Phase) => void
+  /** Bouton « revoir le film » : retour à la gate, intro remontée à neuf. */
+  rejouer: () => void
+  /** Sortie de l'intro, avec ou sans impression de la carte. */
+  finirIntro: (impression: boolean) => void
   setLang: (lang: Lang) => void
 }
 
@@ -26,9 +38,13 @@ function detectLang(): Lang {
 export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
-      phase: 'scroll',
+      phase: 'gate',
+      impression: false,
+      tour: 0,
       lang: detectLang(),
-      setPhase: (phase) => set({ phase }),
+      setPhase: (phase) => set({ phase, impression: false }),
+      rejouer: () => set((s) => ({ phase: 'gate', impression: false, tour: s.tour + 1 })),
+      finirIntro: (impression) => set({ phase: 'scroll', impression }),
       setLang: (lang) => set({ lang }),
     }),
     {
