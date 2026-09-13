@@ -24,12 +24,14 @@
 }
 
 /*
- * Fin de page (croquis de Lara) : la phrase, un lien discret, puis le
- * demi-soleil dessiné, initiales comprises, posé sur le bord bas de la page.
+ * Fin de page (croquis de Lara) : la phrase, un lien discret, puis le soleil
+ * dessiné, initiales comprises, que le bord de la page coupe. Aucun padding
+ * bas, aucune marge : la découpe est tronquée avant le bas du disque, pour
+ * que ce soit la page qui coupe le soleil, pas l'image qui s'arrête.
  * Jamais plus large que la colonne : un débordement décale toute la page sur iOS.
  */
 .section--end {
-  padding: 3rem 0 max(0.75rem, env(safe-area-inset-bottom));
+  padding: 3rem 0 0;
 }
 
 .section--end .stack {
@@ -50,6 +52,7 @@
 }
 
 .end__sun {
+  display: block;
   width: 100%;
   max-width: 440px;
   height: auto;
