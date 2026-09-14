@@ -20,4 +20,4 @@
 | 13 | Liste de mariage : les liens de « Lovely home » et « Cilya home », et les coordonnées du compte en banque (et comment les afficher : IBAN en clair, ou sur demande). | à faire | Adham et Lara |
 | 14 | Intro allongée : faite le 2026-09-13, deux vidéos concaténées. | tranché | |
 | 15 | Soleil entier dessiné : fourni et posé le 2026-09-13. | tranché | |
-| 16 | Version du film à garder : complète (oiseaux puis enveloppe, 18 s) ou courte (enveloppe seule, 10 s, `?film=court`). L'autre sera retirée du dépôt. | ouvert | Adham et Lara |
+| 16 | Version du film : la complète (oiseaux puis enveloppe, 18 s) est retenue le 2026-09-14, la courte retirée du site. | tranché | |

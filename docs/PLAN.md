@@ -84,7 +84,7 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 - Avec « réduire les animations » on arrive directement sur le hero
 - Console vide
 
-**Où on en est (2026-09-14)** : film regénéré avec Seedance 2.5 en deux plans, fin en post-production, deux versions servies (complète 18 s, courte 10 s via `?film=court`). Reste à choisir la version, puis à retirer l'autre ; l'étape se valide sur ce choix.
+**Où on en est (2026-09-14)** : film regénéré avec Seedance 2.5 en deux plans, fin en post-production, version complète de 18 s retenue et fusionnée dans `main`.
 
 ## Étape 6 — Finitions
 
