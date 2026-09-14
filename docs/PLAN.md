@@ -84,7 +84,7 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 - Avec « réduire les animations » on arrive directement sur le hero
 - Console vide
 
-**Où on en est (2026-09-13)** : tout est en place et fusionné dans `main`, avec le film de 16 s, la carte dessinée d'un seul tenant et les soleils dessinés. Reste à ajuster les vidéos d'intro elles-mêmes (Adham les régénère quand ses crédits Google Flow se renouvellent) ; l'étape se valide sur le film final.
+**Où on en est (2026-09-14)** : film regénéré avec Seedance 2.5 en deux plans, fin en post-production, deux versions servies (complète 18 s, courte 10 s via `?film=court`). Reste à choisir la version, puis à retirer l'autre ; l'étape se valide sur ce choix.
 
 ## Étape 6 — Finitions
 

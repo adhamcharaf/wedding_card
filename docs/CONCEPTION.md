@@ -1,10 +1,16 @@
 # Site de mariage A&L : conception technique
 
-## 1. Le film (mis à jour le 2026-09-13)
+## 1. Le film (mis à jour le 2026-09-14)
 
-Deux vidéos générées, 9:16, 8 s chacune, concaténées en un seul fichier de 16 s : deux oiseaux apportent l'enveloppe au-dessus de la mer au soleil couchant, puis l'enveloppe pêche gaufrée, le sceau de cire A&L, le rabat qui s'ouvre, la carte qui sort et remplit l'écran, jusqu'à un aplat pêche texturé. Originaux dans `assets/intro_1_oiseaux.mp4` et `assets/intro_2_enveloppe.mp4` ; fichier servi `public/video/intro.mp4`, 720 x 1280 H.264 réencodé en CRF 23, 4 Mo, piste audio retirée. La jonction est invisible : la dernière image de la première et la première de la seconde sont identiques. Sa première image, `public/video/intro-poster.jpg`, sert de poster : c'est l'écran d'accueil.
+Deux plans générés avec Seedance 2.5 (API BytePlus ModelArk, script `tools/video/seedance.py`, masters et prompts dans `assets/seedance/`), 9:16, 720p, 8 s chacun, en mode « première image + dernière image » : les images de début et de fin sont imposées, donc le raccord entre les plans est exact et le sceau n'est jamais redessiné.
 
-La dernière image est un dégradé pêche à moins de 5 % du fond du site (#f4c286 en haut, #e6965d en bas). C'est ce qui rend la coupure invisible : sur les 300 dernières millisecondes, le hero s'imprime derrière la vidéo pendant qu'elle se fond en 700 ms.
+- Plan 1, `video1-oiseaux-720p.mp4` : deux oiseaux apportent l'enveloppe au-dessus de la mer au soleil couchant, elle grandit jusqu'à remplir l'écran et devenir l'enveloppe pêche gaufrée fermée.
+- Plan 2, `video2-enveloppe-720p.mp4` : le rabat se soulève avec le sceau de cire A&L intact, la carte pêche sort et s'arrête à 90 % du cadre.
+- Fin faite en post-production (ffmpeg) : zoom de 0,5 s sur la dernière image jusqu'au plein cadre, puis fondu de 0,5 s vers le fond papier du site, tenu 0,8 s. Le filtre de sortie de ByteDance refuse toute vidéo qui se termine sur un aplat pêche plein cadre (pris pour de la peau), d'où cette fin hors modèle.
+
+Deux versions servies, choisies par l'adresse (`?film=court`, sinon la complète), chaque visiteur ne téléchargeant que la sienne : `public/video/intro-complet.mp4` (plans 1 et 2, 18 s, 3,3 Mo) et `public/video/intro-court.mp4` (plan 2 seul, 10 s, 1,6 Mo). H.264 CRF 23, sans piste audio. La première image de chaque version, `intro-<version>-poster.jpg`, sert de poster : c'est l'écran d'accueil (les oiseaux, ou l'enveloppe fermée).
+
+La dernière image est un dégradé pêche à moins de 5 % du fond du site. C'est ce qui rend la coupure invisible : sur les 450 dernières millisecondes, le hero s'imprime derrière la vidéo pendant qu'elle se fond en 700 ms.
 
 Format : le 9:16 est affiché en `object-fit: cover` sur des téléphones en 9:19,5. La composition étant centrée et symétrique, le rognage des côtés ne coupe que des fleurs gaufrées.
 
@@ -37,8 +43,8 @@ Toutes en PNG transparent, exportées depuis la maquette :
 gate → intro → scroll
 ```
 
-- **gate** : l'enveloppe fermée, c'est-à-dire la vidéo arrêtée sur sa première image (son poster), avec « toucher pour ouvrir / tap to open » posé sous le sceau, en brun avec un halo crème pour rester lisible sur le papier gaufré. Toute la surface est le bouton. Pendant la gate, le fichier vidéo est téléchargé en mémoire (`fetch` puis blob), car iOS ignore `preload="auto"` : le tap lance `video.play()` dans le même geste (iOS l'exige) depuis le blob, sans attendre le réseau, et débloquera l'audio le jour où il y en aura. Le bouton FR/EN reste accessible au-dessus.
-- **intro** : vidéo plein écran, `object-fit: cover`, `playsinline`, muette. Pas de bouton pour passer (choix d'Adham, le film fait 8 s). À `timeupdate` sur les 300 dernières ms, la phase passe à `scroll` : le hero s'imprime derrière (voir 5) pendant que la vidéo se fond en 700 ms, puis elle est retirée du DOM. Si la vidéo échoue, on arrive directement sur le hero, sans impression.
+- **gate** : la vidéo arrêtée sur sa première image (son poster), les oiseaux ou l'enveloppe fermée selon la version, avec « toucher pour ouvrir / tap to open » posé dans la bande de ciel (version complète) ou sous le sceau (version courte), en brun avec un halo crème pour rester lisible. Toute la surface est le bouton. Pendant la gate, le fichier vidéo est téléchargé en mémoire (`fetch` puis blob), car iOS ignore `preload="auto"` : le tap lance `video.play()` dans le même geste (iOS l'exige) depuis le blob, sans attendre le réseau, et débloquera l'audio le jour où il y en aura. Le bouton FR/EN reste accessible au-dessus.
+- **intro** : vidéo plein écran, `object-fit: cover`, `playsinline`, muette. Pas de bouton pour passer (choix d'Adham). À `timeupdate` sur les 450 dernières ms, la phase passe à `scroll` : le hero s'imprime derrière (voir 5) pendant que la vidéo se fond en 700 ms, puis elle est retirée du DOM. Si la vidéo échoue, on arrive directement sur le hero, sans impression.
 - **scroll** : sections, voir 5. Scroll bloqué (`html.is-locked`) tant qu'on n'y est pas, `ScrollTrigger.refresh()` au déblocage.
 
 `prefers-reduced-motion` : on saute gate et intro, on arrive sur le hero directement.

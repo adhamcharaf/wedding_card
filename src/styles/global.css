@@ -215,9 +215,10 @@ html.is-locked body {
   opacity: 0;
 }
 
-/* Toute la surface est le bouton ; le texte se pose dans la bande de ciel
-   entre l'enveloppe portée par les oiseaux (jusqu'à 47 % de la hauteur du film)
-   et les premiers rayons du soleil (55 %). */
+/* Toute la surface est le bouton. Film complet : le texte se pose dans la
+   bande de ciel entre l'enveloppe portée par les oiseaux (jusqu'à 47 % de la
+   hauteur du film) et les premiers rayons du soleil (55 %). Film court : sous
+   le sceau de l'enveloppe fermée (centré à 52 %), sur le papier gaufré. */
 .gate {
   position: absolute;
   inset: 0;
@@ -241,6 +242,10 @@ html.is-locked body {
     0 0 12px rgb(255 244 236 / 0.9),
     0 0 24px rgb(255 244 236 / 0.7);
   animation: respire 2.4s ease-in-out infinite;
+}
+
+.gate--court .gate__hint {
+  top: 66%;
 }
 
 @keyframes respire {

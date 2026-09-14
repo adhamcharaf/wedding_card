@@ -15,6 +15,23 @@ export const assets = {
   babyB: { src: '/images/baby-lara.png', width: 526, height: 560 },
   /** Demi-soleil de fin de page, dessiné par Adham, initiales gravées dans l'image. */
   sunEnd: { src: '/images/sun-end.png', width: 1200, height: 591 },
-  /** Film d'intro, 16 s : les oiseaux apportent l'enveloppe, puis elle s'ouvre et la carte sort. Deux vidéos concaténées, sans piste audio. Le poster est sa première image, l'écran d'accueil. */
-  intro: { src: '/video/intro.mp4', poster: '/video/intro-poster.jpg', width: 720, height: 1280 },
+  /**
+   * Les deux versions du film d'intro (Seedance 2.5, masters dans assets/seedance/),
+   * sans piste audio, poster = première image = écran d'accueil.
+   * `complet` : les oiseaux apportent l'enveloppe, puis elle s'ouvre, 18 s.
+   * `court` : l'enveloppe fermée s'ouvre directement, 10 s.
+   * Le choix se fait par l'adresse (`?film=court`), voir `choisirFilm`.
+   */
+  films: {
+    complet: { src: '/video/intro-complet.mp4', poster: '/video/intro-complet-poster.jpg', width: 720, height: 1280 },
+    court: { src: '/video/intro-court.mp4', poster: '/video/intro-court-poster.jpg', width: 720, height: 1280 },
+  },
 } as const
+
+export type Film = keyof typeof assets.films
+
+/** `?film=court` dans l'adresse choisit la version courte ; tout le reste, la complète. */
+export function choisirFilm(): Film {
+  if (typeof window === 'undefined') return 'complet'
+  return new URLSearchParams(window.location.search).get('film') === 'court' ? 'court' : 'complet'
+}

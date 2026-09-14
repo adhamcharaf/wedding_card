@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { assets } from '../content/assets'
+import { assets, choisirFilm } from '../content/assets'
 import { wedding } from '../content/wedding'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { useT } from '../i18n/useT'
@@ -20,19 +20,24 @@ const FONDU_MS = 700
  * mémoire dès l'affichage de la gate, une seule fois par visite, et la vidéo
  * lit depuis ce blob : le tap démarre sans rien attendre du réseau.
  */
-let filmEnMemoire: Promise<string> | null = null
+const filmsEnMemoire = new Map<string, Promise<string>>()
 function prechargerFilm(src: string): Promise<string> {
-  filmEnMemoire ??= fetch(src)
-    .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(String(r.status)))))
-    .then((blob) => URL.createObjectURL(blob))
-  return filmEnMemoire
+  let p = filmsEnMemoire.get(src)
+  if (!p) {
+    p = fetch(src)
+      .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(String(r.status)))))
+      .then((blob) => URL.createObjectURL(blob))
+    filmsEnMemoire.set(src, p)
+  }
+  return p
 }
 
 /**
  * Écran d'accueil et film d'intro (docs/CONCEPTION.md §4).
- * La gate, c'est la première image du film, les oiseaux qui apportent
- * l'enveloppe : la vidéo est dans le DOM dès le départ, arrêtée dessus (c'est
- * aussi son poster), avec « toucher pour ouvrir » par-dessus. Le tap la lance dans le même geste (iOS l'exige).
+ * La gate, c'est la première image du film (les oiseaux qui apportent
+ * l'enveloppe, ou l'enveloppe fermée en version courte, `?film=court`) : la
+ * vidéo est dans le DOM dès le départ, arrêtée dessus (c'est aussi son
+ * poster), avec « toucher pour ouvrir » par-dessus. Le tap la lance dans le même geste (iOS l'exige).
  * Pas de bouton pour passer. Sur les dernières 300 ms, le hero s'imprime
  * derrière et la vidéo se fond. Sans son pour l'instant.
  * Remonté à neuf à chaque « revoir le film » via la clé `tour` (App.tsx).
@@ -43,6 +48,9 @@ export function Intro() {
   const setPhase = useAppStore((s) => s.setPhase)
   const finirIntro = useAppStore((s) => s.finirIntro)
   const reduced = useReducedMotion()
+  // Choisi une fois par visite : l'adresse ne change pas pendant la session.
+  const [film] = useState(choisirFilm)
+  const intro = assets.films[film]
 
   const video = useRef<HTMLVideoElement>(null)
   const [finie, setFinie] = useState(false)
@@ -52,7 +60,7 @@ export function Intro() {
   // téléchargement échoue, on retombe sur l'URL réseau au moment du tap.
   useEffect(() => {
     let actif = true
-    prechargerFilm(assets.intro.src)
+    prechargerFilm(intro.src)
       .then((url) => {
         const v = video.current
         if (actif && v && !v.src) v.src = url
@@ -61,7 +69,7 @@ export function Intro() {
     return () => {
       actif = false
     }
-  }, [])
+  }, [intro.src])
 
   // Reduced-motion : ni gate ni film, on arrive sur le hero.
   useEffect(() => {
@@ -80,7 +88,7 @@ export function Intro() {
     const v = video.current
     if (!v) return terminer(false)
     // Tap avant la fin du préchargement : on lit depuis le réseau, tant pis pour l'attente.
-    if (!v.src) v.src = assets.intro.src
+    if (!v.src) v.src = intro.src
     v.play().catch(() => terminer(false))
   }
 
@@ -97,9 +105,9 @@ export function Intro() {
       <video
         ref={video}
         className={finie ? 'intro__video is-finie' : 'intro__video'}
-        poster={assets.intro.poster}
-        width={assets.intro.width}
-        height={assets.intro.height}
+        poster={intro.poster}
+        width={intro.width}
+        height={intro.height}
         muted
         playsInline
         preload="auto"
@@ -109,7 +117,7 @@ export function Intro() {
       />
 
       {phase === 'gate' && (
-        <button type="button" className="gate" onClick={ouvrir}>
+        <button type="button" className={`gate gate--${film}`} onClick={ouvrir}>
           <span className="gate__hint">{t(wedding.text.gate)}</span>
         </button>
       )}

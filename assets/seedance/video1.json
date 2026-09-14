@@ -1,0 +1,9 @@
+{
+  "prompt": "The two pink swallows fly slowly and gracefully toward the camera, carrying the sealed envelope between them, wings beating softly, ribbons floating, the calm sea and sunset sky staying exactly as painted. The envelope comes closer and closer until it fills the entire screen and becomes exactly the last frame: the closed peach embossed envelope with its round wax seal. The seal is a rigid embossed disc that only grows with the envelope, never warps, melts or redraws. As the envelope fills the frame the birds release it gently and leave the frame, the transition needs to be seemless and extremely fluid. No other birds, no sparkles, no glitter, no added elements, no text. Hand-painted storybook style, soft warm light, slow smooth camera.",
+  "images": [["first_frame", "oiseaux.jpg"], ["last_frame", "enveloppe.jpg"]],
+  "resolution": "720p",
+  "ratio": "adaptive",
+  "duration": 8,
+  "audio": false,
+  "seed": 69591
+}
