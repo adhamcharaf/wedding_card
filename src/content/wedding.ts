@@ -26,6 +26,9 @@ export const wedding = {
       'https://www.google.com/maps/place/indian+by+nature/data=!4m2!3m1!1s0xfc1ef4a0b169bdd:0xfaf63ce27ef23d38?sa=X&ved=1t:242&ictx=111',
   },
 
+  /** Numéro WhatsApp des mariés, chiffres seuls avec l'indicatif (ex. 2250700000000). Vide = pas de lien, le mot reste en texte. */
+  contact: { whatsapp: '' },
+
   lang: {
     label: { fr: 'Langue', en: 'Language' },
     /** Libellé du bouton de chaque langue, dans sa propre langue. */
@@ -37,6 +40,8 @@ export const wedding = {
 
     hero: {
       saveTheDate: { fr: 'Save the Date', en: 'Save the Date' },
+      /** Indication de défilement sous le premier écran, jusqu'au premier scroll. */
+      scroll: { fr: 'Faites défiler', en: 'Scroll down' },
     },
 
     /** Textes de Lara, 2026-09-13. */
@@ -80,8 +85,8 @@ export const wedding = {
     rsvp: {
       title: { fr: 'RSVP', en: 'RSVP' },
       intro: {
-        fr: 'Merci de nous confirmer votre présence.',
-        en: 'Please let us know if you can join us.',
+        fr: "Merci de nous confirmer votre présence ici : c'est cette réponse qui réserve vos places. Nous ne pourrons malheureusement pas compter les invités qui ne l'auront pas remplie.",
+        en: "Please confirm here: this reply is what reserves your seats. Sadly, we won't be able to count guests who haven't filled it in.",
       },
       name: { fr: 'Votre nom', en: 'Your name' },
       attending: { fr: 'Serez-vous des nôtres ?', en: 'Will you join us?' },
@@ -89,6 +94,11 @@ export const wedding = {
       no: { fr: 'Avec regret', en: 'Regretfully no' },
       guests: { fr: 'Nombre de personnes, vous compris', en: 'Number of guests, including you' },
       guestName: { fr: 'Nom de la deuxième personne', en: "Second guest's name" },
+      /** Sous le nombre de personnes. Le mot « WhatsApp » devient un lien si `contact.whatsapp` est renseigné. */
+      guestsNote: {
+        fr: 'Deux personnes au plus par réponse. Pour une personne supplémentaire, écrivez-nous sur WhatsApp : nous ferons au mieux selon les places disponibles.',
+        en: "Two guests at most per reply. For an extra guest, message us on WhatsApp and we'll do our best depending on the seats available.",
+      },
       message: { fr: 'Un mot pour nous', en: 'A word for us' },
       send: { fr: 'Envoyer', en: 'Send' },
       sending: { fr: 'Envoi en cours', en: 'Sending' },

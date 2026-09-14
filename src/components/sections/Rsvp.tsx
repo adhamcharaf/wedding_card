@@ -7,6 +7,21 @@ import { Reveal } from '../Reveal'
 const MAX_GUESTS = 2
 const GUEST_OPTIONS = Array.from({ length: MAX_GUESTS }, (_, i) => i + 1)
 
+/** Le mot « WhatsApp » de la note devient un lien wa.me quand le numéro est renseigné. */
+function noteAvecLien(texte: string, numero: string) {
+  const i = texte.indexOf('WhatsApp')
+  if (!numero || i < 0) return texte
+  return (
+    <>
+      {texte.slice(0, i)}
+      <a className="link" href={`https://wa.me/${numero}`} target="_blank" rel="noreferrer">
+        WhatsApp
+      </a>
+      {texte.slice(i + 'WhatsApp'.length)}
+    </>
+  )
+}
+
 /** Formulaire RSVP. Non branché à cette étape : l'envoi arrive à l'étape 3. */
 export function Rsvp() {
   const t = useT()
@@ -57,6 +72,8 @@ export function Rsvp() {
               ))}
             </select>
           </label>
+
+          <p className="field__note">{noteAvecLien(t(r.guestsNote), wedding.contact.whatsapp)}</p>
 
           {guests > 1 && (
             <label className="field">
