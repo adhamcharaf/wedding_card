@@ -116,3 +116,14 @@
 - **Symptôme** : sur iPhone, une bande vide à droite, tout le contenu paraît décalé vers la gauche. Rien en headless.
 - **Cause** : iOS ignore `overflow-x: hidden` posé sur le body seul ; le débordement élargit le viewport de mise en page.
 - **Règle** : aucun élément au-delà de 100 vw, et `overflow-x: clip` sur `html`. Vérifier `document.documentElement.scrollWidth === innerWidth` dans les tests.
+
+### Le filtre de sortie de Seedance refuse les aplats couleur peau
+- **Contexte** : film d'intro regénéré avec Seedance 2.5 (BytePlus ModelArk), plan 2 se terminant sur la carte pêche plein cadre.
+- **Symptôme** : `OutputVideoSensitiveContentDetected` sur huit tentatives, en modes « références » comme « première/dernière image », alors que tout plan se terminant sur l'enveloppe passait.
+- **Cause** : plusieurs secondes d'aplat lisse couleur pêche plein cadre ressemblent à un gros plan de peau pour le classifieur. Le sceau et ses initiales n'y étaient pour rien.
+- **Règle** : ne jamais demander au modèle une image finale uniforme ; finir le plan avec un liseré visible (carte à 90 %) et une texture papier marquée, puis faire le plein cadre et le fondu en post-production. Une tâche refusée n'est pas facturée.
+
+### Une tâche ModelArk en cours ne s'annule pas
+- **Contexte** : sonde du filtre d'entrée en soumettant trois tâches de 4 s pour les annuler aussitôt.
+- **Symptôme** : `DELETE` renvoie 409 dès que la tâche est passée en cours, moins d'une seconde après la création ; une tâche a abouti et a été facturée.
+- **Règle** : pas de sonde par soumission. Le filtre d'entrée de la console et celui de l'API n'ont pas toujours le même verdict ; en cas de refus console, réessayer par l'API avant de changer l'image.

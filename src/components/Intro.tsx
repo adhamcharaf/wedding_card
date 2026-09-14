@@ -43,6 +43,7 @@ export function Intro() {
   const setPhase = useAppStore((s) => s.setPhase)
   const finirIntro = useAppStore((s) => s.finirIntro)
   const reduced = useReducedMotion()
+  const intro = assets.intro
 
   const video = useRef<HTMLVideoElement>(null)
   const [finie, setFinie] = useState(false)
@@ -52,7 +53,7 @@ export function Intro() {
   // téléchargement échoue, on retombe sur l'URL réseau au moment du tap.
   useEffect(() => {
     let actif = true
-    prechargerFilm(assets.intro.src)
+    prechargerFilm(intro.src)
       .then((url) => {
         const v = video.current
         if (actif && v && !v.src) v.src = url
@@ -61,7 +62,7 @@ export function Intro() {
     return () => {
       actif = false
     }
-  }, [])
+  }, [intro.src])
 
   // Reduced-motion : ni gate ni film, on arrive sur le hero.
   useEffect(() => {
@@ -80,7 +81,7 @@ export function Intro() {
     const v = video.current
     if (!v) return terminer(false)
     // Tap avant la fin du préchargement : on lit depuis le réseau, tant pis pour l'attente.
-    if (!v.src) v.src = assets.intro.src
+    if (!v.src) v.src = intro.src
     v.play().catch(() => terminer(false))
   }
 
@@ -97,9 +98,9 @@ export function Intro() {
       <video
         ref={video}
         className={finie ? 'intro__video is-finie' : 'intro__video'}
-        poster={assets.intro.poster}
-        width={assets.intro.width}
-        height={assets.intro.height}
+        poster={intro.poster}
+        width={intro.width}
+        height={intro.height}
         muted
         playsInline
         preload="auto"

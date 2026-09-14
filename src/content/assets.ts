@@ -15,6 +15,6 @@ export const assets = {
   babyB: { src: '/images/baby-lara.png', width: 526, height: 560 },
   /** Demi-soleil de fin de page, dessiné par Adham, initiales gravées dans l'image. */
   sunEnd: { src: '/images/sun-end.png', width: 1200, height: 591 },
-  /** Film d'intro, 16 s : les oiseaux apportent l'enveloppe, puis elle s'ouvre et la carte sort. Deux vidéos concaténées, sans piste audio. Le poster est sa première image, l'écran d'accueil. */
+  /** Film d'intro, 18 s (Seedance 2.5, masters et prompts dans assets/seedance/) : les oiseaux apportent l'enveloppe, puis elle s'ouvre et la carte sort. Sans piste audio. Le poster est sa première image, l'écran d'accueil. */
   intro: { src: '/video/intro.mp4', poster: '/video/intro-poster.jpg', width: 720, height: 1280 },
 } as const

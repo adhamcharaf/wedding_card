@@ -1,0 +1,17 @@
+{
+  "prompt": "Static close-up of a closed peach embossed paper envelope, seen straight on, filling the frame exactly as in the first frame: warm peach paper with fine embossed floral motifs, a small embossed sun ornament on the flap, and a round gold wax seal in the center holding the pointed flap closed. Warm golden light, soft shadows, shallow depth of field, camera perfectly still for the whole shot. Hand-crafted, photorealistic stationery, no text other than what is already on the seal, no hands, no people, no added objects.\n\n0 to 1 second: nothing moves, the envelope stays identical to the first frame.\n\n1 to 4 seconds: the pointed flap slowly lifts upward, hinged along its top edge, as if unfolded by an invisible hand. The gold wax seal stays whole and stays attached to the tip of the flap, rising with it, revealing the inside of the envelope. The seal never cracks, never breaks, never splits, never leaves a torn piece behind; the paper never tears. The flap keeps rising until it stands almost vertical, then folds back out of view behind the top edge of the frame.\n\n4 to 7 seconds: a card of handmade peach paper with a visible mottled fiber texture, slightly lighter and warmer than the envelope, slides smoothly up and out of the envelope pocket toward the camera. It rises steadily, tilting gently toward the viewer, growing larger as it approaches, with softly rounded corners and a faint soft shadow on the envelope behind it.\n\n7 to 8 seconds: the card stops and settles perfectly flat and still, covering about ninety percent of the frame, with only a thin margin of the envelope still visible around its edges, exactly matching the last frame: a plain handmade peach paper card, light peach at the top, deeper peach at the bottom, visible paper fibers, no text, no objects, a thin border of envelope around it. Hold this final frame motionless.",
+  "images": [
+    [
+      "first_frame",
+      "enveloppe.jpg"
+    ],
+    [
+      "last_frame",
+      "derniere-90.jpg"
+    ]
+  ],
+  "resolution": "720p",
+  "ratio": "adaptive",
+  "duration": 8,
+  "audio": false
+}

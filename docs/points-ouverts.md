@@ -16,7 +16,8 @@
 | 9 | Vidéo d'intro : tranché le 2026-09-12, c'est le film de l'enveloppe (`public/video/intro.mp4`). Reste ouvert : le son (aucun pour l'instant) et une version 1080 x 1920 si l'outil la sort un jour. | provisoire | Adham |
 | 10 | Fin de page : sans soleil, l'écran de fin ne porte plus que la phrase de fin et le monogramme, et paraît vide. À étoffer ou à laisser. | ouvert | Adham |
 | 11 | Raccord vidéo / site : réglé le 2026-09-12, la dernière image du film est à moins de 5 % du fond du site, fondu de 700 ms. | tranché | |
-| 12 | Fond blanc cassé visible dans les coins hauts quand le rabat de l'enveloppe se soulève (2 s). À corriger si le film est regénéré, avec un fond pêche derrière l'enveloppe. | ouvert | Adham |
+| 12 | Fond blanc cassé dans les coins à l'ouverture du rabat : disparu avec le film Seedance du 2026-09-14. | tranché | |
 | 13 | Liste de mariage : les liens de « Lovely home » et « Cilya home », et les coordonnées du compte en banque (et comment les afficher : IBAN en clair, ou sur demande). | à faire | Adham et Lara |
 | 14 | Intro allongée : faite le 2026-09-13, deux vidéos concaténées. | tranché | |
 | 15 | Soleil entier dessiné : fourni et posé le 2026-09-13. | tranché | |
+| 16 | Version du film : la complète (oiseaux puis enveloppe, 18 s) est retenue le 2026-09-14, la courte retirée du site. | tranché | |
