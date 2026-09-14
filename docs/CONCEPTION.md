@@ -12,7 +12,7 @@ Fichier servi : `public/video/intro.mp4` (plans 1 et 2, 18 s, 3,3 Mo), H.264 CRF
 
 La dernière image est un dégradé pêche à moins de 5 % du fond du site. C'est ce qui rend la coupure invisible : sur les 450 dernières millisecondes, le hero s'imprime derrière la vidéo pendant qu'elle se fond en 700 ms.
 
-Format : le 9:16 est affiché en `object-fit: cover` sur des téléphones en 9:19,5. La composition étant centrée et symétrique, le rognage des côtés ne coupe que des fleurs gaufrées.
+Format : le 9:16 est affiché en `object-fit: cover` sur des téléphones en 9:19,5. La composition étant centrée et symétrique, le rognage des côtés ne coupe que des fleurs gaufrées. Sur un écran plus large qu'un 9:16 (ordinateur, tablette), le film reste dans un cadre 9:16 centré, pleine hauteur, le fond pêche remplissant les côtés (ajout du 2026-09-14).
 
 L'enveloppe, le sceau et la sortie de la carte sont dans la vidéo : il n'y a plus de phases DOM `bridge` ni `envelope`, ni de découpes d'hirondelles, d'enveloppe ou de sceau.
 
