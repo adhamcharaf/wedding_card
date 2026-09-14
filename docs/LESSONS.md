@@ -127,3 +127,9 @@
 - **Contexte** : sonde du filtre d'entrée en soumettant trois tâches de 4 s pour les annuler aussitôt.
 - **Symptôme** : `DELETE` renvoie 409 dès que la tâche est passée en cours, moins d'une seconde après la création ; une tâche a abouti et a été facturée.
 - **Règle** : pas de sonde par soumission. Le filtre d'entrée de la console et celui de l'API n'ont pas toujours le même verdict ; en cas de refus console, réessayer par l'API avant de changer l'image.
+
+### La musique en Web Audio attend tout le fichier avant de jouer
+- **Contexte** : musique lancée au tap via Howler en Web Audio, fichier de 2,4 Mo, film de 3,3 Mo préchargé en même temps.
+- **Symptôme** : sur téléphone, la musique démarrait plusieurs minutes après le tap, une fois le film fini et le RSVP rempli.
+- **Cause** : en Web Audio, Howler télécharge le fichier entier puis le décode avant la première note ; sur une connexion mobile partagée avec la vidéo, c'est long. `play()` reste en attente et part quand le fichier arrive.
+- **Règle** : musique en flux (`html5: true`), fichier léger (96 kbit/s), préchargée dès la gate. Le Web Audio n'a de sens que pour des sons courts.
