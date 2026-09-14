@@ -3,6 +3,7 @@ import { assets } from '../content/assets'
 import { wedding } from '../content/wedding'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { useT } from '../i18n/useT'
+import { demarrerMusique, prechargerMusique } from '../lib/musique'
 import { useAppStore } from '../store/useAppStore'
 
 /**
@@ -33,7 +34,8 @@ function prechargerFilm(src: string): Promise<string> {
  * La gate, c'est la première image du film, les oiseaux qui apportent
  * l'enveloppe : la vidéo est dans le DOM dès le départ, arrêtée dessus (c'est
  * aussi son poster), avec « toucher pour ouvrir » par-dessus. Le tap la lance dans le même geste (iOS l'exige).
- * Pas de bouton pour passer. Sur les dernières 300 ms, le hero s'imprime
+ * La musique part dans le même geste et continue en boucle sur le site.
+ * Pas de bouton pour passer. Sur les dernières 450 ms, le hero s'imprime
  * derrière et la vidéo se fond. Sans son pour l'instant.
  * Remonté à neuf à chaque « revoir le film » via la clé `tour` (App.tsx).
  */
@@ -53,6 +55,7 @@ export function Intro() {
   // téléchargement échoue, on retombe sur l'URL réseau au moment du tap.
   useEffect(() => {
     let actif = true
+    prechargerMusique()
     prechargerFilm(intro.src)
       .then((url) => {
         const v = video.current
@@ -77,6 +80,8 @@ export function Intro() {
   }
 
   function ouvrir() {
+    // Dans le geste du tap, comme la vidéo : iOS n'autorise le son qu'ainsi.
+    demarrerMusique()
     setPhase('intro')
     const v = video.current
     if (!v) return terminer(false)

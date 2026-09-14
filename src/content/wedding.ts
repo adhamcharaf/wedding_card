@@ -29,6 +29,11 @@ export const wedding = {
   /** Numéro WhatsApp des mariés, chiffres seuls avec l'indicatif (ex. 2250700000000). Vide = pas de lien, le mot reste en texte. */
   contact: { whatsapp: '' },
 
+  sound: {
+    mute: { fr: 'Couper la musique', en: 'Mute the music' },
+    unmute: { fr: 'Remettre la musique', en: 'Unmute the music' },
+  },
+
   lang: {
     label: { fr: 'Langue', en: 'Language' },
     /** Libellé du bouton de chaque langue, dans sa propre langue. */

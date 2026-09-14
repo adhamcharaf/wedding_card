@@ -3,6 +3,7 @@ import { Background } from './components/Background'
 import { Intro } from './components/Intro'
 import { LangToggle } from './components/LangToggle'
 import { ScrollHint } from './components/ScrollHint'
+import { SoundToggle } from './components/SoundToggle'
 import { Babies } from './components/sections/Babies'
 import { Countdown } from './components/sections/Countdown'
 import { End } from './components/sections/End'
@@ -50,6 +51,7 @@ export default function App() {
       <Intro key={tour} />
       <LangToggle />
       <ScrollHint />
+      <SoundToggle />
       {/* Invisible tant que le film n'est pas fini, mais en page : les images se chargent et ScrollTrigger mesure juste. */}
       <main className={phase === 'scroll' ? 'column' : 'column is-attente'}>
         <Hero />

@@ -18,6 +18,8 @@ interface AppState {
   impression: boolean
   /** Compteur de visionnages : remonte l'intro à neuf quand on rejoue le film. */
   tour: number
+  /** Musique coupée par l'invité. Repart non coupée à chaque visite. */
+  sonCoupe: boolean
   lang: Lang
   setPhase: (phase: Phase) => void
   /** Bouton « revoir le film » : retour à la gate, intro remontée à neuf. */
@@ -25,6 +27,7 @@ interface AppState {
   /** Sortie de l'intro, avec ou sans impression de la carte. */
   finirIntro: (impression: boolean) => void
   setLang: (lang: Lang) => void
+  setSonCoupe: (coupe: boolean) => void
 }
 
 const STORAGE_KEY = 'al-wedding'
@@ -43,6 +46,8 @@ export const useAppStore = create<AppState>()(
       rejouer: () => set((s) => ({ phase: 'gate', impression: false, tour: s.tour + 1 })),
       finirIntro: (impression) => set({ phase: 'scroll', impression }),
       setLang: (lang) => set({ lang }),
+      sonCoupe: false,
+      setSonCoupe: (sonCoupe) => set({ sonCoupe }),
     }),
     {
       name: STORAGE_KEY,
