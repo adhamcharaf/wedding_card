@@ -18,8 +18,9 @@ const FONDU_MS = 700
 /**
  * iOS ignore `preload="auto"` : au tap, la vidéo partait chercher ses octets
  * et le film démarrait avec un temps mort. On télécharge donc le fichier en
- * mémoire dès l'affichage de la gate, une seule fois par visite, et la vidéo
- * lit depuis ce blob : le tap démarre sans rien attendre du réseau.
+ * mémoire dès l'affichage de la gate, une seule fois par visite, après la
+ * musique, et la vidéo lit depuis ce blob : le tap démarre sans rien attendre
+ * du réseau.
  */
 let filmEnMemoire: Promise<string> | null = null
 function prechargerFilm(src: string): Promise<string> {
@@ -55,8 +56,10 @@ export function Intro() {
   // téléchargement échoue, on retombe sur l'URL réseau au moment du tap.
   useEffect(() => {
     let actif = true
+    // La musique d'abord (1,9 Mo), le film ensuite (3,3 Mo) : le tap doit
+    // avoir le son tout de suite, le film peut lire depuis le réseau.
     prechargerMusique()
-    prechargerFilm(intro.src)
+      .then(() => prechargerFilm(intro.src))
       .then((url) => {
         const v = video.current
         if (actif && v && !v.src) v.src = url

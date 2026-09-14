@@ -133,3 +133,8 @@
 - **Symptôme** : sur téléphone, la musique démarrait plusieurs minutes après le tap, une fois le film fini et le RSVP rempli.
 - **Cause** : en Web Audio, Howler télécharge le fichier entier puis le décode avant la première note ; sur une connexion mobile partagée avec la vidéo, c'est long. `play()` reste en attente et part quand le fichier arrive.
 - **Règle** : musique en flux (`html5: true`), fichier léger (96 kbit/s), préchargée dès la gate. Le Web Audio n'a de sens que pour des sons courts.
+
+### Une pochette incrustée dans le mp3 retarde la première note
+- **Contexte** : mp3 fourni avec une image de 1280 x 720 incrustée en tête de fichier (tag ID3, 480 Ko), copiée telle quelle par ffmpeg dans les exports.
+- **Symptôme** : le navigateur ne lit les métadonnées qu'après avoir reçu une grande partie du fichier ; en flux, la musique part avec des secondes de retard.
+- **Règle** : exporter l'audio avec `-vn -map_metadata -1`, en AAC m4a avec `-movflags +faststart` (en-tête en tête de fichier) et un mp3 propre en secours. Le Chromium de test ne décode pas l'AAC : vérifier la latence sur téléphone.
