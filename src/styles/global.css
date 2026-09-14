@@ -195,9 +195,19 @@ html.is-locked body {
   visibility: hidden;
 }
 
+/*
+ * Le film est en 9:16. Sur téléphone, il couvre tout l'écran. Sur un écran
+ * plus large qu'un 9:16 (ordinateur, tablette), il reste dans un cadre 9:16
+ * centré, pleine hauteur, et le fond pêche du site remplit les côtés :
+ * sans ce cadre, `object-fit: cover` zoomait le film sur son centre.
+ */
 .intro {
   position: fixed;
-  inset: 0;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: min(100vw, calc(100dvh * 9 / 16));
+  transform: translateX(-50%);
   z-index: 20;
 }
 
