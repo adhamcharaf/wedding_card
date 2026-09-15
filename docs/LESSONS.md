@@ -149,4 +149,4 @@
 - **Contexte** : étape 7, Lighthouse mobile et mesure sous 4G simulée.
 - **Symptôme** : le poster de l'écran d'accueil n'apparaissait qu'à 8 s : demandé seulement après le script (2,7 s), puis en concurrence avec la musique mise en mémoire.
 - **Cause** : le poster n'était découvert qu'au rendu React, et les `fetch` de la musique et du film partaient au montage, à priorité normale.
-- **Règle** : `<link rel="preload" as="image" fetchpriority="high">` sur le poster dans `index.html` ; les mises en mémoire attendent que le poster soit affiché (3 s au plus) et partent en `priority: 'low'`. Écran d'accueil à 2,7 s au lieu de 8 dans les mêmes conditions.
+- **Règle** : `<link rel="preload" as="image" fetchpriority="high">` sur le poster dans `index.html` ; les mises en mémoire attendent que le poster soit affiché (3 s au plus) et partent en `priority: 'low'`. Écran d'accueil à 3,8 s au lieu de 8 dans les mêmes conditions ; le poster est en cache dès 2,6 s, le reste est le temps de lecture du script.
