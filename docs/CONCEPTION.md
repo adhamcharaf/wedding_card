@@ -98,7 +98,7 @@ Le fichier partagé est la base : chaque réponse ajoute une ligne à un Google 
 Chemin d'une réponse :
 
 1. Le formulaire (`src/components/sections/Rsvp.tsx`) envoie un JSON à `/api/rsvp`, même origine : la politique de sécurité n'a pas à s'ouvrir.
-2. La fonction Vercel `api/rsvp.ts` valide (prénom, nom, présence, message obligatoires, longueurs bornées), ignore les envois où le piège à robots est rempli, et refuse tout après `wedding.rsvpClosesAt` (fin du 15 décembre 2026, réponse 410).
+2. La fonction Vercel `api/rsvp.ts` valide (prénom, nom, présence, message obligatoires, longueurs bornées), ignore les envois où le piège à robots est rempli, et refuse tout après la clôture (fin du 15 décembre 2026, réponse 410 ; la date est écrite dans `api/rsvp.ts` et dans `wedding.rsvpClosesAt`, à changer ensemble).
 3. Elle transmet la ligne au script Apps Script attaché au Sheet (`tools/sheets/Code.gs`, publié en application web) avec un secret partagé. Adresse et secret vivent dans les variables Vercel `RSVP_SHEET_URL` et `RSVP_SECRET`, jamais dans le navigateur.
 4. Le site affiche le remerciement, ou une erreur lisible, ou le message de clôture.
 

@@ -26,7 +26,7 @@ export const wedding = {
     mapsUrl: 'https://www.google.com/maps/place/indian+by+nature/data=!4m2!3m1!1s0xfc1ef4a0b169bdd:0xfaf63ce27ef23d38',
   },
 
-  /** Clôture des réponses RSVP : fin du 15 décembre 2026, heure d'Abidjan (UTC+0). Lue par le site et par `api/rsvp.ts`. */
+  /** Clôture des réponses RSVP : fin du 15 décembre 2026, heure d'Abidjan (UTC+0). Même valeur dans `api/rsvp.ts` (CLOTURE), à changer ensemble. */
   rsvpClosesAt: '2026-12-16T00:00:00+00:00',
 
   /** Numéro WhatsApp des mariés, chiffres seuls avec l'indicatif (ex. 2250700000000). Vide = pas de lien, le mot reste en texte. */

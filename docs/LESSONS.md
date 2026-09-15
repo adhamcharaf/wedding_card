@@ -156,3 +156,9 @@
 - **Symptôme** : la commande entière s'arrête (code 144), rien après n'est exécuté, y compris le relancement.
 - **Cause** : `pkill -f` compare le motif à la ligne de commande de tous les processus, dont celle du shell qui exécute la commande, qui contient forcément le motif puisqu'elle contient le lancement.
 - **Règle** : arrêter un serveur par son port ou son PID enregistré, jamais par un motif présent dans la même commande.
+
+### Vercel compile `api/` fichier par fichier, sans empaqueter
+- **Contexte** : étape 3, `api/rsvp.ts` importait la date de clôture depuis `src/content/wedding.ts`.
+- **Symptôme** : build vert, mais chaque appel répondait 500 `FUNCTION_INVOCATION_FAILED` : `Cannot find module '/var/task/src/content/wedding'`. Le journal de build montrait aussi des erreurs TypeScript ignorées (extension manquante, `process` inconnu) : Vercel compile avec le `tsconfig.json` le plus proche du fichier, ici la racine qui n'inclut rien.
+- **Cause** : le constructeur Node de Vercel compile les fichiers de `api/` un par un et ne suit pas les imports vers le reste du dépôt.
+- **Règle** : une fonction `api/` se suffit à elle-même (pas d'import depuis `src/`), avec son propre `api/tsconfig.json` (types Node, DOM pour `Request`/`Response`). On lit le journal de build même quand il est vert, et on appelle l'adresse déployée avant d'annoncer que ça marche.
