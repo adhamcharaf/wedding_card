@@ -8,7 +8,7 @@ Faire-part de mariage numérique pour Adham & Lara (8 janvier 2027, Abidjan). Un
 
 ## Stack (ADR-0001)
 
-Vite + React + TypeScript · GSAP (ScrollTrigger, Draggable) · Zustand · Howler.js · Supabase (RSVP) · Vercel. Pas de 3D, pas de meta-framework.
+Vite + React + TypeScript · GSAP (ScrollTrigger) · Zustand · Howler.js · Google Sheet via une fonction Vercel (RSVP, ADR-0003) · Vercel. Pas de 3D, pas de meta-framework.
 
 ## Démarrage local
 
@@ -29,7 +29,7 @@ Vite + React + TypeScript · GSAP (ScrollTrigger, Draggable) · Zustand · Howle
 
 ### JAMAIS
 - Committer un secret. `.env.example` documente les variables, jamais les valeurs.
-- Déployer, créer un projet Supabase ou Vercel, ou exécuter du SQL sur Supabase : tu génères, Adham applique.
+- Déployer, créer un projet Vercel, publier le script du Google Sheet ou poser des variables d'environnement : tu génères, Adham applique.
 - Ajouter une dépendance hors stack sans demander.
 - Lancer vidéo ou audio avant le tap sur l'écran d'accueil.
 - Élargir le périmètre d'une étape : tu t'arrêtes et tu le signales.
@@ -39,7 +39,7 @@ Vite + React + TypeScript · GSAP (ScrollTrigger, Draggable) · Zustand · Howle
 
 | Interdit à l'assistant | Qui le fait |
 | --- | --- |
-| Exécuter du SQL sur Supabase | Adham, depuis le SQL Editor |
+| Publier le script Apps Script du Sheet, poser les variables Vercel | Adham |
 | Déployer sur Vercel | Adham (push sur `main` = déploiement auto) |
 | Créer des comptes ou clés externes | Adham |
 | Produire ou choisir les assets (vidéo, PNG, musique) | Adham |

@@ -8,7 +8,7 @@
 | --- | --- | --- | --- |
 | 1 | Squelette, contenu bilingue, fond | ✅ | 2026-09-03 |
 | 2 | Scroll complet avec soleil | ✅ | 2026-09-13 |
-| 3 | RSVP Supabase | ⬜ | |
+| 3 | RSVP Google Sheet | 🟡 | |
 | 4 | Film d'intro et raccord | 🟡 | |
 | 5 | Fusionnée dans la 4 : l'enveloppe est dans le film (décision du 2026-09-12) | | |
 | 6 | Finitions : gyroscope, hirondelles, compte à rebours | ⬜ | |
@@ -51,19 +51,22 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 - Au premier écran on voit la moitié du soleil, le reste se découvre au scroll sans qu'il bouge, et il ne réapparaît plus une fois dépassé
 - Chaque section correspond à sa maquette en esprit (pas au pixel)
 
-## Étape 3 — RSVP Supabase
+## Étape 3 — RSVP Google Sheet
 
-**Objectif** : le formulaire écrit dans Supabase.
+**Objectif** : le formulaire ajoute une ligne au Google Sheet d'Adham (ADR-0003, `CONCEPTION.md` §7).
 
 **Livrables**
-- `supabase/schema.sql` avec la table, RLS et la policy insert (section 7 de `CONCEPTION.md`) — Adham l'exécute
-- Client Supabase, envoi, état chargement, message de confirmation bilingue, honeypot
-- Gestion d'erreur lisible
+- `api/rsvp.ts` : validation, piège à robots, clôture au 15 décembre, transmission au script
+- `tools/sheets/Code.gs` : script à coller dans le Sheet, avec ses étapes d'installation — Adham le publie
+- Formulaire branché : prénom, nom, présence, message obligatoire, envoi, états chargement / merci / erreur / clos, bilingue
+- `.env.example` : `RSVP_SHEET_URL`, `RSVP_SECRET`
 
 **Critères de validation**
-- Une réponse envoyée depuis le téléphone apparaît dans la table sur le dashboard Supabase
-- Un second envoi sans nom est refusé avec un message clair
-- La clé anon n'apparaît pas dans le dépôt
+- Une réponse envoyée depuis le téléphone apparaît dans le Sheet
+- Un envoi avec un champ vide est refusé avec un message clair, sans rien écrire
+- Aucune adresse ni secret dans le dépôt ni dans le navigateur
+
+**Où on en est (2026-09-15)** : code écrit et testé en local avec un faux Sheet. Reste : Adham crée le Sheet, publie le script et pose les deux variables dans Vercel, puis un envoi de test réel.
 
 ## Étape 4 — Film d'intro et raccord
 

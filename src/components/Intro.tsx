@@ -85,7 +85,7 @@ export function Intro() {
     return () => {
       actif = false
     }
-  }, [intro.src])
+  }, [intro.src, intro.poster])
 
   // Reduced-motion : ni gate ni film, on arrive sur le hero.
   useEffect(() => {

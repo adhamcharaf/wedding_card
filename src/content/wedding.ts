@@ -26,6 +26,9 @@ export const wedding = {
     mapsUrl: 'https://www.google.com/maps/place/indian+by+nature/data=!4m2!3m1!1s0xfc1ef4a0b169bdd:0xfaf63ce27ef23d38',
   },
 
+  /** Clôture des réponses RSVP : fin du 15 décembre 2026, heure d'Abidjan (UTC+0). Lue par le site et par `api/rsvp.ts`. */
+  rsvpClosesAt: '2026-12-16T00:00:00+00:00',
+
   /** Numéro WhatsApp des mariés, chiffres seuls avec l'indicatif (ex. 2250700000000). Vide = pas de lien, le mot reste en texte. */
   contact: { whatsapp: '' },
 
@@ -100,7 +103,8 @@ export const wedding = {
         fr: "Merci de nous confirmer votre présence ou votre absence : c'est cette réponse qui réserve votre place.",
         en: "Please let us know whether you'll be with us: this reply is what reserves your seat.",
       },
-      name: { fr: 'Votre nom', en: 'Your name' },
+      firstName: { fr: 'Prénom', en: 'First name' },
+      lastName: { fr: 'Nom', en: 'Last name' },
       attending: { fr: 'Serez-vous des nôtres ?', en: 'Will you join us?' },
       yes: { fr: 'Avec joie', en: 'Joyfully yes' },
       no: { fr: 'Avec regret', en: 'Regretfully no' },
@@ -114,18 +118,22 @@ export const wedding = {
         en: "That night, the little ones stay snug at home: we've chosen an adults-only celebration, thank you for understanding.",
       },
       message: { fr: 'Un mot pour nous', en: 'A word for us' },
+      deadline: { fr: 'Réponse souhaitée avant le 15 décembre 2026.', en: 'Kindly reply by December 15, 2026.' },
       send: { fr: 'Envoyer', en: 'Send' },
       sending: { fr: 'Envoi en cours', en: 'Sending' },
-      /** Affiché sous le bouton tant que le formulaire n'est pas branché (étape 3). */
-      comingSoon: { fr: 'Ouverture prochaine', en: 'Opening soon' },
       success: {
         fr: 'Merci, votre réponse est bien enregistrée.',
         en: 'Thank you, your reply has been saved.',
       },
-      errorName: { fr: "Merci d'indiquer votre nom.", en: 'Please enter your name.' },
+      errorFields: { fr: 'Merci de remplir tous les champs.', en: 'Please fill in every field.' },
       errorGeneric: {
         fr: 'Une erreur est survenue. Réessayez dans un instant.',
         en: 'Something went wrong. Please try again in a moment.',
+      },
+      /** Affiché à la place du formulaire après `rsvpClosesAt`. */
+      closed: {
+        fr: 'Les réponses sont closes depuis le 15 décembre. Pour toute question, écrivez-nous sur WhatsApp.',
+        en: 'Replies closed on December 15. For any question, message us on WhatsApp.',
       },
     },
 

@@ -34,7 +34,7 @@ Toutes en PNG transparent, exportées depuis la maquette :
 - GSAP + ScrollTrigger + Draggable (enveloppe, scroll, hirondelles)
 - Zustand : une seule store, la phase
 - Howler.js : musique (en place depuis le 2026-09-14, lancée au tap de la gate)
-- Supabase : table RSVP
+- Google Sheet via une fonction Vercel : réponses RSVP (ADR-0003)
 - Pas de R3F, pas de Theatre.js, pas de postprocessing
 
 ## 4. Machine à phases
@@ -91,24 +91,20 @@ export const wedding = {
 
 Langue : anglais au premier chargement pour tout le monde (décision du 2026-09-13, plus de détection du navigateur), bouton FR/EN en haut à droite, choix mémorisé en localStorage. Hook `useT()` qui renvoie la bonne clé. Le RSVP et ses messages d'erreur passent aussi par là.
 
-## 7. RSVP (Supabase)
+## 7. RSVP (Google Sheet, ADR-0003)
 
-Table `rsvp` :
+Le fichier partagé est la base : chaque réponse ajoute une ligne à un Google Sheet d'Adham (date, prénom, nom, présence, message, langue), qu'il partage et exporte en Excel quand il veut.
 
-```sql
-create table rsvp (
-  id uuid primary key default gen_random_uuid(),
-  created_at timestamptz default now(),
-  name text not null,
-  attending boolean not null,
-  message text,
-  lang text
-);
-alter table rsvp enable row level security;
-create policy "anon insert" on rsvp for insert to anon with check (true);
-```
+Chemin d'une réponse :
 
-Une invitation vaut pour une personne (décision du 2026-09-15, qui remplace celle du 2026-09-13) : pas de nombre de personnes ni de second nom. Deux notes sous le choix : soirée entre adultes, et personne supplémentaire à demander sur WhatsApp. Aucune policy de lecture pour anon : le formulaire écrit, personne ne lit depuis le site. Vous consultez dans le dashboard Supabase. Clé anon dans `.env` (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`). Champ honeypot caché contre les bots, désactivation du bouton pendant l'envoi, message de confirmation bilingue.
+1. Le formulaire (`src/components/sections/Rsvp.tsx`) envoie un JSON à `/api/rsvp`, même origine : la politique de sécurité n'a pas à s'ouvrir.
+2. La fonction Vercel `api/rsvp.ts` valide (prénom, nom, présence, message obligatoires, longueurs bornées), ignore les envois où le piège à robots est rempli, et refuse tout après `wedding.rsvpClosesAt` (fin du 15 décembre 2026, réponse 410).
+3. Elle transmet la ligne au script Apps Script attaché au Sheet (`tools/sheets/Code.gs`, publié en application web) avec un secret partagé. Adresse et secret vivent dans les variables Vercel `RSVP_SHEET_URL` et `RSVP_SECRET`, jamais dans le navigateur.
+4. Le site affiche le remerciement, ou une erreur lisible, ou le message de clôture.
+
+Une invitation vaut pour une personne (décision du 2026-09-15) : pas de nombre de personnes. Deux notes sous le choix : soirée entre adultes, et personne supplémentaire à demander sur WhatsApp. Les doublons se trient dans le Sheet. Pas de limitation de débit : lien transmis de la main à la main, piège à robots et bornes de taille suffisent (décision du 2026-09-15).
+
+En local, `vite` ne sert pas `api/` : la fonction se teste avec le serveur de test du scratchpad, qui l'empaquette et simule le script Google.
 
 ## 8. Performance
 
@@ -122,7 +118,7 @@ Une invitation vaut pour une personne (décision du 2026-09-15, qui remplace cel
 
 1. Squelette : Vite, routes de phase, store Zustand, fichier de contenu, i18n, fond pêche + grain
 2. Scroll complet avec tous les contenus et le soleil qui monte (sans vidéo)
-3. RSVP Supabase
+3. RSVP Google Sheet
 4. Bridge et enveloppe (avec des placeholders PNG si les découpes ne sont pas prêtes)
 5. Intégration vidéo et raccord poster
 6. Gyroscope, hirondelles au scroll, compte à rebours animé

@@ -51,16 +51,10 @@
 - **Règle** : tuile PNG répétée sur un calque fixe qui déborde d'une tuile, déplacé par `transform` en keyframes `steps()`. Jamais `background-position` : c'est un repaint plein écran à chaque pas, contraire à la règle transform/opacity de `CLAUDE.md`.
 
 ### Variables d'environnement Vite invisibles
-- **Contexte** : Supabase.
+- **Contexte** : toute variable lue par le site.
 - **Symptôme** : `undefined` au runtime.
 - **Cause** : Vite n'expose que les variables préfixées `VITE_`, lues au build.
-- **Règle** : `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, et relancer `npm run dev` après modification du `.env`.
-
-### Insert Supabase refusé
-- **Contexte** : RSVP.
-- **Symptôme** : erreur 401 ou 42501.
-- **Cause** : RLS activé sans policy insert pour `anon`, ou colonne non nullable non renseignée.
-- **Règle** : la policy est dans `supabase/schema.sql`, on vérifie qu'elle est appliquée avant de chercher dans le code.
+- **Règle** : préfixe `VITE_` pour le navigateur, et relancer `npm run dev` après modification du `.env`. Les variables de la fonction `api/rsvp.ts` (`RSVP_SHEET_URL`, `RSVP_SECRET`) ne sont pas préfixées : elles ne doivent jamais atteindre le navigateur.
 
 ### Draggable GSAP bloque le scroll
 - **Contexte** : sceau de l'enveloppe.
@@ -150,3 +144,15 @@
 - **Symptôme** : le poster de l'écran d'accueil n'apparaissait qu'à 8 s : demandé seulement après le script (2,7 s), puis en concurrence avec la musique mise en mémoire.
 - **Cause** : le poster n'était découvert qu'au rendu React, et les `fetch` de la musique et du film partaient au montage, à priorité normale.
 - **Règle** : `<link rel="preload" as="image" fetchpriority="high">` sur le poster dans `index.html` ; les mises en mémoire attendent que le poster soit affiché (3 s au plus) et partent en `priority: 'low'`. Écran d'accueil à 3,8 s au lieu de 8 dans les mêmes conditions ; le poster est en cache dès 2,6 s, le reste est le temps de lecture du script.
+
+### Un code 200 n'est pas un succès
+- **Contexte** : étape 3, premier test du formulaire RSVP contre le serveur de test, dont l'ancienne instance tournait encore sans la fonction.
+- **Symptôme** : le formulaire affichait « merci, réponse enregistrée » alors que rien n'avait été écrit : le serveur renvoyait la page d'accueil en HTML, code 200.
+- **Cause** : le front ne vérifiait que `response.ok`.
+- **Règle** : le succès, c'est un JSON `{ ok: true }` lu et vérifié ; tout le reste est une erreur affichée. Et avant un test, s'assurer que le serveur qui répond est bien celui qu'on croit.
+
+### `pkill -f` avec le motif dans la même commande tue le shell
+- **Contexte** : redémarrage du serveur de test depuis une commande qui contenait aussi son lancement.
+- **Symptôme** : la commande entière s'arrête (code 144), rien après n'est exécuté, y compris le relancement.
+- **Cause** : `pkill -f` compare le motif à la ligne de commande de tous les processus, dont celle du shell qui exécute la commande, qui contient forcément le motif puisqu'elle contient le lancement.
+- **Règle** : arrêter un serveur par son port ou son PID enregistré, jamais par un motif présent dans la même commande.
