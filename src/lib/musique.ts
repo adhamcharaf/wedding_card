@@ -39,7 +39,7 @@ function creer(src: string, format?: string): Howl {
 
 /** À appeler dès la gate, avant le préchargement du film. Ne rejette jamais. */
 export function prechargerMusique(): Promise<void> {
-  enMemoire ??= fetch(source().src, { signal: telechargement.signal })
+  enMemoire ??= fetch(source().src, { signal: telechargement.signal, priority: 'low' })
     .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(String(r.status)))))
     .then((blob) => URL.createObjectURL(blob))
   return enMemoire

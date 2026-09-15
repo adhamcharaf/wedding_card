@@ -138,3 +138,15 @@
 - **Contexte** : mp3 fourni avec une image de 1280 x 720 incrustée en tête de fichier (tag ID3, 480 Ko), copiée telle quelle par ffmpeg dans les exports.
 - **Symptôme** : le navigateur ne lit les métadonnées qu'après avoir reçu une grande partie du fichier ; en flux, la musique part avec des secondes de retard.
 - **Règle** : exporter l'audio avec `-vn -map_metadata -1`, en AAC m4a avec `-movflags +faststart` (en-tête en tête de fichier) et un mp3 propre en secours. Le Chromium de test ne décode pas l'AAC : vérifier la latence sur téléphone.
+
+### L'interception Playwright désactive le cache et fait re-télécharger le poster
+- **Contexte** : étape 7, mesure du temps d'affichage de l'écran d'accueil sous 4G simulée, avec `page.route` pour remplacer le MP4 par un WebM.
+- **Symptôme** : le poster préchargé par `<link rel="preload">` était téléchargé une seconde fois quand la balise vidéo le demandait, 5 s de plus.
+- **Cause** : dès qu'une route est posée, Chromium coupe son cache HTTP pour toute la page. Ce n'est pas le comportement d'un vrai navigateur.
+- **Règle** : les mesures de chargement se font sans `page.route`. On garde l'interception pour les tests de parcours, où le cache n'a pas d'importance.
+
+### Les gros téléchargements de la gate freinaient l'écran d'accueil
+- **Contexte** : étape 7, Lighthouse mobile et mesure sous 4G simulée.
+- **Symptôme** : le poster de l'écran d'accueil n'apparaissait qu'à 8 s : demandé seulement après le script (2,7 s), puis en concurrence avec la musique mise en mémoire.
+- **Cause** : le poster n'était découvert qu'au rendu React, et les `fetch` de la musique et du film partaient au montage, à priorité normale.
+- **Règle** : `<link rel="preload" as="image" fetchpriority="high">` sur le poster dans `index.html` ; les mises en mémoire attendent que le poster soit affiché (3 s au plus) et partent en `priority: 'low'`. Écran d'accueil à 2,7 s au lieu de 8 dans les mêmes conditions.
