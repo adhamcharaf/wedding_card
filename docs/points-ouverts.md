@@ -17,7 +17,7 @@
 | 10 | Fin de page : sans soleil, l'écran de fin ne porte plus que la phrase de fin et le monogramme, et paraît vide. À étoffer ou à laisser. | ouvert | Adham |
 | 11 | Raccord vidéo / site : réglé le 2026-09-12, la dernière image du film est à moins de 5 % du fond du site, fondu de 700 ms. | tranché | |
 | 12 | Fond blanc cassé dans les coins à l'ouverture du rabat : disparu avec le film Seedance du 2026-09-14. | tranché | |
-| 13 | Liste de mariage : coordonnées bancaires affichées en clair depuis le 2026-09-15. Restent à fournir les liens de « Lovely home » et « Cilya home ». | à faire | Adham et Lara |
+| 13 | Liste de mariage : coordonnées bancaires (AFG Bank) affichées en clair depuis le 2026-09-15. Les listes n'existent qu'en magasin, il n'y a pas de lien à fournir. | tranché | |
 | 14 | Intro allongée : faite le 2026-09-13, deux vidéos concaténées. | tranché | |
 | 15 | Soleil entier dessiné : fourni et posé le 2026-09-13. | tranché | |
 | 16 | Version du film : la complète (oiseaux puis enveloppe, 18 s) est retenue le 2026-09-14, la courte retirée du site. | tranché | |

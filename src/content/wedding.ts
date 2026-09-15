@@ -85,8 +85,11 @@ export const wedding = {
 
     registry: {
       title: { fr: 'Liste de mariage', en: 'Gift registry' },
-      /** Sous les boutiques. */
-      inStore: { fr: 'La liste est aussi disponible en magasin.', en: 'The registry is also available in store.' },
+      /** Sous les boutiques : les listes n'existent qu'en magasin. */
+      inStore: {
+        fr: "Nous avons préparé une liste dans chacune de ces boutiques. Elle se consulte sur place, et les commerçants veillent à ce qu'un même article ne soit pas offert deux fois.",
+        en: "We've put together a registry in each of these shops. It can be viewed in store, and the shopkeepers make sure the same gift isn't given twice.",
+      },
       bankTitle: { fr: 'Compte en banque', en: 'Bank account' },
       holder: { fr: 'Titulaire', en: 'Account holder' },
       bankName: { fr: 'Banque', en: 'Bank' },
@@ -138,18 +141,18 @@ export const wedding = {
     },
   },
 
-  /** Liste de Lara, 2026-09-13. Les liens des boutiques restent à fournir (points-ouverts.md, point 13). */
+  /** Liste de Lara, 2026-09-13. Les listes n'existent qu'en magasin (2026-09-15), `url` reste vide. */
   registry: [
     { label: { fr: 'Lovely home', en: 'Lovely home' }, url: '' },
     { label: { fr: 'Cilya home', en: 'Cilya home' }, url: '' },
   ],
 
-  /** Coordonnées du RIB fourni par Adham le 2026-09-15 (compte en XOF). */
+  /** Coordonnées du RIB AFG Bank fourni par Adham le 2026-09-15 (compte en XOF, agence de Biétry). */
   bank: {
     holder: 'CHARAFEDDINE Adham Samir',
-    name: "Banque Atlantique Côte d'Ivoire (BACI)",
-    iban: 'CI93 CI03 4010 3814 1783 0500 1681',
-    swift: 'ATCICIABXXX',
+    name: "AFG Bank Côte d'Ivoire",
+    iban: 'CI93 CI26 0010 0180 1792 9410 0262',
+    swift: 'AFGICIAB',
   },
 
   /** Contenu à compléter (docs/points-ouverts.md, point 5). */
