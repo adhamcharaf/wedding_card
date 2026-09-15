@@ -1,11 +1,7 @@
-import { useState, type FormEvent } from 'react'
+import type { FormEvent } from 'react'
 import { wedding } from '../../content/wedding'
 import { useT } from '../../i18n/useT'
 import { Reveal } from '../Reveal'
-
-/** Deux personnes au plus par réponse (décision du 2026-09-13). */
-const MAX_GUESTS = 2
-const GUEST_OPTIONS = Array.from({ length: MAX_GUESTS }, (_, i) => i + 1)
 
 /** Le mot « WhatsApp » de la note devient un lien wa.me quand le numéro est renseigné. */
 function noteAvecLien(texte: string, numero: string) {
@@ -22,11 +18,13 @@ function noteAvecLien(texte: string, numero: string) {
   )
 }
 
-/** Formulaire RSVP. Non branché à cette étape : l'envoi arrive à l'étape 3. */
+/**
+ * Formulaire RSVP. Une invitation vaut pour une personne (décision du 2026-09-15) :
+ * pas de nombre de personnes. Non branché à cette étape : l'envoi arrive à l'étape 3.
+ */
 export function Rsvp() {
   const t = useT()
   const r = wedding.text.rsvp
-  const [guests, setGuests] = useState(1)
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -57,30 +55,10 @@ export function Rsvp() {
             </div>
           </fieldset>
 
-          <label className="field">
-            <span className="field__label">{t(r.guests)}</span>
-            <select
-              className="field__input"
-              name="guests"
-              value={guests}
-              onChange={(e) => setGuests(Number(e.target.value))}
-            >
-              {GUEST_OPTIONS.map((n) => (
-                <option key={n} value={n}>
-                  {n}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <p className="field__note">{noteAvecLien(t(r.guestsNote), wedding.contact.whatsapp)}</p>
-
-          {guests > 1 && (
-            <label className="field">
-              <span className="field__label">{t(r.guestName)}</span>
-              <input className="field__input" name="guestName" type="text" autoComplete="off" required />
-            </label>
-          )}
+          <div className="field__note">
+            <p>{t(r.children)}</p>
+            <p>{noteAvecLien(t(r.extraGuest), wedding.contact.whatsapp)}</p>
+          </div>
 
           <label className="field">
             <span className="field__label">{t(r.message)}</span>
