@@ -16,7 +16,7 @@ Regarde aussi les maquettes dans `docs/mockups/`.
 
 ## Tâche
 
-Réalise le projet étape par étape en suivant `docs/PLAN.md`. Commence par l'étape 1.
+Réalise le projet étape par étape en suivant `docs/PLAN.md`. Reprends à la première étape non validée du tableau de suivi.
 
 ## Attendu maintenant
 

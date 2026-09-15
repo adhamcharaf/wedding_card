@@ -58,7 +58,7 @@ Une seule page en plus : `/compte`, les coordonnées bancaires, ouverte depuis l
 Sections, dans l'ordre (croquis de Lara, 2026-09-13) : hero (Save the Date) · photos d'enfance · invitation · date, heure, lieu, Maps · compte à rebours · liste de mariage avec le dessin du couple · RSVP · fin (phrase, « revoir le film », demi-soleil dessiné avec les initiales gravées, `sun-end.png`).
 
 Effets, et seulement ceux-là :
-- **Impression de la carte** (arrivée depuis le film) : la carte dessinée d'un seul tenant (`card.png`, texte compris) se pose en se fondant (scale 1,06 → 1, 1,3 s), le petit soleil arrive en tournant (−120° → 0), le grand soleil monte du bas. Une timeline GSAP dans `Hero.tsx`. En arrivée directe, simple fondu. L'atelier `tools/animation/Impression.tsx` décrit l'ancienne version en morceaux, à réaligner si on y retouche.
+- **Impression de la carte** (arrivée depuis le film) : la carte dessinée d'un seul tenant (`card.png`, texte compris) se pose en se fondant (scale 1,06 → 1, 1,3 s), le petit soleil arrive en tournant (−120° → 0), le grand soleil monte du bas. Une timeline GSAP dans `Hero.tsx`. En arrivée directe, simple fondu. (L'atelier Remotion `tools/animation`, qui décrivait l'ancienne version en morceaux, a été retiré du dépôt le 2026-09-15.)
 - **Soleil posé sous la carte** : un seul `sun-gold.png`, immobile, accroché au bas du ruban (`--sun-gap`), donc à la même place par rapport à la carte quelle que soit la taille de l'écran. On en voit le haut au premier écran, le reste se découvre en descendant sans qu'il bouge ; une fois dépassé, il ne revient pas. Il n'y a plus de soleil au-delà du hero. Largeur 78 % de l'écran (`--sun-size`). Aucune animation, aucun ScrollTrigger.
 - **Lisibilité sur le soleil** : réglée par l'espacement, pas par un effet. Le padding bas du hero réserve exactement la place du soleil, donc aucun texte ne passe sur l'or. Ni fondu, ni halo (décision du 2026-09-05, `DECISIONS.md`).
 - **Hirondelle qui traverse** : un ScrollTrigger par entrée de section, une hirondelle passe une fois, toujours de gauche à droite, 1,2 s.
@@ -84,8 +84,8 @@ export const wedding = {
     invitation: { fr: "...", en: "With full hearts, we joyfully invite you to our wedding" },
     // etc. une clé par bloc de texte
   },
-  registry: [{ label: { fr: "Cilya's home", en: "Cilya's home" }, url: "" }],
-  program: [{ time: "20:30", label: { fr: "", en: "" } }],
+  registry: [{ label: { fr: "Cilya home", en: "Cilya home" }, url: "" }],
+  bank: { holder: "", name: "", iban: "", swift: "" },
 };
 ```
 

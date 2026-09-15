@@ -22,8 +22,8 @@ export const wedding = {
   venue: {
     name: 'Indian by nature',
     city: { fr: "Abidjan, Côte d'Ivoire", en: "Abidjan, Côte d'Ivoire" },
-    mapsUrl:
-      'https://www.google.com/maps/place/indian+by+nature/data=!4m2!3m1!1s0xfc1ef4a0b169bdd:0xfaf63ce27ef23d38?sa=X&ved=1t:242&ictx=111',
+    /** Lien Google Maps sans les paramètres de suivi de la recherche d'origine. */
+    mapsUrl: 'https://www.google.com/maps/place/indian+by+nature/data=!4m2!3m1!1s0xfc1ef4a0b169bdd:0xfaf63ce27ef23d38',
   },
 
   /** Numéro WhatsApp des mariés, chiffres seuls avec l'indicatif (ex. 2250700000000). Vide = pas de lien, le mot reste en texte. */
@@ -73,14 +73,6 @@ export const wedding = {
       minutes: { fr: 'minutes', en: 'minutes' },
       seconds: { fr: 'secondes', en: 'seconds' },
       today: { fr: "C'est aujourd'hui", en: "It's today" },
-    },
-
-    program: {
-      title: { fr: 'Programme', en: 'Program' },
-    },
-
-    practical: {
-      title: { fr: 'Infos pratiques', en: 'Practical information' },
     },
 
     registry: {
@@ -163,13 +155,4 @@ export const wedding = {
     iban: 'CI93 CI26 0010 0180 1792 9410 0262',
     swift: 'AFGICIAB',
   },
-
-  /** Contenu à compléter (docs/points-ouverts.md, point 5). */
-  program: [{ time: '20:30', label: { fr: 'Début de la célébration', en: 'Celebration begins' } }],
-
-  /** Contenu à compléter (docs/points-ouverts.md, point 6). */
-  practical: [
-    { label: { fr: 'Dress code', en: 'Dress code' }, value: { fr: 'À venir', en: 'To be announced' } },
-    { label: { fr: 'Hébergement', en: 'Accommodation' }, value: { fr: 'À venir', en: 'To be announced' } },
-  ],
 } as const

@@ -12,7 +12,7 @@
 | 4 | Film d'intro et raccord | 🟡 | |
 | 5 | Fusionnée dans la 4 : l'enveloppe est dans le film (décision du 2026-09-12) | | |
 | 6 | Finitions : gyroscope, hirondelles, compte à rebours | ⬜ | |
-| 7 | Performance et mise en ligne | ⬜ | |
+| 7 | Performance et mise en ligne | 🟡 | |
 
 Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 
@@ -73,7 +73,7 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 - `public/video/intro.mp4` sans piste audio et son poster, référencés dans `assets.ts`
 - Machine à phases `gate → intro → scroll`, écran d'accueil sur l'enveloppe fermée, pas de bouton « passer », scroll bloqué jusqu'à la fin
 - Raccord : hero imprimé sur les 300 dernières ms, vidéo fondue en 700 ms, fallback direct si la vidéo échoue
-- Impression de la carte en GSAP dans `Hero.tsx`, réglée dans `tools/animation/Impression.tsx`
+- Impression de la carte en GSAP dans `Hero.tsx`
 - Bouton « revoir le film » en fin de page
 - `prefers-reduced-motion` = arrivée directe sur le hero
 
@@ -107,3 +107,5 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 **Critères de validation**
 - Lighthouse mobile > 85 en performance
 - Le lien Vercel fonctionne sur un téléphone en 4G en moins de 3 s jusqu'à l'écran d'accueil
+
+**Où on en est (2026-09-15)** : ménage du dépôt, en-têtes de sécurité et de cache dans `vercel.json`, `noindex` et aperçu de lien dans `index.html`. Images gardées en PNG (DECISIONS.md). Reste : mesure Lighthouse sur la version en ligne et test 4G.
