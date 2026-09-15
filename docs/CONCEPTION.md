@@ -53,6 +53,8 @@ Rejouer : bouton « revoir le film » en fin de page, qui remonte l'intro à neu
 
 ## 5. Le scroll
 
+Une seule page en plus : `/compte`, les coordonnées bancaires, ouverte depuis la liste de mariage (`src/pages/Compte.tsx`, choisie dans `main.tsx` sur le chemin, `vercel.json` la renvoie sur `index.html`).
+
 Sections, dans l'ordre (croquis de Lara, 2026-09-13) : hero (Save the Date) · photos d'enfance · invitation · date, heure, lieu, Maps · compte à rebours · liste de mariage avec le dessin du couple · RSVP · fin (phrase, « revoir le film », demi-soleil dessiné avec les initiales gravées, `sun-end.png`).
 
 Effets, et seulement ceux-là :

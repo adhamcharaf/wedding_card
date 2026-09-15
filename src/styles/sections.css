@@ -331,64 +331,47 @@
   opacity: 0.9;
 }
 
-/* Coordonnées bancaires : bloc encadré, lignes libellé / valeur, IBAN en chiffres alignés. */
-.bank {
+/* ---------- Page /compte ---------- */
+
+.compte {
+  min-height: 100dvh;
+  justify-content: center;
+}
+
+.compte__rows {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
-  max-width: 22rem;
-  margin-top: 0.75rem;
-  padding: 1rem 1.1rem 1.1rem;
-  border: 1px solid rgb(127 47 38 / 0.45);
-  border-radius: 0.75rem;
-  background: rgb(255 244 236 / 0.55);
+  gap: 1.25rem;
+  margin: 0.75rem 0 0.5rem;
 }
 
-.bank__title {
-  font-size: 0.85rem;
-  font-weight: inherit;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.bank__rows {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  width: 100%;
-  margin: 0;
-  font-size: 0.95rem;
-  text-align: left;
-}
-
-.bank__row {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-}
-
-.bank__row dt {
+.compte__rows dt {
   font-size: 0.75rem;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  opacity: 0.75;
+  opacity: 0.8;
 }
 
-.bank__row dd {
-  margin: 0;
+.compte__rows dd {
+  margin: 0.2rem 0 0;
+  font-size: 1.2rem;
   overflow-wrap: anywhere;
 }
 
-.bank__code {
+.compte__code {
+  letter-spacing: 0.08em;
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.06em;
 }
 
-.bank__copy {
-  margin-top: 0.25rem;
-  font-size: 0.95rem;
+/* Retour : même lien discret que « revoir le film ». */
+.compte__back {
+  margin-top: 2.5rem;
+  color: inherit;
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  text-underline-offset: 0.2em;
 }
 
 .couple {

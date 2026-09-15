@@ -87,14 +87,19 @@ export const wedding = {
       title: { fr: 'Liste de mariage', en: 'Gift registry' },
       /** Sous les boutiques : les listes n'existent qu'en magasin. */
       inStore: {
-        fr: "Nous avons préparé une liste dans chacune de ces boutiques. Elle se consulte sur place, et les commerçants veillent à ce qu'un même article ne soit pas offert deux fois.",
-        en: "We've put together a registry in each of these shops. It can be viewed in store, and the shopkeepers make sure the same gift isn't given twice.",
+        fr: 'Nos listes vous attendent directement en boutique.',
+        en: 'Our registries are waiting for you in store.',
       },
-      bankTitle: { fr: 'Compte en banque', en: 'Bank account' },
+    },
+
+    /** Page `/compte`, ouverte depuis la liste de mariage : les coordonnées bancaires hors de la page principale. */
+    bank: {
+      title: { fr: 'Compte en banque', en: 'Bank account' },
       holder: { fr: 'Titulaire', en: 'Account holder' },
       bankName: { fr: 'Banque', en: 'Bank' },
       copy: { fr: "Copier l'IBAN", en: 'Copy the IBAN' },
       copied: { fr: 'IBAN copié', en: 'IBAN copied' },
+      back: { fr: 'Retour au faire-part', en: 'Back to the invitation' },
     },
 
     rsvp: {
@@ -141,10 +146,14 @@ export const wedding = {
     },
   },
 
-  /** Liste de Lara, 2026-09-13. Les listes n'existent qu'en magasin (2026-09-15), `url` reste vide. */
+  /**
+   * Liste de Lara, 2026-09-13. Les boutiques n'ont pas de lien : les listes
+   * n'existent qu'en magasin (2026-09-15). Le compte ouvre la page `/compte`.
+   */
   registry: [
     { label: { fr: 'Lovely home', en: 'Lovely home' }, url: '' },
     { label: { fr: 'Cilya home', en: 'Cilya home' }, url: '' },
+    { label: { fr: 'Compte en banque', en: 'Bank account' }, url: '/compte' },
   ],
 
   /** Coordonnées du RIB AFG Bank fourni par Adham le 2026-09-15 (compte en XOF, agence de Biétry). */
