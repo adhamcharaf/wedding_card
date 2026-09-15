@@ -268,6 +268,100 @@ html.is-locked body {
   }
 }
 
+/* ---------- Indication de défilement ---------- */
+
+/* En bas de l'écran après le film, jusqu'au premier défilement. Pastille
+   crème comme le bouton de langue : les pointes du soleil passent dessous
+   sans gêner la lecture. */
+.scroll-hint {
+  position: fixed;
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  left: 50%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.95rem 0.4rem 1.1rem;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: rgb(255 244 236 / 0.6);
+  transform: translateX(-50%);
+  color: var(--ink);
+  pointer-events: none;
+  /* Apparaît une fois la carte imprimée. */
+  animation: apparaitre 600ms ease 1600ms both;
+}
+
+.scroll-hint__text {
+  font-size: 0.85rem;
+  font-style: italic;
+  letter-spacing: 0.14em;
+}
+
+.scroll-hint__chevron {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: descendre 1.8s ease-in-out infinite;
+}
+
+@keyframes apparaitre {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes descendre {
+  0%, 100% { transform: translateY(-1px); opacity: 0.6; }
+  50% { transform: translateY(3px); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint {
+    animation: none;
+  }
+
+  .scroll-hint__chevron {
+    animation: none;
+  }
+}
+
+/* ---------- Bouton musique ---------- */
+
+/* En haut à gauche, même pastille que le bouton de langue, visible tout le long. */
+.sound {
+  position: fixed;
+  top: max(0.75rem, env(safe-area-inset-top));
+  left: max(1rem, env(safe-area-inset-left));
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: rgb(255 244 236 / 0.35);
+  color: var(--ink);
+}
+
+.sound__icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sound[aria-pressed='true'] {
+  opacity: 0.7;
+}
+
 /* ---------- Toggle de langue ---------- */
 
 /* Au-dessus de la gate et du film : on choisit sa langue avant d'ouvrir. */

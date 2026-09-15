@@ -325,6 +325,55 @@
   margin: 0;
 }
 
+.registry__note {
+  font-size: 0.95rem;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+/* ---------- Page /compte ---------- */
+
+.compte {
+  min-height: 100dvh;
+  justify-content: center;
+}
+
+.compte__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 0.75rem 0 0.5rem;
+}
+
+.compte__rows dt {
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.compte__rows dd {
+  margin: 0.2rem 0 0;
+  font-size: 1.2rem;
+  overflow-wrap: anywhere;
+}
+
+.compte__code {
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Retour : même lien discret que « revoir le film ». */
+.compte__back {
+  margin-top: 2.5rem;
+  color: inherit;
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  text-underline-offset: 0.2em;
+}
+
 .couple {
   width: min(62%, 240px);
   margin-top: 2rem;
@@ -391,6 +440,18 @@
 
 .form .btn {
   align-self: center;
+}
+
+/* Petites notes du formulaire : soirée entre adultes, personne supplémentaire par WhatsApp. */
+.field__note {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: -0.6rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  line-height: 1.35;
+  opacity: 0.9;
 }
 
 .form__note {

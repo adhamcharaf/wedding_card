@@ -33,7 +33,7 @@ Toutes en PNG transparent, exportées depuis la maquette :
 - Vite + React + TypeScript
 - GSAP + ScrollTrigger + Draggable (enveloppe, scroll, hirondelles)
 - Zustand : une seule store, la phase
-- Howler.js : musique
+- Howler.js : musique (en place depuis le 2026-09-14, lancée au tap de la gate)
 - Supabase : table RSVP
 - Pas de R3F, pas de Theatre.js, pas de postprocessing
 
@@ -44,7 +44,7 @@ gate → intro → scroll
 ```
 
 - **gate** : la vidéo arrêtée sur sa première image (son poster), les oiseaux qui apportent l'enveloppe, avec « toucher pour ouvrir / tap to open » posé dans la bande de ciel, en brun avec un halo crème pour rester lisible. Toute la surface est le bouton. Pendant la gate, le fichier vidéo est téléchargé en mémoire (`fetch` puis blob), car iOS ignore `preload="auto"` : le tap lance `video.play()` dans le même geste (iOS l'exige) depuis le blob, sans attendre le réseau, et débloquera l'audio le jour où il y en aura. Le bouton FR/EN reste accessible au-dessus.
-- **intro** : vidéo plein écran, `object-fit: cover`, `playsinline`, muette. Pas de bouton pour passer (choix d'Adham). À `timeupdate` sur les 450 dernières ms, la phase passe à `scroll` : le hero s'imprime derrière (voir 5) pendant que la vidéo se fond en 700 ms, puis elle est retirée du DOM. Si la vidéo échoue, on arrive directement sur le hero, sans impression.
+- **intro** : vidéo plein écran, `object-fit: cover`, `playsinline`, muette. La musique (`public/audio/intro-loop.m4a`, mp3 en secours, les deux premières minutes du morceau, en boucle, mise en mémoire pendant la gate avant le film, Howler en lecture HTML5) part dans le geste du tap, jamais avant, et continue sur tout le site ; un bouton haut-parleur en haut à gauche la coupe. Pas de bouton pour passer (choix d'Adham). À `timeupdate` sur les 450 dernières ms, la phase passe à `scroll` : le hero s'imprime derrière (voir 5) pendant que la vidéo se fond en 700 ms, puis elle est retirée du DOM. Si la vidéo échoue, on arrive directement sur le hero, sans impression.
 - **scroll** : sections, voir 5. Scroll bloqué (`html.is-locked`) tant qu'on n'y est pas, `ScrollTrigger.refresh()` au déblocage.
 
 `prefers-reduced-motion` : on saute gate et intro, on arrive sur le hero directement.
@@ -52,6 +52,8 @@ gate → intro → scroll
 Rejouer : bouton « revoir le film » en fin de page, qui remonte l'intro à neuf (`rejouer()` dans le store, clé `tour` sur le composant).
 
 ## 5. Le scroll
+
+Une seule page en plus : `/compte`, les coordonnées bancaires, ouverte depuis la liste de mariage (`src/pages/Compte.tsx`, choisie dans `main.tsx` sur le chemin, `vercel.json` la renvoie sur `index.html`).
 
 Sections, dans l'ordre (croquis de Lara, 2026-09-13) : hero (Save the Date) · photos d'enfance · invitation · date, heure, lieu, Maps · compte à rebours · liste de mariage avec le dessin du couple · RSVP · fin (phrase, « revoir le film », demi-soleil dessiné avec les initiales gravées, `sun-end.png`).
 
@@ -99,8 +101,6 @@ create table rsvp (
   created_at timestamptz default now(),
   name text not null,
   attending boolean not null,
-  guests int not null default 1 check (guests between 1 and 2),
-  guest_name text,
   message text,
   lang text
 );
@@ -108,7 +108,7 @@ alter table rsvp enable row level security;
 create policy "anon insert" on rsvp for insert to anon with check (true);
 ```
 
-Deux personnes au plus par réponse (décision du 2026-09-13) : `guests` vaut 1 ou 2, et `guest_name` porte le nom de la seconde personne, demandé dans le formulaire dès que 2 est choisi. Aucune policy de lecture pour anon : le formulaire écrit, personne ne lit depuis le site. Vous consultez dans le dashboard Supabase. Clé anon dans `.env` (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`). Champ honeypot caché contre les bots, désactivation du bouton pendant l'envoi, message de confirmation bilingue.
+Une invitation vaut pour une personne (décision du 2026-09-15, qui remplace celle du 2026-09-13) : pas de nombre de personnes ni de second nom. Deux notes sous le choix : soirée entre adultes, et personne supplémentaire à demander sur WhatsApp. Aucune policy de lecture pour anon : le formulaire écrit, personne ne lit depuis le site. Vous consultez dans le dashboard Supabase. Clé anon dans `.env` (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`). Champ honeypot caché contre les bots, désactivation du bouton pendant l'envoi, message de confirmation bilingue.
 
 ## 8. Performance
 

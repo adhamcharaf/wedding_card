@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
 import { LANGS, wedding } from '../content/wedding'
+import { useDefile } from '../hooks/useDefile'
 import { useT } from '../i18n/useT'
 import { useAppStore } from '../store/useAppStore'
 
@@ -11,13 +11,7 @@ export function LangToggle() {
   const lang = useAppStore((state) => state.lang)
   const setLang = useAppStore((state) => state.setLang)
   const t = useT()
-  const [cache, setCache] = useState(false)
-
-  useEffect(() => {
-    const surScroll = () => setCache(window.scrollY > SEUIL_PX)
-    window.addEventListener('scroll', surScroll, { passive: true })
-    return () => window.removeEventListener('scroll', surScroll)
-  }, [])
+  const cache = useDefile(SEUIL_PX)
 
   return (
     <div className={cache ? 'lang is-hidden' : 'lang'} role="group" aria-label={t(wedding.lang.label)}>
