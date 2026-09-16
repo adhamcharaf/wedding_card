@@ -8,7 +8,7 @@
 | --- | --- | --- | --- |
 | 1 | Squelette, contenu bilingue, fond | ✅ | 2026-09-03 |
 | 2 | Scroll complet avec soleil | ✅ | 2026-09-13 |
-| 3 | RSVP Google Sheet | 🟡 | |
+| 3 | RSVP Google Sheet | ✅ | 2026-09-16 |
 | 4 | Film d'intro et raccord | 🟡 | |
 | 5 | Fusionnée dans la 4 : l'enveloppe est dans le film (décision du 2026-09-12) | | |
 | 6 | Finitions : gyroscope, hirondelles, compte à rebours | ⬜ | |
@@ -66,7 +66,7 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 - Un envoi avec un champ vide est refusé avec un message clair, sans rien écrire
 - Aucune adresse ni secret dans le dépôt ni dans le navigateur
 
-**Où on en est (2026-09-16)** : code écrit et testé en local avec un faux Sheet ; Sheet créé, script publié (répond au GET, écrit une ligne au POST, refuse un mauvais secret), variables posées dans Vercel. Reste : un envoi de test réel depuis le téléphone via la fonction déployée, puis fusion dans `main`.
+**Validée le 2026-09-16** : envoi de test depuis le téléphone d'Adham arrivé dans le Sheet, fusion dans `main`, fonction de production vérifiée.
 
 ## Étape 4 — Film d'intro et raccord
 
@@ -111,4 +111,4 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 - Lighthouse mobile > 85 en performance
 - Le lien Vercel fonctionne sur un téléphone en 4G en moins de 3 s jusqu'à l'écran d'accueil
 
-**Où on en est (2026-09-15)** : ménage du dépôt, en-têtes de sécurité et de cache dans `vercel.json`, `noindex` et aperçu de lien dans `index.html`. Images gardées en PNG (DECISIONS.md). Reste : mesure Lighthouse sur la version en ligne et test 4G.
+**Où on en est (2026-09-15)** : ménage du dépôt, en-têtes de sécurité et de cache dans `vercel.json`, `noindex` et aperçu de lien dans `index.html`. Images gardées en PNG (DECISIONS.md). Poster de l'accueil allégé et fonction RSVP à Paris (2026-09-16). Reste : mesure Lighthouse sur la version en ligne et test 4G.
