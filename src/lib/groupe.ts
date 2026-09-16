@@ -9,6 +9,7 @@ export type Presence = 'Oui' | 'Non' | ''
 
 export interface Membre {
   prenom: string
+  /** Peut être vide : certains invités sont connus par leur seul prénom. */
   nom: string
   presence: Presence
   mot: string
@@ -29,6 +30,9 @@ export interface Reponse {
   presence: 'Oui' | 'Non'
   mot: string
 }
+
+/** Prénom et nom, ou le prénom seul. */
+export const nomComplet = (m: { prenom: string; nom: string }) => [m.prenom, m.nom].filter(Boolean).join(' ')
 
 /** Un code d'invitation : exactement 4 chiffres. */
 export const CODE = /^\d{4}$/

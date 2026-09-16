@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { createPortal } from 'react-dom'
 import { wedding } from '../../content/wedding'
 import { nommer, useT } from '../../i18n/useT'
-import { CODE, CodeInconnu, chercherGroupe, repondre, type Groupe, type Presence } from '../../lib/groupe'
+import { CODE, CodeInconnu, chercherGroupe, nomComplet, repondre, type Groupe, type Presence } from '../../lib/groupe'
 import { useAppStore } from '../../store/useAppStore'
 import { noteAvecLien } from '../NoteWhatsApp'
 import { Reveal } from '../Reveal'
@@ -258,9 +258,7 @@ export function Rsvp() {
             <ul className="resume">
               {groupe.membres.map((m, i) => (
                 <li key={i} className="resume__item">
-                  <span className="resume__nom">
-                    {m.prenom} {m.nom}
-                  </span>
+                  <span className="resume__nom">{nomComplet(m)}</span>
                   <span className="resume__presence">{presenceLibelle(m.presence)}</span>
                   {m.mot && <span className="resume__mot">« {m.mot} »</span>}
                 </li>
@@ -280,7 +278,7 @@ export function Rsvp() {
               <ul className="membres">
                 {groupe.membres.map((m, i) => {
                   const s = saisies[i]
-                  const nom = `${m.prenom} ${m.nom}`
+                  const nom = nomComplet(m)
                   return (
                     <li key={i} className={marques.membres.includes(i) && s.presence === '' ? 'membre is-manquant' : 'membre'}>
                       <fieldset className="field">

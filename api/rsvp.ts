@@ -63,8 +63,9 @@ function lireMembres(valeur: unknown): Membre[] | null {
     if (!brut || typeof brut !== 'object') return null
     const m = brut as Record<string, unknown>
     const prenom = texte(m.prenom, MAX_NOM)
-    const nom = texte(m.nom, MAX_NOM)
-    if (!prenom || !nom || (m.presence !== 'Oui' && m.presence !== 'Non')) return null
+    // Le nom est facultatif : la liste d'Adham a des invités connus par leur seul prénom.
+    const nom = m.nom === undefined || m.nom === '' ? '' : texte(m.nom, MAX_NOM)
+    if (!prenom || nom === null || (m.presence !== 'Oui' && m.presence !== 'Non')) return null
     const mot = m.mot === undefined || m.mot === '' ? '' : texte(m.mot, MAX_MOT)
     if (mot === null) return null
     membres.push({ prenom, nom, presence: m.presence, mot })
