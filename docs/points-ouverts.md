@@ -21,4 +21,5 @@
 | 14 | Intro allongée : faite le 2026-09-13, deux vidéos concaténées. | tranché | |
 | 15 | Soleil entier dessiné : fourni et posé le 2026-09-13. | tranché | |
 | 16 | Version du film : la complète (oiseaux puis enveloppe, 18 s) est retenue le 2026-09-14, la courte retirée du site. | tranché | |
+| 18 | Enfants dans les groupes : la note « soirée entre adultes » reste sous le formulaire ; si un groupe du Sheet contient des enfants, ils apparaîtront dans la liste avec Oui / Non. À garder cohérent en remplissant l'onglet Invités (adultes seulement) ou en retirant la note. | ouvert | Adham |
 | 17 | Numéro WhatsApp des mariés : renseigné le 2026-09-16 dans `contact.whatsapp`, les mots « WhatsApp » des notes du RSVP sont des liens. | tranché | |

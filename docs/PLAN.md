@@ -8,7 +8,7 @@
 | --- | --- | --- | --- |
 | 1 | Squelette, contenu bilingue, fond | ✅ | 2026-09-03 |
 | 2 | Scroll complet avec soleil | ✅ | 2026-09-13 |
-| 3 | RSVP Google Sheet | ✅ | 2026-09-16 |
+| 3 | RSVP Google Sheet, puis par groupe avec code (ADR-0004) | 🟡 | formulaire libre validé le 2026-09-16 |
 | 4 | Film d'intro et raccord | 🟡 | |
 | 5 | Fusionnée dans la 4 : l'enveloppe est dans le film (décision du 2026-09-12) | | |
 | 6 | Finitions : gyroscope, hirondelles, compte à rebours | ⬜ | |
@@ -67,6 +67,20 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 - Aucune adresse ni secret dans le dépôt ni dans le navigateur
 
 **Validée le 2026-09-16** : envoi de test depuis le téléphone d'Adham arrivé dans le Sheet, fusion dans `main`, fonction de production vérifiée.
+
+**Étape 3 bis — RSVP par groupe avec code (ADR-0004), en cours depuis le 2026-09-16**
+
+**Livrables**
+- `tools/sheets/Code.gs` : onglets Invités et Journal, menu « RSVP » (préparer, générer les codes), recherche par code, enregistrement par groupe. Adham le republie
+- `api/rsvp.ts` : `GET ?code=` (le groupe seul, 404 retardé sur code inconnu) et `POST` (présence par membre, mot facultatif, au moins un mot)
+- Accueil : code lu dans le lien (`/4821`), champ seulement s'il manque ou s'il est inconnu, « Ouvrir » grisé sans code reconnu
+- Formulaire : liste du groupe, Oui / Non, « Laisser un mot » par personne, récapitulatif et « Modifier », fenêtre des manques
+
+**Critères de validation**
+- Le lien d'un groupe de test ouvre le faire-part sans rien demander d'autre que la langue et le prénom
+- La famille de test apparaît au formulaire ; l'envoi met à jour l'onglet Invités et ajoute au Journal
+- Un second membre revient, voit la réponse, ajoute son mot ; les autres mots restent
+- Un lien avec un code faux montre le champ et le message, sans ouvrir ; le lien nu aussi
 
 ## Étape 4 — Film d'intro et raccord
 

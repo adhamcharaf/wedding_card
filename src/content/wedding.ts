@@ -46,10 +46,18 @@ export const wedding = {
   },
 
   text: {
-    /** Écran d'accueil : langue, prénom facultatif, puis « Ouvrir » quand musique et film sont en mémoire. */
+    /** Écran d'accueil : langue, code d'invitation et prénom facultatif, puis « Ouvrir » quand musique et film sont en mémoire. */
     gate: {
       firstName: { fr: 'Votre prénom', en: 'Your first name' },
       optional: { fr: 'facultatif', en: 'optional' },
+      /** Code à 4 chiffres du groupe (ADR-0004), demandé seulement s'il n'est pas dans le lien. */
+      code: { fr: 'Code de votre invitation', en: 'Your invitation code' },
+      /** Sous le champ code. Le mot « WhatsApp » devient un lien si `contact.whatsapp` est renseigné. */
+      noCode: { fr: 'Pas de code ? Écrivez-nous sur WhatsApp.', en: 'No code? Message us on WhatsApp.' },
+      codeUnknown: {
+        fr: 'Ce code ne correspond à aucune invitation. Vérifiez-le, ou écrivez-nous sur WhatsApp.',
+        en: "This code doesn't match any invitation. Please check it, or message us on WhatsApp.",
+      },
       open: { fr: 'Ouvrir', en: 'Open' },
       /** Sous le bouton, tant que tout n'est pas en mémoire. */
       loading: { fr: "L'enveloppe est en route", en: 'The envelope is on its way' },
@@ -116,15 +124,25 @@ export const wedding = {
     rsvp: {
       title: { fr: 'RSVP', en: 'RSVP' },
       intro: {
-        fr: "Merci de nous confirmer votre présence ou votre absence : c'est cette réponse qui réserve votre place.",
-        en: "Please let us know whether you'll be with us: this reply is what reserves your seat.",
+        fr: "Merci de nous confirmer la présence de chacun : c'est cette réponse qui réserve vos places.",
+        en: "Please let us know who will be with us: this reply is what reserves your seats.",
       },
-      firstName: { fr: 'Prénom', en: 'First name' },
-      lastName: { fr: 'Nom', en: 'Last name' },
-      attending: { fr: 'Serez-vous des nôtres ?', en: 'Will you join us?' },
+      /** Le temps de retrouver le groupe. */
+      loading: { fr: 'Un instant, nous retrouvons votre invitation.', en: 'One moment, we are finding your invitation.' },
+      /** Formulaire sans code connu : l'écran d'accueil a été passé sans vérification. */
+      code: { fr: 'Code de votre invitation', en: 'Your invitation code' },
+      find: { fr: 'Retrouver mon invitation', en: 'Find my invitation' },
+      codeUnknown: {
+        fr: 'Ce code ne correspond à aucune invitation. Vérifiez-le, ou écrivez-nous sur WhatsApp.',
+        en: "This code doesn't match any invitation. Please check it, or message us on WhatsApp.",
+      },
       yes: { fr: 'Avec joie', en: 'Joyfully yes' },
       no: { fr: 'Avec regret', en: 'Regretfully no' },
-      /** Une invitation vaut pour une personne (décision du 2026-09-15). Le mot « WhatsApp » devient un lien si `contact.whatsapp` est renseigné. */
+      /** Sous chaque nom : déplie le champ du mot de cette personne. */
+      addWord: { fr: 'Laisser un mot', en: 'Leave a word' },
+      /** Libellé du champ déplié. `{name}` est remplacé. */
+      wordFrom: { fr: 'Un mot de {name}', en: 'A word from {name}' },
+      /** Les places sont comptées par groupe (ADR-0004). Le mot « WhatsApp » devient un lien si `contact.whatsapp` est renseigné. */
       extraGuest: {
         fr: 'Pour une personne supplémentaire, écrivez-nous sur WhatsApp : nous ferons au mieux selon les places disponibles.',
         en: "For an extra guest, message us on WhatsApp and we'll do our best depending on the seats available.",
@@ -133,7 +151,6 @@ export const wedding = {
         fr: 'Ce soir-là, les enfants restent au chaud à la maison : nous avons choisi une célébration entre adultes, merci de votre compréhension.',
         en: "That night, the little ones stay snug at home: we've chosen an adults-only celebration, thank you for understanding.",
       },
-      message: { fr: 'Un mot pour nous', en: 'A word for us' },
       deadline: { fr: 'Réponse souhaitée avant le 15 décembre 2026.', en: 'Kindly reply by December 15, 2026.' },
       send: { fr: 'Envoyer', en: 'Send' },
       sending: { fr: 'Envoi en cours', en: 'Sending' },
@@ -141,13 +158,22 @@ export const wedding = {
         fr: 'Merci, votre réponse est bien enregistrée.',
         en: 'Thank you, your reply has been saved.',
       },
-      /** Fenêtre qui s'ouvre à l'envoi quand il manque un champ. `{fields}` reçoit la liste des libellés manquants. */
+      /** Réponse déjà donnée : le récapitulatif du groupe. `{date}` reçoit la date du dernier envoi. */
+      answered: { fr: 'Votre réponse du {date}', en: 'Your reply from {date}' },
+      /** Membre ajouté après coup, sans réponse encore. */
+      pending: { fr: 'pas encore de réponse', en: 'no reply yet' },
+      edit: { fr: 'Modifier', en: 'Edit' },
+      cancel: { fr: 'Annuler', en: 'Cancel' },
+      /** Fenêtre qui s'ouvre à l'envoi quand il manque quelque chose. `{fields}` reçoit la liste. */
       missing: { fr: 'Il manque encore : {fields}.', en: 'Still missing: {fields}.' },
+      missingPresence: { fr: 'la réponse de {name}', en: "{name}'s reply" },
+      missingWord: { fr: "un mot de l'un d'entre vous", en: 'a word from one of you' },
       ok: { fr: 'Compris', en: 'Got it' },
       errorGeneric: {
         fr: 'Une erreur est survenue. Réessayez dans un instant.',
         en: 'Something went wrong. Please try again in a moment.',
       },
+      retry: { fr: 'Réessayer', en: 'Try again' },
       /** Affiché à la place du formulaire après `rsvpClosesAt`. */
       closed: {
         fr: 'Les réponses sont closes depuis le 15 décembre. Pour toute question, écrivez-nous sur WhatsApp.',

@@ -7,3 +7,4 @@ Une décision non triviale = un fichier. Une ADR ne se modifie pas : une décisi
 | 0001 | [Pile technique](./0001-pile-technique.md) | accepté |
 | 0002 | Intro en vidéo pré-produite plutôt qu'en WebGL | accepté (dans 0001) |
 | 0003 | [RSVP dans un Google Sheet, via une fonction Vercel](./0003-rsvp-google-sheet.md) | accepté, remplace la partie RSVP de 0001 |
+| 0004 | [RSVP par groupe d'invités, avec un code dans le lien](./0004-rsvp-par-groupe.md) | accepté, complète 0003 |
