@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { createPortal } from 'react-dom'
 import { wedding } from '../../content/wedding'
 import { useT } from '../../i18n/useT'
 import { useAppStore } from '../../store/useAppStore'
@@ -166,7 +167,9 @@ export function Rsvp() {
         )}
       </Reveal>
 
-      {fenetre && (
+      {/* Portée dans body : aucun contexte d'empilement de la page ne peut passer devant. */}
+      {fenetre &&
+        createPortal(
         <div className="popup" role="alertdialog" aria-modal="true" aria-describedby="rsvp-popup-texte" onClick={fermer}>
           <div className="popup__card" onClick={(e) => e.stopPropagation()}>
             <p className="popup__text" id="rsvp-popup-texte">
@@ -178,8 +181,9 @@ export function Rsvp() {
               {t(r.ok)}
             </button>
           </div>
-        </div>
-      )}
+        </div>,
+          document.body,
+        )}
     </section>
   )
 }
