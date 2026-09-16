@@ -43,11 +43,11 @@ Toutes en PNG transparent, exportées depuis la maquette :
 gate → intro → scroll
 ```
 
-- **gate** : la vidéo arrêtée sur sa première image (son poster), les oiseaux qui apportent l'enveloppe, avec « toucher pour ouvrir / tap to open » posé dans la bande de ciel, en brun avec un halo crème pour rester lisible. Toute la surface est le bouton. Pendant la gate, le fichier vidéo est téléchargé en mémoire (`fetch` puis blob), car iOS ignore `preload="auto"` : le tap lance `video.play()` dans le même geste (iOS l'exige) depuis le blob, sans attendre le réseau, et débloquera l'audio le jour où il y en aura. Le bouton FR/EN reste accessible au-dessus.
-- **intro** : vidéo plein écran, `object-fit: cover`, `playsinline`, muette. La musique (`public/audio/intro-loop.m4a`, mp3 en secours, le morceau à partir de 1 min 32 jusqu'à sa fin, en boucle, mise en mémoire pendant la gate avant le film, Howler en lecture HTML5) part dans le geste du tap, jamais avant, et continue sur tout le site ; un bouton haut-parleur en haut à gauche la coupe. Pas de bouton pour passer (choix d'Adham). À `timeupdate` sur les 450 dernières ms, la phase passe à `scroll` : le hero s'imprime derrière (voir 5) pendant que la vidéo se fond en 700 ms, puis elle est retirée du DOM. Si la vidéo échoue, on arrive directement sur le hero, sans impression.
+- **gate** : la vidéo arrêtée sur sa première image (son poster), les oiseaux qui apportent l'enveloppe. Dans la bande de ciel, un accueil léger (décision du 2026-09-16) : d'abord le choix de la langue en deux boutons (Français / English), puis un champ « votre prénom (facultatif) » et le bouton « Ouvrir ». Le prénom est mémorisé (`prenom` dans le store, localStorage) et personnalise l'invitation, le RSVP (prérempli) et la phrase de fin ; vide, rien ne change. Le bouton FR/EN n'est pas affiché pendant l'accueil. Pendant ce temps, musique et film sont téléchargés en mémoire en parallèle (`src/lib/precharge.ts`, `fetch` en flux avec progression, puis blob), une fois le poster affiché : iOS ignore `preload="auto"`. « Ouvrir » reste grisé, avec le message « l'enveloppe est en route » et un trait de progression, tant que les deux ne sont pas là ; en cas d'échec ou après 30 s, il s'active et on lira en flux. Le tap lance `video.play()` et la musique dans le même geste (iOS l'exige), depuis les blobs : les deux partent ensemble. En revisite ou pour « revoir le film », l'accueil ne redemande rien : « Bonjour {prénom} » et « Ouvrir ».
+- **intro** : vidéo plein écran, `object-fit: cover`, `playsinline`, muette. La musique (`public/audio/intro-loop.m4a`, mp3 en secours, le morceau à partir de 1 min 32 jusqu'à sa fin, en boucle, mise en mémoire pendant la gate en même temps que le film, Howler en lecture HTML5) part dans le geste du tap, jamais avant, et continue sur tout le site ; un bouton haut-parleur en haut à gauche la coupe. Pas de bouton pour passer (choix d'Adham). À `timeupdate` sur les 450 dernières ms, la phase passe à `scroll` : le hero s'imprime derrière (voir 5) pendant que la vidéo se fond en 700 ms, puis elle est retirée du DOM. Si la vidéo échoue, on arrive directement sur le hero, sans impression.
 - **scroll** : sections, voir 5. Scroll bloqué (`html.is-locked`) tant qu'on n'y est pas, `ScrollTrigger.refresh()` au déblocage.
 
-`prefers-reduced-motion` : on saute gate et intro, on arrive sur le hero directement.
+`prefers-reduced-motion` : l'accueil (langue, prénom) reste, « Ouvrir » est actif tout de suite et mène au hero directement, sans film ; la musique part quand même.
 
 Rejouer : bouton « revoir le film » en fin de page, qui remonte l'intro à neuf (`rejouer()` dans le store, clé `tour` sur le composant).
 
@@ -80,7 +80,7 @@ export const wedding = {
   date: "2027-01-08T20:30:00+00:00",
   venue: { name: "Indian by nature", city: { fr: "Abidjan, Côte d'Ivoire", en: "Abidjan, Ivory Coast" }, mapsUrl: "" },
   text: {
-    gate: { fr: "Toucher pour ouvrir", en: "Tap to open" },
+    gate: { open: { fr: "Ouvrir", en: "Open" }, firstName: { fr: "Votre prénom", en: "Your first name" } },
     invitation: { fr: "...", en: "With full hearts, we joyfully invite you to our wedding" },
     // etc. une clé par bloc de texte
   },
@@ -89,7 +89,7 @@ export const wedding = {
 };
 ```
 
-Langue : anglais au premier chargement pour tout le monde (décision du 2026-09-13, plus de détection du navigateur), bouton FR/EN en haut à droite, choix mémorisé en localStorage. Hook `useT()` qui renvoie la bonne clé. Le RSVP et ses messages d'erreur passent aussi par là.
+Langue : choisie à l'accueil (Français / English, décision du 2026-09-16 ; anglais par défaut avant ce choix, plus de détection du navigateur), puis bouton FR/EN en haut à droite pour changer, choix mémorisé en localStorage. Hook `useT()` qui renvoie la bonne clé. Le RSVP et ses messages d'erreur passent aussi par là.
 
 ## 7. RSVP (Google Sheet, ADR-0003)
 

@@ -87,7 +87,7 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 - Avec « réduire les animations » on arrive directement sur le hero
 - Console vide
 
-**Où on en est (2026-09-14)** : film regénéré avec Seedance 2.5 en deux plans, fin en post-production, version complète de 18 s retenue et fusionnée dans `main`.
+**Où on en est (2026-09-16)** : film regénéré avec Seedance 2.5 (2026-09-14), musique en boucle, accueil léger (langue, prénom facultatif, « Ouvrir » quand musique et film sont en mémoire). Reste la validation d'Adham sur téléphone.
 
 ## Étape 6 — Finitions
 

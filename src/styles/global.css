@@ -225,42 +225,124 @@ html.is-locked body {
   opacity: 0;
 }
 
-/* Toute la surface est le bouton ; le texte se pose dans la bande de ciel
-   entre l'enveloppe portée par les oiseaux (jusqu'à 47 % de la hauteur du film)
-   et les premiers rayons du soleil (55 %). */
+/* L'accueil se pose dans la bande de ciel entre l'enveloppe portée par les
+   oiseaux (jusqu'à 47 % de la hauteur du film) et les rayons du soleil (55 %) :
+   langue, prénom facultatif, puis « Ouvrir » quand tout est en mémoire. */
 .gate {
   position: absolute;
   inset: 0;
-  width: 100%;
   color: var(--ink);
   -webkit-tap-highlight-color: transparent;
 }
 
-.gate__hint {
+/* Accroché au haut de la bande de ciel (47 %) : le champ y tient, le reste descend sur les rayons. */
+.gate__panel {
   position: absolute;
-  top: 50.5%;
-  left: 0;
-  right: 0;
-  font-size: 1.2rem;
-  font-style: italic;
-  letter-spacing: 0.14em;
+  top: 47%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  width: min(78%, 300px);
+  transform: translateX(-50%);
   text-align: center;
-  /* Halo crème : le brun reste lisible sur le papier gaufré. */
+  animation: apparaitre 500ms ease both;
+}
+
+/* Halo crème : le brun reste lisible sur le papier gaufré. */
+.gate__message,
+.gate__hello {
   text-shadow:
     0 0 2px var(--cream),
     0 0 12px rgb(255 244 236 / 0.9),
     0 0 24px rgb(255 244 236 / 0.7);
-  animation: respire 2.4s ease-in-out infinite;
 }
 
-@keyframes respire {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
+.gate__langs {
+  display: flex;
+  gap: 1rem;
+}
+
+.gate__lang {
+  margin-top: 0;
+  background: rgb(255 244 236 / 0.8);
+  text-decoration: none;
+}
+
+.gate__field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+}
+
+.gate__input {
+  padding: 0.5rem 0.8rem;
+  font-size: 1.1rem;
+  text-align: center;
+  background: rgb(255 244 236 / 0.9);
+}
+
+.gate__input::placeholder {
+  color: var(--ink);
+  font-style: italic;
+  opacity: 0.7;
+}
+
+.gate__hello {
+  font-size: 1.2rem;
+  font-style: italic;
+  letter-spacing: 0.08em;
+}
+
+.gate__open {
+  margin-top: 0.2rem;
+  transition: opacity 250ms ease;
+}
+
+.gate__open:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.gate__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.gate__message {
+  font-size: 0.95rem;
+  font-style: italic;
+  letter-spacing: 0.08em;
+}
+
+/* Trait de progression : 2 px, rempli par transform (docs/CONCEPTION.md §5). */
+.gate__bar {
+  display: block;
+  width: 120px;
+  height: 2px;
+  background: rgb(127 47 38 / 0.25);
+  overflow: hidden;
+}
+
+.gate__bar-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--ink);
+  transform-origin: left center;
+  transition: transform 300ms ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .gate__hint {
+  .gate__panel,
+  .gate__bar-fill {
     animation: none;
+    transition: none;
   }
 
   .intro__video {

@@ -18,3 +18,8 @@ export function useDocumentLang() {
     document.documentElement.lang = lang
   }, [lang])
 }
+
+/** Remplace `{name}` par le prénom donné à l'accueil. */
+export function nommer(texte: string, prenom: string): string {
+  return texte.replace('{name}', prenom)
+}
