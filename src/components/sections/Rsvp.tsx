@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { wedding } from '../../content/wedding'
 import { useT } from '../../i18n/useT'
 import { useAppStore } from '../../store/useAppStore'
@@ -19,7 +19,10 @@ function noteAvecLien(texte: string, numero: string) {
   )
 }
 
-type Etat = 'saisie' | 'incomplet' | 'envoi' | 'merci' | 'erreur' | 'clos'
+type Etat = 'saisie' | 'envoi' | 'merci' | 'clos'
+/** Fenêtre par-dessus le formulaire : un champ manque, ou l'envoi a échoué. */
+type Fenetre = { type: 'manquant'; champs: Champ[] } | { type: 'erreur' } | null
+type Champ = 'firstName' | 'lastName' | 'message'
 
 /**
  * Formulaire RSVP (docs/CONCEPTION.md §7). Une invitation vaut pour une
@@ -35,6 +38,26 @@ export function Rsvp() {
   const [etat, setEtat] = useState<Etat>(() =>
     Date.now() >= Date.parse(wedding.rsvpClosesAt) ? 'clos' : 'saisie',
   )
+  const [fenetre, setFenetre] = useState<Fenetre>(null)
+  const [manquants, setManquants] = useState<Champ[]>([])
+  const formulaire = useRef<HTMLFormElement>(null)
+
+  // Échap ferme la fenêtre.
+  useEffect(() => {
+    if (!fenetre) return
+    const surTouche = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') fermer()
+    }
+    window.addEventListener('keydown', surTouche)
+    return () => window.removeEventListener('keydown', surTouche)
+  })
+
+  /** Ferme la fenêtre et pose le curseur dans le premier champ manquant. */
+  function fermer() {
+    const premier = fenetre?.type === 'manquant' ? fenetre.champs[0] : null
+    setFenetre(null)
+    if (premier) formulaire.current?.querySelector<HTMLElement>(`[name="${premier}"]`)?.focus()
+  }
 
   async function envoyer(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -48,8 +71,10 @@ export function Rsvp() {
       website: champ('website'),
       lang,
     }
-    if (!corps.firstName || !corps.lastName || !corps.message) {
-      setEtat('incomplet')
+    const vides = (['firstName', 'lastName', 'message'] as const).filter((c) => !corps[c])
+    setManquants(vides)
+    if (vides.length > 0) {
+      setFenetre({ type: 'manquant', champs: vides })
       return
     }
     setEtat('envoi')
@@ -69,9 +94,13 @@ export function Rsvp() {
       if (!reponse.ok || resultat.ok !== true) throw new Error(String(reponse.status))
       setEtat('merci')
     } catch {
-      setEtat('erreur')
+      setEtat('saisie')
+      setFenetre({ type: 'erreur' })
     }
   }
+
+  const libelles: Record<Champ, string> = { firstName: t(r.firstName), lastName: t(r.lastName), message: t(r.message) }
+  const classe = (champ: Champ) => (manquants.includes(champ) ? 'field__input is-manquant' : 'field__input')
 
   return (
     <section className="section" id="rsvp">
@@ -89,15 +118,15 @@ export function Rsvp() {
         {etat !== 'clos' && etat !== 'merci' && (
           <>
             <p className="lead">{t(r.intro)}</p>
-            <form className="form" onSubmit={envoyer} noValidate>
+            <form className="form" onSubmit={envoyer} noValidate ref={formulaire}>
               <label className="field">
                 <span className="field__label">{t(r.firstName)}</span>
-                <input className="field__input" name="firstName" type="text" autoComplete="given-name" maxLength={80} defaultValue={prenom} />
+                <input className={classe('firstName')} name="firstName" type="text" autoComplete="given-name" maxLength={80} defaultValue={prenom} />
               </label>
 
               <label className="field">
                 <span className="field__label">{t(r.lastName)}</span>
-                <input className="field__input" name="lastName" type="text" autoComplete="family-name" maxLength={80} />
+                <input className={classe('lastName')} name="lastName" type="text" autoComplete="family-name" maxLength={80} />
               </label>
 
               <fieldset className="field">
@@ -121,7 +150,7 @@ export function Rsvp() {
 
               <label className="field">
                 <span className="field__label">{t(r.message)}</span>
-                <textarea className="field__input" name="message" rows={3} maxLength={1000} />
+                <textarea className={classe('message')} name="message" rows={3} maxLength={1000} />
               </label>
 
               {/* Piège à robots : un humain ne le voit pas, un script le remplit. */}
@@ -132,16 +161,25 @@ export function Rsvp() {
               </button>
 
               <p className="form__note">{t(r.deadline)}</p>
-
-              {(etat === 'incomplet' || etat === 'erreur') && (
-                <p className="form__status" role="alert">
-                  {t(etat === 'incomplet' ? r.errorFields : r.errorGeneric)}
-                </p>
-              )}
             </form>
           </>
         )}
       </Reveal>
+
+      {fenetre && (
+        <div className="popup" role="alertdialog" aria-modal="true" aria-describedby="rsvp-popup-texte" onClick={fermer}>
+          <div className="popup__card" onClick={(e) => e.stopPropagation()}>
+            <p className="popup__text" id="rsvp-popup-texte">
+              {fenetre.type === 'manquant'
+                ? t(r.missing).replace('{fields}', fenetre.champs.map((c) => libelles[c].toLocaleLowerCase()).join(', '))
+                : t(r.errorGeneric)}
+            </p>
+            <button type="button" className="btn btn--solid" onClick={fermer} autoFocus>
+              {t(r.ok)}
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

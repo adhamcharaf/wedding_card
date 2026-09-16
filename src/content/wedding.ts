@@ -30,7 +30,7 @@ export const wedding = {
   rsvpClosesAt: '2026-12-16T00:00:00+00:00',
 
   /** Numéro WhatsApp des mariés, chiffres seuls avec l'indicatif (ex. 2250700000000). Vide = pas de lien, le mot reste en texte. */
-  contact: { whatsapp: '' },
+  contact: { whatsapp: '2250747666667' },
 
   sound: {
     mute: { fr: 'Couper la musique', en: 'Mute the music' },
@@ -141,7 +141,9 @@ export const wedding = {
         fr: 'Merci, votre réponse est bien enregistrée.',
         en: 'Thank you, your reply has been saved.',
       },
-      errorFields: { fr: 'Merci de remplir tous les champs.', en: 'Please fill in every field.' },
+      /** Fenêtre qui s'ouvre à l'envoi quand il manque un champ. `{fields}` reçoit la liste des libellés manquants. */
+      missing: { fr: 'Il manque encore : {fields}.', en: 'Still missing: {fields}.' },
+      ok: { fr: 'Compris', en: 'Got it' },
       errorGeneric: {
         fr: 'Une erreur est survenue. Réessayez dans un instant.',
         en: 'Something went wrong. Please try again in a moment.',

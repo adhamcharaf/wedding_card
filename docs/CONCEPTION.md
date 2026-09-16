@@ -100,7 +100,7 @@ Chemin d'une réponse :
 1. Le formulaire (`src/components/sections/Rsvp.tsx`) envoie un JSON à `/api/rsvp`, même origine : la politique de sécurité n'a pas à s'ouvrir.
 2. La fonction Vercel `api/rsvp.ts` valide (prénom, nom, présence, message obligatoires, longueurs bornées), ignore les envois où le piège à robots est rempli, et refuse tout après la clôture (fin du 15 décembre 2026, réponse 410 ; la date est écrite dans `api/rsvp.ts` et dans `wedding.rsvpClosesAt`, à changer ensemble).
 3. Elle transmet la ligne au script Apps Script attaché au Sheet (`tools/sheets/Code.gs`, publié en application web) avec un secret partagé. Adresse et secret vivent dans les variables Vercel `RSVP_SHEET_URL` et `RSVP_SECRET`, jamais dans le navigateur.
-4. Le site affiche le remerciement, ou une erreur lisible, ou le message de clôture.
+4. Le site affiche le remerciement, ou le message de clôture. Un champ oublié (souvent le mot) ou un envoi échoué ouvre une petite fenêtre par-dessus le formulaire, qui nomme les champs manquants ; à sa fermeture, le curseur se pose dans le premier et les champs vides restent soulignés jusqu'à l'envoi suivant.
 
 Une invitation vaut pour une personne (décision du 2026-09-15) : pas de nombre de personnes. Deux notes sous le choix : soirée entre adultes, et personne supplémentaire à demander sur WhatsApp. Les doublons se trient dans le Sheet. Pas de limitation de débit : lien transmis de la main à la main, piège à robots et bornes de taille suffisent (décision du 2026-09-15).
 

@@ -21,4 +21,4 @@
 | 14 | Intro allongée : faite le 2026-09-13, deux vidéos concaténées. | tranché | |
 | 15 | Soleil entier dessiné : fourni et posé le 2026-09-13. | tranché | |
 | 16 | Version du film : la complète (oiseaux puis enveloppe, 18 s) est retenue le 2026-09-14, la courte retirée du site. | tranché | |
-| 17 | Numéro WhatsApp des mariés (`contact.whatsapp` dans `src/content/wedding.ts`, chiffres avec l'indicatif) : tant qu'il est vide, le mot « WhatsApp » des notes du RSVP reste du texte sans lien. | à faire | Adham |
+| 17 | Numéro WhatsApp des mariés : renseigné le 2026-09-16 dans `contact.whatsapp`, les mots « WhatsApp » des notes du RSVP sont des liens. | tranché | |
