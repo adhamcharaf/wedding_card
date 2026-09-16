@@ -106,6 +106,8 @@ Une invitation vaut pour une personne (décision du 2026-09-15) : pas de nombre 
 
 En local, `vite` ne sert pas `api/` : la fonction se teste avec le serveur de test du scratchpad, qui l'empaquette et simule le script Google.
 
+Adresse publique : `https://adhamlara-wedding.online` (domaine Namecheap, DNS chez Vercel), `wedding-card-lyart-beta.vercel.app` en secours. Le site est marqué non indexable.
+
 ## 8. Performance
 
 - Vidéo préchargée pendant la gate, jamais en autoplay avant le tap
