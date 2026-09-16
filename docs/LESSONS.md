@@ -51,16 +51,10 @@
 - **Règle** : tuile PNG répétée sur un calque fixe qui déborde d'une tuile, déplacé par `transform` en keyframes `steps()`. Jamais `background-position` : c'est un repaint plein écran à chaque pas, contraire à la règle transform/opacity de `CLAUDE.md`.
 
 ### Variables d'environnement Vite invisibles
-- **Contexte** : Supabase.
+- **Contexte** : toute variable lue par le site.
 - **Symptôme** : `undefined` au runtime.
 - **Cause** : Vite n'expose que les variables préfixées `VITE_`, lues au build.
-- **Règle** : `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, et relancer `npm run dev` après modification du `.env`.
-
-### Insert Supabase refusé
-- **Contexte** : RSVP.
-- **Symptôme** : erreur 401 ou 42501.
-- **Cause** : RLS activé sans policy insert pour `anon`, ou colonne non nullable non renseignée.
-- **Règle** : la policy est dans `supabase/schema.sql`, on vérifie qu'elle est appliquée avant de chercher dans le code.
+- **Règle** : préfixe `VITE_` pour le navigateur, et relancer `npm run dev` après modification du `.env`. Les variables de la fonction `api/rsvp.ts` (`RSVP_SHEET_URL`, `RSVP_SECRET`) ne sont pas préfixées : elles ne doivent jamais atteindre le navigateur.
 
 ### Draggable GSAP bloque le scroll
 - **Contexte** : sceau de l'enveloppe.
@@ -138,3 +132,33 @@
 - **Contexte** : mp3 fourni avec une image de 1280 x 720 incrustée en tête de fichier (tag ID3, 480 Ko), copiée telle quelle par ffmpeg dans les exports.
 - **Symptôme** : le navigateur ne lit les métadonnées qu'après avoir reçu une grande partie du fichier ; en flux, la musique part avec des secondes de retard.
 - **Règle** : exporter l'audio avec `-vn -map_metadata -1`, en AAC m4a avec `-movflags +faststart` (en-tête en tête de fichier) et un mp3 propre en secours. Le Chromium de test ne décode pas l'AAC : vérifier la latence sur téléphone.
+
+### L'interception Playwright désactive le cache et fait re-télécharger le poster
+- **Contexte** : étape 7, mesure du temps d'affichage de l'écran d'accueil sous 4G simulée, avec `page.route` pour remplacer le MP4 par un WebM.
+- **Symptôme** : le poster préchargé par `<link rel="preload">` était téléchargé une seconde fois quand la balise vidéo le demandait, 5 s de plus.
+- **Cause** : dès qu'une route est posée, Chromium coupe son cache HTTP pour toute la page. Ce n'est pas le comportement d'un vrai navigateur.
+- **Règle** : les mesures de chargement se font sans `page.route`. On garde l'interception pour les tests de parcours, où le cache n'a pas d'importance.
+
+### Les gros téléchargements de la gate freinaient l'écran d'accueil
+- **Contexte** : étape 7, Lighthouse mobile et mesure sous 4G simulée.
+- **Symptôme** : le poster de l'écran d'accueil n'apparaissait qu'à 8 s : demandé seulement après le script (2,7 s), puis en concurrence avec la musique mise en mémoire.
+- **Cause** : le poster n'était découvert qu'au rendu React, et les `fetch` de la musique et du film partaient au montage, à priorité normale.
+- **Règle** : `<link rel="preload" as="image" fetchpriority="high">` sur le poster dans `index.html` ; les mises en mémoire attendent que le poster soit affiché (3 s au plus) et partent en `priority: 'low'`. Écran d'accueil à 3,8 s au lieu de 8 dans les mêmes conditions ; le poster est en cache dès 2,6 s, le reste est le temps de lecture du script.
+
+### Un code 200 n'est pas un succès
+- **Contexte** : étape 3, premier test du formulaire RSVP contre le serveur de test, dont l'ancienne instance tournait encore sans la fonction.
+- **Symptôme** : le formulaire affichait « merci, réponse enregistrée » alors que rien n'avait été écrit : le serveur renvoyait la page d'accueil en HTML, code 200.
+- **Cause** : le front ne vérifiait que `response.ok`.
+- **Règle** : le succès, c'est un JSON `{ ok: true }` lu et vérifié ; tout le reste est une erreur affichée. Et avant un test, s'assurer que le serveur qui répond est bien celui qu'on croit.
+
+### `pkill -f` avec le motif dans la même commande tue le shell
+- **Contexte** : redémarrage du serveur de test depuis une commande qui contenait aussi son lancement.
+- **Symptôme** : la commande entière s'arrête (code 144), rien après n'est exécuté, y compris le relancement.
+- **Cause** : `pkill -f` compare le motif à la ligne de commande de tous les processus, dont celle du shell qui exécute la commande, qui contient forcément le motif puisqu'elle contient le lancement.
+- **Règle** : arrêter un serveur par son port ou son PID enregistré, jamais par un motif présent dans la même commande.
+
+### Vercel compile `api/` fichier par fichier, sans empaqueter
+- **Contexte** : étape 3, `api/rsvp.ts` importait la date de clôture depuis `src/content/wedding.ts`.
+- **Symptôme** : build vert, mais chaque appel répondait 500 `FUNCTION_INVOCATION_FAILED` : `Cannot find module '/var/task/src/content/wedding'`. Le journal de build montrait aussi des erreurs TypeScript ignorées (extension manquante, `process` inconnu) : Vercel compile avec le `tsconfig.json` le plus proche du fichier, ici la racine qui n'inclut rien.
+- **Cause** : le constructeur Node de Vercel compile les fichiers de `api/` un par un et ne suit pas les imports vers le reste du dépôt.
+- **Règle** : une fonction `api/` se suffit à elle-même (pas d'import depuis `src/`), avec son propre `api/tsconfig.json` (types Node, DOM pour `Request`/`Response`). On lit le journal de build même quand il est vert, et on appelle l'adresse déployée avant d'annoncer que ça marche.

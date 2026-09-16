@@ -18,8 +18,8 @@ export const assets = {
   /** Film d'intro, 18 s (Seedance 2.5, masters et prompts dans assets/seedance/) : les oiseaux apportent l'enveloppe, puis elle s'ouvre et la carte sort. Sans piste audio. Le poster est sa première image, l'écran d'accueil. */
   intro: { src: '/video/intro.mp4', poster: '/video/intro-poster.jpg', width: 720, height: 1280 },
   /**
-   * Musique : les deux premières minutes du morceau choisi par Adham, en boucle,
-   * fondus de raccord, 96 kbit/s, sans pochette incrustée ni métadonnées
+   * Musique : le morceau choisi par Adham à partir de 1 min 32 jusqu'à sa fin
+   * (2 min 28, le silence final retiré), en boucle, 96 kbit/s, sans pochette incrustée ni métadonnées
    * (la pochette du mp3 d'origine, 480 Ko en tête de fichier, retardait la
    * lecture). AAC m4a avec en-tête en tête de fichier, mp3 en secours.
    * Original dans assets/audio/.

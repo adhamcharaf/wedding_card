@@ -24,10 +24,25 @@ const FONDU_MS = 700
  */
 let filmEnMemoire: Promise<string> | null = null
 function prechargerFilm(src: string): Promise<string> {
-  filmEnMemoire ??= fetch(src)
+  // Priorité basse : rien de ce qui s'affiche ne doit attendre derrière ces 3,3 Mo.
+  filmEnMemoire ??= fetch(src, { priority: 'low' })
     .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(String(r.status)))))
     .then((blob) => URL.createObjectURL(blob))
   return filmEnMemoire
+}
+
+/**
+ * Résolu quand l'image est arrivée (ou en erreur), au plus tard après 3 s :
+ * les gros téléchargements ne partent qu'une fois l'écran d'accueil affiché.
+ */
+function attendreImage(src: string): Promise<void> {
+  return new Promise((resolve) => {
+    const img = new Image()
+    img.onload = () => resolve()
+    img.onerror = () => resolve()
+    img.src = src
+    window.setTimeout(resolve, 3000)
+  })
 }
 
 /**
@@ -56,9 +71,11 @@ export function Intro() {
   // téléchargement échoue, on retombe sur l'URL réseau au moment du tap.
   useEffect(() => {
     let actif = true
-    // La musique d'abord (1,9 Mo), le film ensuite (3,3 Mo) : le tap doit
-    // avoir le son tout de suite, le film peut lire depuis le réseau.
-    prechargerMusique()
+    // Le poster d'abord, c'est l'écran d'accueil. Puis la musique (1,4 Mo) :
+    // le tap doit avoir le son tout de suite. Le film (3,3 Mo) en dernier, il
+    // peut lire depuis le réseau.
+    attendreImage(intro.poster)
+      .then(() => prechargerMusique())
       .then(() => prechargerFilm(intro.src))
       .then((url) => {
         const v = video.current
@@ -68,7 +85,7 @@ export function Intro() {
     return () => {
       actif = false
     }
-  }, [intro.src])
+  }, [intro.src, intro.poster])
 
   // Reduced-motion : ni gate ni film, on arrive sur le hero.
   useEffect(() => {

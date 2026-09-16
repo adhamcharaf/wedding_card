@@ -460,4 +460,20 @@
   text-align: center;
 }
 
+/* Piège à robots : hors écran, jamais dans le parcours au clavier. */
+.form__hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.form__status {
+  font-size: 0.95rem;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.4;
+}
+
 /* ---------- Fin ---------- */

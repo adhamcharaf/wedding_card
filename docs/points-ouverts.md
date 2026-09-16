@@ -9,8 +9,8 @@
 | 2 | Plan des mains : tournage réel ou génération IA ? | provisoire : tournage réel | Adham |
 | 3 | Musique : piste libre de droits ou composition Lyria ? | ouvert | Adham |
 | 4 | Version 16:9 de la vidéo pour desktop, ou colonne mobile centrée uniquement ? | provisoire : colonne mobile | Adham |
-| 5 | Programme de la soirée : section retirée du site le 2026-09-13, absente du croquis de Lara. Le composant reste dans le dépôt si elle revient. | tranché | |
-| 6 | Infos pratiques (dress code, hébergement) : section retirée du site le 2026-09-13, absente du croquis de Lara. Le composant reste dans le dépôt si elle revient. | tranché | |
+| 5 | Programme de la soirée : section retirée du site le 2026-09-13, absente du croquis de Lara. Composant et contenu supprimés du dépôt le 2026-09-15 (l'historique git les garde). | tranché | |
+| 6 | Infos pratiques (dress code, hébergement) : section retirée du site le 2026-09-13, absente du croquis de Lara. Composant et contenu supprimés du dépôt le 2026-09-15 (l'historique git les garde). | tranché | |
 | 7 | URL Google Maps d'Indian by nature (`venue.mapsUrl` dans `src/content/wedding.ts`) | tranché le 2026-09-03 : renseignée | Adham |
 | 8 | Textes FR et EN : ceux de Lara sont en place depuis le 2026-09-13 (titre des photos, invitation, liste de mariage, ville en EN). | tranché | |
 | 9 | Vidéo d'intro : tranché le 2026-09-12, c'est le film de l'enveloppe (`public/video/intro.mp4`). Reste ouvert : le son (aucun pour l'instant) et une version 1080 x 1920 si l'outil la sort un jour. | provisoire | Adham |
@@ -21,3 +21,4 @@
 | 14 | Intro allongée : faite le 2026-09-13, deux vidéos concaténées. | tranché | |
 | 15 | Soleil entier dessiné : fourni et posé le 2026-09-13. | tranché | |
 | 16 | Version du film : la complète (oiseaux puis enveloppe, 18 s) est retenue le 2026-09-14, la courte retirée du site. | tranché | |
+| 17 | Numéro WhatsApp des mariés (`contact.whatsapp` dans `src/content/wedding.ts`, chiffres avec l'indicatif) : tant qu'il est vide, le mot « WhatsApp » des notes du RSVP reste du texte sans lien. | à faire | Adham |

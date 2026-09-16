@@ -8,11 +8,11 @@
 | --- | --- | --- | --- |
 | 1 | Squelette, contenu bilingue, fond | ✅ | 2026-09-03 |
 | 2 | Scroll complet avec soleil | ✅ | 2026-09-13 |
-| 3 | RSVP Supabase | ⬜ | |
+| 3 | RSVP Google Sheet | 🟡 | |
 | 4 | Film d'intro et raccord | 🟡 | |
 | 5 | Fusionnée dans la 4 : l'enveloppe est dans le film (décision du 2026-09-12) | | |
 | 6 | Finitions : gyroscope, hirondelles, compte à rebours | ⬜ | |
-| 7 | Performance et mise en ligne | ⬜ | |
+| 7 | Performance et mise en ligne | 🟡 | |
 
 Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 
@@ -51,19 +51,22 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 - Au premier écran on voit la moitié du soleil, le reste se découvre au scroll sans qu'il bouge, et il ne réapparaît plus une fois dépassé
 - Chaque section correspond à sa maquette en esprit (pas au pixel)
 
-## Étape 3 — RSVP Supabase
+## Étape 3 — RSVP Google Sheet
 
-**Objectif** : le formulaire écrit dans Supabase.
+**Objectif** : le formulaire ajoute une ligne au Google Sheet d'Adham (ADR-0003, `CONCEPTION.md` §7).
 
 **Livrables**
-- `supabase/schema.sql` avec la table, RLS et la policy insert (section 7 de `CONCEPTION.md`) — Adham l'exécute
-- Client Supabase, envoi, état chargement, message de confirmation bilingue, honeypot
-- Gestion d'erreur lisible
+- `api/rsvp.ts` : validation, piège à robots, clôture au 15 décembre, transmission au script
+- `tools/sheets/Code.gs` : script à coller dans le Sheet, avec ses étapes d'installation — Adham le publie
+- Formulaire branché : prénom, nom, présence, message obligatoire, envoi, états chargement / merci / erreur / clos, bilingue
+- `.env.example` : `RSVP_SHEET_URL`, `RSVP_SECRET`
 
 **Critères de validation**
-- Une réponse envoyée depuis le téléphone apparaît dans la table sur le dashboard Supabase
-- Un second envoi sans nom est refusé avec un message clair
-- La clé anon n'apparaît pas dans le dépôt
+- Une réponse envoyée depuis le téléphone apparaît dans le Sheet
+- Un envoi avec un champ vide est refusé avec un message clair, sans rien écrire
+- Aucune adresse ni secret dans le dépôt ni dans le navigateur
+
+**Où on en est (2026-09-16)** : code écrit et testé en local avec un faux Sheet ; Sheet créé, script publié (répond au GET, écrit une ligne au POST, refuse un mauvais secret), variables posées dans Vercel. Reste : un envoi de test réel depuis le téléphone via la fonction déployée, puis fusion dans `main`.
 
 ## Étape 4 — Film d'intro et raccord
 
@@ -73,7 +76,7 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 - `public/video/intro.mp4` sans piste audio et son poster, référencés dans `assets.ts`
 - Machine à phases `gate → intro → scroll`, écran d'accueil sur l'enveloppe fermée, pas de bouton « passer », scroll bloqué jusqu'à la fin
 - Raccord : hero imprimé sur les 300 dernières ms, vidéo fondue en 700 ms, fallback direct si la vidéo échoue
-- Impression de la carte en GSAP dans `Hero.tsx`, réglée dans `tools/animation/Impression.tsx`
+- Impression de la carte en GSAP dans `Hero.tsx`
 - Bouton « revoir le film » en fin de page
 - `prefers-reduced-motion` = arrivée directe sur le hero
 
@@ -107,3 +110,5 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 **Critères de validation**
 - Lighthouse mobile > 85 en performance
 - Le lien Vercel fonctionne sur un téléphone en 4G en moins de 3 s jusqu'à l'écran d'accueil
+
+**Où on en est (2026-09-15)** : ménage du dépôt, en-têtes de sécurité et de cache dans `vercel.json`, `noindex` et aperçu de lien dans `index.html`. Images gardées en PNG (DECISIONS.md). Reste : mesure Lighthouse sur la version en ligne et test 4G.

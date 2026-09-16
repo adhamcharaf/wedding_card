@@ -34,7 +34,7 @@ Toutes en PNG transparent, exportées depuis la maquette :
 - GSAP + ScrollTrigger + Draggable (enveloppe, scroll, hirondelles)
 - Zustand : une seule store, la phase
 - Howler.js : musique (en place depuis le 2026-09-14, lancée au tap de la gate)
-- Supabase : table RSVP
+- Google Sheet via une fonction Vercel : réponses RSVP (ADR-0003)
 - Pas de R3F, pas de Theatre.js, pas de postprocessing
 
 ## 4. Machine à phases
@@ -44,7 +44,7 @@ gate → intro → scroll
 ```
 
 - **gate** : la vidéo arrêtée sur sa première image (son poster), les oiseaux qui apportent l'enveloppe, avec « toucher pour ouvrir / tap to open » posé dans la bande de ciel, en brun avec un halo crème pour rester lisible. Toute la surface est le bouton. Pendant la gate, le fichier vidéo est téléchargé en mémoire (`fetch` puis blob), car iOS ignore `preload="auto"` : le tap lance `video.play()` dans le même geste (iOS l'exige) depuis le blob, sans attendre le réseau, et débloquera l'audio le jour où il y en aura. Le bouton FR/EN reste accessible au-dessus.
-- **intro** : vidéo plein écran, `object-fit: cover`, `playsinline`, muette. La musique (`public/audio/intro-loop.m4a`, mp3 en secours, les deux premières minutes du morceau, en boucle, mise en mémoire pendant la gate avant le film, Howler en lecture HTML5) part dans le geste du tap, jamais avant, et continue sur tout le site ; un bouton haut-parleur en haut à gauche la coupe. Pas de bouton pour passer (choix d'Adham). À `timeupdate` sur les 450 dernières ms, la phase passe à `scroll` : le hero s'imprime derrière (voir 5) pendant que la vidéo se fond en 700 ms, puis elle est retirée du DOM. Si la vidéo échoue, on arrive directement sur le hero, sans impression.
+- **intro** : vidéo plein écran, `object-fit: cover`, `playsinline`, muette. La musique (`public/audio/intro-loop.m4a`, mp3 en secours, le morceau à partir de 1 min 32 jusqu'à sa fin, en boucle, mise en mémoire pendant la gate avant le film, Howler en lecture HTML5) part dans le geste du tap, jamais avant, et continue sur tout le site ; un bouton haut-parleur en haut à gauche la coupe. Pas de bouton pour passer (choix d'Adham). À `timeupdate` sur les 450 dernières ms, la phase passe à `scroll` : le hero s'imprime derrière (voir 5) pendant que la vidéo se fond en 700 ms, puis elle est retirée du DOM. Si la vidéo échoue, on arrive directement sur le hero, sans impression.
 - **scroll** : sections, voir 5. Scroll bloqué (`html.is-locked`) tant qu'on n'y est pas, `ScrollTrigger.refresh()` au déblocage.
 
 `prefers-reduced-motion` : on saute gate et intro, on arrive sur le hero directement.
@@ -58,7 +58,7 @@ Une seule page en plus : `/compte`, les coordonnées bancaires, ouverte depuis l
 Sections, dans l'ordre (croquis de Lara, 2026-09-13) : hero (Save the Date) · photos d'enfance · invitation · date, heure, lieu, Maps · compte à rebours · liste de mariage avec le dessin du couple · RSVP · fin (phrase, « revoir le film », demi-soleil dessiné avec les initiales gravées, `sun-end.png`).
 
 Effets, et seulement ceux-là :
-- **Impression de la carte** (arrivée depuis le film) : la carte dessinée d'un seul tenant (`card.png`, texte compris) se pose en se fondant (scale 1,06 → 1, 1,3 s), le petit soleil arrive en tournant (−120° → 0), le grand soleil monte du bas. Une timeline GSAP dans `Hero.tsx`. En arrivée directe, simple fondu. L'atelier `tools/animation/Impression.tsx` décrit l'ancienne version en morceaux, à réaligner si on y retouche.
+- **Impression de la carte** (arrivée depuis le film) : la carte dessinée d'un seul tenant (`card.png`, texte compris) se pose en se fondant (scale 1,06 → 1, 1,3 s), le petit soleil arrive en tournant (−120° → 0), le grand soleil monte du bas. Une timeline GSAP dans `Hero.tsx`. En arrivée directe, simple fondu. (L'atelier Remotion `tools/animation`, qui décrivait l'ancienne version en morceaux, a été retiré du dépôt le 2026-09-15.)
 - **Soleil posé sous la carte** : un seul `sun-gold.png`, immobile, accroché au bas du ruban (`--sun-gap`), donc à la même place par rapport à la carte quelle que soit la taille de l'écran. On en voit le haut au premier écran, le reste se découvre en descendant sans qu'il bouge ; une fois dépassé, il ne revient pas. Il n'y a plus de soleil au-delà du hero. Largeur 78 % de l'écran (`--sun-size`). Aucune animation, aucun ScrollTrigger.
 - **Lisibilité sur le soleil** : réglée par l'espacement, pas par un effet. Le padding bas du hero réserve exactement la place du soleil, donc aucun texte ne passe sur l'or. Ni fondu, ni halo (décision du 2026-09-05, `DECISIONS.md`).
 - **Hirondelle qui traverse** : un ScrollTrigger par entrée de section, une hirondelle passe une fois, toujours de gauche à droite, 1,2 s.
@@ -84,31 +84,27 @@ export const wedding = {
     invitation: { fr: "...", en: "With full hearts, we joyfully invite you to our wedding" },
     // etc. une clé par bloc de texte
   },
-  registry: [{ label: { fr: "Cilya's home", en: "Cilya's home" }, url: "" }],
-  program: [{ time: "20:30", label: { fr: "", en: "" } }],
+  registry: [{ label: { fr: "Cilya home", en: "Cilya home" }, url: "" }],
+  bank: { holder: "", name: "", iban: "", swift: "" },
 };
 ```
 
 Langue : anglais au premier chargement pour tout le monde (décision du 2026-09-13, plus de détection du navigateur), bouton FR/EN en haut à droite, choix mémorisé en localStorage. Hook `useT()` qui renvoie la bonne clé. Le RSVP et ses messages d'erreur passent aussi par là.
 
-## 7. RSVP (Supabase)
+## 7. RSVP (Google Sheet, ADR-0003)
 
-Table `rsvp` :
+Le fichier partagé est la base : chaque réponse ajoute une ligne à un Google Sheet d'Adham (date, prénom, nom, présence, message, langue), qu'il partage et exporte en Excel quand il veut.
 
-```sql
-create table rsvp (
-  id uuid primary key default gen_random_uuid(),
-  created_at timestamptz default now(),
-  name text not null,
-  attending boolean not null,
-  message text,
-  lang text
-);
-alter table rsvp enable row level security;
-create policy "anon insert" on rsvp for insert to anon with check (true);
-```
+Chemin d'une réponse :
 
-Une invitation vaut pour une personne (décision du 2026-09-15, qui remplace celle du 2026-09-13) : pas de nombre de personnes ni de second nom. Deux notes sous le choix : soirée entre adultes, et personne supplémentaire à demander sur WhatsApp. Aucune policy de lecture pour anon : le formulaire écrit, personne ne lit depuis le site. Vous consultez dans le dashboard Supabase. Clé anon dans `.env` (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`). Champ honeypot caché contre les bots, désactivation du bouton pendant l'envoi, message de confirmation bilingue.
+1. Le formulaire (`src/components/sections/Rsvp.tsx`) envoie un JSON à `/api/rsvp`, même origine : la politique de sécurité n'a pas à s'ouvrir.
+2. La fonction Vercel `api/rsvp.ts` valide (prénom, nom, présence, message obligatoires, longueurs bornées), ignore les envois où le piège à robots est rempli, et refuse tout après la clôture (fin du 15 décembre 2026, réponse 410 ; la date est écrite dans `api/rsvp.ts` et dans `wedding.rsvpClosesAt`, à changer ensemble).
+3. Elle transmet la ligne au script Apps Script attaché au Sheet (`tools/sheets/Code.gs`, publié en application web) avec un secret partagé. Adresse et secret vivent dans les variables Vercel `RSVP_SHEET_URL` et `RSVP_SECRET`, jamais dans le navigateur.
+4. Le site affiche le remerciement, ou une erreur lisible, ou le message de clôture.
+
+Une invitation vaut pour une personne (décision du 2026-09-15) : pas de nombre de personnes. Deux notes sous le choix : soirée entre adultes, et personne supplémentaire à demander sur WhatsApp. Les doublons se trient dans le Sheet. Pas de limitation de débit : lien transmis de la main à la main, piège à robots et bornes de taille suffisent (décision du 2026-09-15).
+
+En local, `vite` ne sert pas `api/` : la fonction se teste avec le serveur de test du scratchpad, qui l'empaquette et simule le script Google.
 
 ## 8. Performance
 
@@ -122,7 +118,7 @@ Une invitation vaut pour une personne (décision du 2026-09-15, qui remplace cel
 
 1. Squelette : Vite, routes de phase, store Zustand, fichier de contenu, i18n, fond pêche + grain
 2. Scroll complet avec tous les contenus et le soleil qui monte (sans vidéo)
-3. RSVP Supabase
+3. RSVP Google Sheet
 4. Bridge et enveloppe (avec des placeholders PNG si les découpes ne sont pas prêtes)
 5. Intégration vidéo et raccord poster
 6. Gyroscope, hirondelles au scroll, compte à rebours animé
