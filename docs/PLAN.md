@@ -68,7 +68,7 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 
 **Validée le 2026-09-16** : envoi de test depuis le téléphone d'Adham arrivé dans le Sheet, fusion dans `main`, fonction de production vérifiée.
 
-**Étape 3 bis — RSVP par groupe avec code (ADR-0004), en cours depuis le 2026-09-16**
+**Étape 3 bis — RSVP par groupe avec code (ADR-0004), validée sur téléphone le 2026-09-16** (branche `claude/rsvp-groupes`, fusion prévue à l'arrivée de la liste des invités)
 
 **Livrables**
 - `tools/sheets/Code.gs` : onglets Invités et Journal, menu « RSVP » (préparer, générer les codes), recherche par code, enregistrement par groupe. Adham le republie
