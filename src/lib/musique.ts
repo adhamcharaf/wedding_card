@@ -2,8 +2,8 @@ import { Howl, Howler } from 'howler'
 import { assets } from '../content/assets'
 
 /**
- * Musique du site (docs/CONCEPTION.md §4) : les deux premières minutes du
- * morceau, en boucle, lancées au tap sur l'écran d'accueil et jamais avant.
+ * Musique du site (docs/CONCEPTION.md §4) : le morceau à partir de 1 min 32
+ * jusqu'à sa fin, en boucle, lancé au tap sur l'écran d'accueil et jamais avant.
  *
  * Lecture HTML5 (`html5: true`), jamais Web Audio : en Web Audio, Howler
  * télécharge et décode tout le fichier avant la première note, ce qui prenait
