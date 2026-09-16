@@ -66,7 +66,7 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 - Un envoi avec un champ vide est refusé avec un message clair, sans rien écrire
 - Aucune adresse ni secret dans le dépôt ni dans le navigateur
 
-**Où on en est (2026-09-15)** : code écrit et testé en local avec un faux Sheet. Reste : Adham crée le Sheet, publie le script et pose les deux variables dans Vercel, puis un envoi de test réel.
+**Où on en est (2026-09-16)** : code écrit et testé en local avec un faux Sheet ; Sheet créé, script publié (répond au GET, écrit une ligne au POST, refuse un mauvais secret), variables posées dans Vercel. Reste : un envoi de test réel depuis le téléphone via la fonction déployée, puis fusion dans `main`.
 
 ## Étape 4 — Film d'intro et raccord
 
