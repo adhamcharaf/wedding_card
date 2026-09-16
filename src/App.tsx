@@ -49,7 +49,7 @@ export default function App() {
     <>
       <Background />
       <Intro key={tour} />
-      <LangToggle />
+      {phase !== 'gate' && <LangToggle />}
       <ScrollHint />
       <SoundToggle />
       {/* Invisible tant que le film n'est pas fini, mais en page : les images se chargent et ScrollTrigger mesure juste. */}

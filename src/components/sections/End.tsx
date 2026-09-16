@@ -1,6 +1,6 @@
 import { assets } from '../../content/assets'
 import { wedding } from '../../content/wedding'
-import { useT } from '../../i18n/useT'
+import { nommer, useT } from '../../i18n/useT'
 import { useAppStore } from '../../store/useAppStore'
 import { Reveal } from '../Reveal'
 
@@ -11,6 +11,8 @@ import { Reveal } from '../Reveal'
 export function End() {
   const t = useT()
   const rejouer = useAppStore((s) => s.rejouer)
+  const prenom = useAppStore((s) => s.prenom)
+  const phrase = prenom ? nommer(t(wedding.text.end.closingNamed), prenom) : t(wedding.text.end.closing)
 
   function revoir() {
     window.scrollTo({ top: 0, behavior: 'instant' })
@@ -20,7 +22,7 @@ export function End() {
   return (
     <section className="section section--end" id="end">
       <Reveal className="stack">
-        <p className="subtitle">{t(wedding.text.end.closing)}</p>
+        <p className="subtitle">{phrase}</p>
         <button type="button" className="end__replay" onClick={revoir}>
           {t(wedding.text.end.replay)}
         </button>

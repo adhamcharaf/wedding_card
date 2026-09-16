@@ -21,12 +21,15 @@ interface AppState {
   /** Musique coupée par l'invité. Repart non coupée à chaque visite. */
   sonCoupe: boolean
   lang: Lang
+  /** Prénom donné à l'accueil, mémorisé. `null` tant que l'accueil n'a pas été passé, `''` si laissé vide. */
+  prenom: string | null
   setPhase: (phase: Phase) => void
   /** Bouton « revoir le film » : retour à la gate, intro remontée à neuf. */
   rejouer: () => void
   /** Sortie de l'intro, avec ou sans impression de la carte. */
   finirIntro: (impression: boolean) => void
   setLang: (lang: Lang) => void
+  setPrenom: (prenom: string) => void
   setSonCoupe: (coupe: boolean) => void
 }
 
@@ -46,13 +49,15 @@ export const useAppStore = create<AppState>()(
       rejouer: () => set((s) => ({ phase: 'gate', impression: false, tour: s.tour + 1 })),
       finirIntro: (impression) => set({ phase: 'scroll', impression }),
       setLang: (lang) => set({ lang }),
+      prenom: null,
+      setPrenom: (prenom) => set({ prenom }),
       sonCoupe: false,
       setSonCoupe: (sonCoupe) => set({ sonCoupe }),
     }),
     {
       name: STORAGE_KEY,
-      // Seule la langue est mémorisée : la phase repart de zéro à chaque visite.
-      partialize: (state) => ({ lang: state.lang }),
+      // Langue et prénom sont mémorisés : la phase repart de zéro à chaque visite.
+      partialize: (state) => ({ lang: state.lang, prenom: state.prenom }),
     },
   ),
 )

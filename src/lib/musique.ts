@@ -1,5 +1,6 @@
 import { Howl, Howler } from 'howler'
 import { assets } from '../content/assets'
+import { telechargerEnMemoire, type Progression } from './precharge'
 
 /**
  * Musique du site (docs/CONCEPTION.md §4) : le morceau à partir de 1 min 32
@@ -9,8 +10,8 @@ import { assets } from '../content/assets'
  * télécharge et décode tout le fichier avant la première note, ce qui prenait
  * des minutes sur mobile (docs/LESSONS.md). Le fichier est mis en mémoire
  * pendant la gate, avant le film, pour que le tap ne dépende pas du réseau.
- * Si le tap arrive avant, on lit en flux depuis le réseau : le film n'a pas
- * encore commencé à se télécharger, le flux a toute la bande passante.
+ * L'écran d'accueil ne propose « Ouvrir » qu'une fois le fichier en mémoire ;
+ * s'il a échoué, on lit en flux depuis le réseau.
  * Un seul Howl pour toute la visite.
  */
 let howl: Howl | null = null
@@ -37,16 +38,12 @@ function creer(src: string, format?: string): Howl {
   })
 }
 
-/** À appeler dès la gate, avant le préchargement du film. Ne rejette jamais. */
-export function prechargerMusique(): Promise<void> {
-  enMemoire ??= fetch(source().src, { signal: telechargement.signal, priority: 'low' })
-    .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(String(r.status)))))
-    .then((blob) => URL.createObjectURL(blob))
-  return enMemoire
-    .then((url) => {
-      howl ??= creer(url, source().format)
-    })
-    .catch(() => {})
+/** À appeler dès la gate. Rejette si le téléchargement échoue : l'accueil sait alors qu'il lira en flux. */
+export function prechargerMusique(surProgres?: (p: Progression) => void): Promise<void> {
+  enMemoire ??= telechargerEnMemoire(source().src, telechargement.signal, surProgres)
+  return enMemoire.then((url) => {
+    howl ??= creer(url, source().format)
+  })
 }
 
 /** Depuis le début, dans le geste du tap (première visite ou « revoir le film »). */

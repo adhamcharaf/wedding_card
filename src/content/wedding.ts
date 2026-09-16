@@ -41,10 +41,21 @@ export const wedding = {
     label: { fr: 'Langue', en: 'Language' },
     /** Libellé du bouton de chaque langue, dans sa propre langue. */
     names: { fr: 'FR', en: 'EN' },
+    /** Même chose en toutes lettres, pour le choix à l'accueil. */
+    longNames: { fr: 'Français', en: 'English' },
   },
 
   text: {
-    gate: { fr: 'Toucher pour ouvrir', en: 'Tap to open' },
+    /** Écran d'accueil : langue, prénom facultatif, puis « Ouvrir » quand musique et film sont en mémoire. */
+    gate: {
+      firstName: { fr: 'Votre prénom', en: 'Your first name' },
+      optional: { fr: 'facultatif', en: 'optional' },
+      open: { fr: 'Ouvrir', en: 'Open' },
+      /** Sous le bouton, tant que tout n'est pas en mémoire. */
+      loading: { fr: "L'enveloppe est en route", en: 'The envelope is on its way' },
+      /** Revisite ou « revoir le film », quand un prénom est connu. `{name}` est remplacé. */
+      hello: { fr: 'Bonjour {name}', en: 'Hello {name}' },
+    },
 
     hero: {
       saveTheDate: { fr: 'Save the Date', en: 'Save the Date' },
@@ -56,6 +67,11 @@ export const wedding = {
     invitation: {
       fr: "C'est avec joie et bonheur que nous vous invitons à célébrer notre mariage",
       en: 'With full hearts, we joyfully invite you to our wedding',
+    },
+    /** Même phrase quand l'invité a donné son prénom à l'accueil. `{name}` est remplacé. */
+    invitationNamed: {
+      fr: "{name}, c'est avec joie et bonheur que nous vous invitons à célébrer notre mariage",
+      en: '{name}, with full hearts, we joyfully invite you to our wedding',
     },
     celebration: { fr: 'Célébration du mariage', en: 'Wedding celebration' },
 
@@ -141,6 +157,11 @@ export const wedding = {
       closing: {
         fr: 'Nous avons hâte de vous retrouver',
         en: "We can't wait to celebrate with you",
+      },
+      /** Avec le prénom donné à l'accueil. `{name}` est remplacé. */
+      closingNamed: {
+        fr: 'Nous avons hâte de vous retrouver, {name}',
+        en: "We can't wait to celebrate with you, {name}",
       },
       replay: { fr: 'Revoir le film', en: 'Watch the film again' },
     },

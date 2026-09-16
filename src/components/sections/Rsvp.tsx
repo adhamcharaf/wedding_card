@@ -30,6 +30,7 @@ type Etat = 'saisie' | 'incomplet' | 'envoi' | 'merci' | 'erreur' | 'clos'
 export function Rsvp() {
   const t = useT()
   const lang = useAppStore((s) => s.lang)
+  const prenom = useAppStore((s) => s.prenom) ?? ''
   const r = wedding.text.rsvp
   const [etat, setEtat] = useState<Etat>(() =>
     Date.now() >= Date.parse(wedding.rsvpClosesAt) ? 'clos' : 'saisie',
@@ -91,7 +92,7 @@ export function Rsvp() {
             <form className="form" onSubmit={envoyer} noValidate>
               <label className="field">
                 <span className="field__label">{t(r.firstName)}</span>
-                <input className="field__input" name="firstName" type="text" autoComplete="given-name" maxLength={80} />
+                <input className="field__input" name="firstName" type="text" autoComplete="given-name" maxLength={80} defaultValue={prenom} />
               </label>
 
               <label className="field">
