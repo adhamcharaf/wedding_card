@@ -119,7 +119,6 @@ export function Rsvp() {
         {etat !== 'clos' && etat !== 'merci' && (
           <>
             <p className="lead">{t(r.intro)}</p>
-            <p className="rsvp__rule">{t(r.onePerPerson)}</p>
             <form className="form" onSubmit={envoyer} noValidate ref={formulaire}>
               <label className="field">
                 <span className="field__label">{t(r.firstName)}</span>

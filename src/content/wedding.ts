@@ -119,11 +119,6 @@ export const wedding = {
         fr: "Merci de nous confirmer votre présence ou votre absence : c'est cette réponse qui réserve votre place.",
         en: "Please let us know whether you'll be with us: this reply is what reserves your seat.",
       },
-      /** Sous l'intro, en clair pour tout le monde : une réponse par personne. */
-      onePerPerson: {
-        fr: 'Une réponse par personne : si vous venez à deux, chacun remplit ce formulaire avec son propre nom.',
-        en: 'One reply per person: if two of you are coming, each of you fills in this form with your own name.',
-      },
       firstName: { fr: 'Prénom', en: 'First name' },
       lastName: { fr: 'Nom', en: 'Last name' },
       attending: { fr: 'Serez-vous des nôtres ?', en: 'Will you join us?' },
@@ -131,8 +126,8 @@ export const wedding = {
       no: { fr: 'Avec regret', en: 'Regretfully no' },
       /** Une invitation vaut pour une personne (décision du 2026-09-15). Le mot « WhatsApp » devient un lien si `contact.whatsapp` est renseigné. */
       extraGuest: {
-        fr: "Pour venir avec une personne qui n'a pas reçu d'invitation, écrivez-nous sur WhatsApp : nous ferons au mieux selon les places disponibles.",
-        en: "To bring someone who hasn't received an invitation, message us on WhatsApp and we'll do our best depending on the seats available.",
+        fr: 'Pour une personne supplémentaire, écrivez-nous sur WhatsApp : nous ferons au mieux selon les places disponibles.',
+        en: "For an extra guest, message us on WhatsApp and we'll do our best depending on the seats available.",
       },
       children: {
         fr: 'Ce soir-là, les enfants restent au chaud à la maison : nous avons choisi une célébration entre adultes, merci de votre compréhension.',

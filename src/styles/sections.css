@@ -381,14 +381,6 @@
 
 /* ---------- Formulaire RSVP ---------- */
 
-/* Une réponse par personne : lisible par tout le monde, ni petit ni en italique. */
-.rsvp__rule {
-  max-width: 30ch;
-  margin-top: 0.25rem;
-  font-size: 1.05rem;
-  line-height: 1.45;
-}
-
 .form {
   display: flex;
   flex-direction: column;
