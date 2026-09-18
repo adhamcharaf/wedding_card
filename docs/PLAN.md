@@ -8,7 +8,7 @@
 | --- | --- | --- | --- |
 | 1 | Squelette, contenu bilingue, fond | ✅ | 2026-09-03 |
 | 2 | Scroll complet avec soleil | ✅ | 2026-09-13 |
-| 3 | RSVP Google Sheet, puis par groupe avec code (ADR-0004) | 🟡 | formulaire libre validé le 2026-09-16 |
+| 3 | RSVP Google Sheet, puis par groupe avec code (ADR-0004) | ✅ | 2026-09-18 |
 | 4 | Film d'intro et raccord | 🟡 | |
 | 5 | Fusionnée dans la 4 : l'enveloppe est dans le film (décision du 2026-09-12) | | |
 | 6 | Finitions : gyroscope, hirondelles, compte à rebours | ⬜ | |
@@ -68,7 +68,7 @@ Légende : ⬜ à faire · 🟡 en cours · ✅ validée
 
 **Validée le 2026-09-16** : envoi de test depuis le téléphone d'Adham arrivé dans le Sheet, fusion dans `main`, fonction de production vérifiée.
 
-**Étape 3 bis — RSVP par groupe avec code (ADR-0004), validée sur téléphone le 2026-09-16** (branche `claude/rsvp-groupes`, fusion prévue à l'arrivée de la liste des invités)
+**Étape 3 bis — RSVP par groupe avec code (ADR-0004), validée sur téléphone le 2026-09-16, fusionnée le 2026-09-18** avec la première partie de la liste dans l'onglet Invités
 
 **Livrables**
 - `tools/sheets/Code.gs` : onglets Invités et Journal, menu « RSVP » (préparer, générer les codes), recherche par code, enregistrement par groupe. Adham le republie
