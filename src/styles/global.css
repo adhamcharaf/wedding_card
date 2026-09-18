@@ -227,7 +227,8 @@ html.is-locked body {
 
 /* L'accueil se pose dans la bande de ciel entre l'enveloppe portée par les
    oiseaux (jusqu'à 47 % de la hauteur du film) et les rayons du soleil (55 %) :
-   langue, prénom facultatif, puis « Ouvrir » quand tout est en mémoire. */
+   langue, code d'invitation s'il manque, prénom facultatif, puis « Ouvrir »
+   quand tout est en mémoire et le code reconnu. */
 .gate {
   position: absolute;
   inset: 0;
@@ -295,6 +296,27 @@ html.is-locked body {
   font-size: 1.2rem;
   font-style: italic;
   letter-spacing: 0.08em;
+}
+
+/* Code d'invitation : 4 chiffres espacés, comme sur une carte. */
+.gate__code {
+  letter-spacing: 0.3em;
+  font-variant-numeric: tabular-nums;
+}
+
+.gate__code::placeholder {
+  letter-spacing: 0;
+}
+
+/* Sous le champ code : « pas de code ? », ou code inconnu. Même halo que les messages. */
+.gate__note {
+  font-size: 0.85rem;
+  font-style: italic;
+  line-height: 1.35;
+  text-shadow:
+    0 0 2px var(--cream),
+    0 0 12px rgb(255 244 236 / 0.9),
+    0 0 24px rgb(255 244 236 / 0.7);
 }
 
 .gate__open {

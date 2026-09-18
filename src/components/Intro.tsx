@@ -3,9 +3,11 @@ import { assets } from '../content/assets'
 import { LANGS, wedding, type Lang } from '../content/wedding'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { nommer, useT } from '../i18n/useT'
+import { CODE, CodeInconnu, chercherGroupe, codeDepuisUrl } from '../lib/groupe'
 import { demarrerMusique, prechargerMusique } from '../lib/musique'
 import { telechargerEnMemoire, type Progression } from '../lib/precharge'
 import { useAppStore } from '../store/useAppStore'
+import { noteAvecLien } from './NoteWhatsApp'
 
 /**
  * Fenêtre, en secondes avant la fin, où le hero commence à s'imprimer derrière
@@ -46,19 +48,22 @@ function attendreImage(src: string): Promise<void> {
   })
 }
 
-/** Écran d'accueil : le choix de la langue, puis le prénom ; `pret` en revisite ou pour « revoir le film ». */
+/** Écran d'accueil : le choix de la langue, puis code et prénom ; `pret` en revisite ou pour « revoir le film ». */
 type Etape = 'langue' | 'prenom' | 'pret'
+/** Le code d'invitation : rien, en cours de vérification, reconnu, inconnu, ou le serveur ne répond pas. */
+type EtatCode = 'vide' | 'verif' | 'ok' | 'inconnu' | 'panne'
 
 /**
  * Écran d'accueil et film d'intro (docs/CONCEPTION.md §4).
  * L'accueil, c'est la première image du film, les oiseaux qui apportent
  * l'enveloppe : la vidéo est dans le DOM dès le départ, arrêtée dessus (c'est
- * aussi son poster). Par-dessus, dans la bande de ciel : la langue, un prénom
- * facultatif qui personnalise le site, et « Ouvrir », proposé seulement quand
- * musique et film sont en mémoire (un trait montre la progression). Le tap
- * lance les deux dans le même geste (iOS l'exige), donc ensemble.
- * Pas de bouton pour passer. Sur les dernières 450 ms, le hero s'imprime
- * derrière et la vidéo se fond.
+ * aussi son poster). Par-dessus, dans la bande de ciel : la langue, le code
+ * d'invitation (lu dans le lien, demandé seulement s'il manque ou s'il est
+ * inconnu), un prénom facultatif qui personnalise le site, et « Ouvrir »,
+ * proposé seulement quand musique et film sont en mémoire et le code reconnu
+ * (un trait montre la progression). Le tap lance les deux dans le même geste
+ * (iOS l'exige), donc ensemble. Pas de bouton pour passer. Sur les dernières
+ * 450 ms, le hero s'imprime derrière et la vidéo se fond.
  * Remonté à neuf à chaque « revoir le film » via la clé `tour` (App.tsx).
  */
 export function Intro() {
@@ -69,6 +74,8 @@ export function Intro() {
   const setLang = useAppStore((s) => s.setLang)
   const prenom = useAppStore((s) => s.prenom)
   const setPrenom = useAppStore((s) => s.setPrenom)
+  const codeMemorise = useAppStore((s) => s.code)
+  const setCode = useAppStore((s) => s.setCode)
   const reduced = useReducedMotion()
   const intro = assets.intro
   const g = wedding.text.gate
@@ -78,8 +85,39 @@ export function Intro() {
   const [montee, setMontee] = useState(true)
   const [etape, setEtape] = useState<Etape>(() => (prenom === null ? 'langue' : 'pret'))
   const [saisie, setSaisie] = useState('')
+  // Le lien l'emporte sur le code mémorisé : une famille peut recevoir un nouveau lien.
+  const [code, setCodeSaisi] = useState(() => codeDepuisUrl() ?? codeMemorise ?? '')
+  /** Verdict du serveur pour le dernier code vérifié ; tout autre code de 4 chiffres est en cours de vérification. */
+  const [verdict, setVerdict] = useState<{ code: string; etat: EtatCode } | null>(null)
+  const [montrerCode, setMontrerCode] = useState(() => code === '')
   const [pret, setPret] = useState(false)
   const [progres, setProgres] = useState(0)
+  const etatCode: EtatCode = !CODE.test(code) ? 'vide' : verdict?.code === code ? verdict.etat : 'verif'
+
+  // Le code se vérifie dès qu'il a 4 chiffres, pendant que le film arrive :
+  // l'invité ne voit rien de cette attente. Inconnu : le champ apparaît.
+  useEffect(() => {
+    if (!CODE.test(code)) return
+    let actif = true
+    chercherGroupe(code)
+      .then(() => {
+        if (!actif) return
+        setVerdict({ code, etat: 'ok' })
+        setCode(code)
+      })
+      .catch((err) => {
+        if (!actif) return
+        if (err instanceof CodeInconnu) {
+          setVerdict({ code, etat: 'inconnu' })
+          setMontrerCode(true)
+        } else {
+          setVerdict({ code, etat: 'panne' })
+        }
+      })
+    return () => {
+      actif = false
+    }
+  }, [code, setCode])
 
   // Musique et film arrivent en mémoire, en parallèle, une fois le poster
   // affiché. « Ouvrir » attend qu'ils soient là ; en cas d'échec ou au bout
@@ -146,10 +184,19 @@ export function Intro() {
     setEtape('prenom')
   }
 
+  function saisirCode(valeur: string) {
+    setCodeSaisi(valeur.replace(/\D/g, '').slice(0, 4))
+  }
+
+  // Le serveur ne répond pas : on ouvre quand même, le formulaire redemandera le code.
+  const codeAccepte = etatCode === 'ok' || etatCode === 'panne'
+  const ouvrable = (pret || reduced) && codeAccepte
+
   function ouvrir(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    if (!pret && !reduced) return
+    if (!ouvrable) return
     if (etape === 'prenom') setPrenom(saisie.trim().slice(0, PRENOM_MAX))
+    if (etatCode === 'panne') setCode(code)
     // Dans le geste du tap, comme la vidéo : iOS n'autorise le son qu'ainsi.
     demarrerMusique()
     // Reduced-motion : pas de film, on arrive sur le hero.
@@ -170,7 +217,8 @@ export function Intro() {
 
   if (!montee) return null
 
-  const ouvrable = pret || reduced
+  // Le trait d'attente se montre tant que les fichiers arrivent ; un code manquant ou inconnu ne le remplace pas.
+  const attente = !(pret || reduced)
 
   return (
     <div className="intro">
@@ -202,6 +250,27 @@ export function Intro() {
             </div>
           ) : (
             <form className="gate__panel" onSubmit={ouvrir}>
+              {montrerCode && (
+                <label className="gate__field">
+                  <span className="sr-only">{t(g.code)}</span>
+                  <input
+                    className={etatCode === 'inconnu' ? 'field__input gate__input gate__code is-manquant' : 'field__input gate__input gate__code'}
+                    name="code"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    maxLength={4}
+                    placeholder={t(g.code)}
+                    value={code}
+                    onChange={(e) => saisirCode(e.target.value)}
+                    aria-invalid={etatCode === 'inconnu'}
+                  />
+                  <span className="gate__note" role={etatCode === 'inconnu' ? 'alert' : undefined}>
+                    {noteAvecLien(t(etatCode === 'inconnu' ? g.codeUnknown : g.noCode))}
+                  </span>
+                </label>
+              )}
+
               {etape === 'prenom' ? (
                 <label className="gate__field">
                   <span className="sr-only">{t(g.firstName)}</span>
@@ -224,7 +293,7 @@ export function Intro() {
                 {t(g.open)}
               </button>
 
-              {!ouvrable && (
+              {attente && (
                 <div className="gate__loading" role="status">
                   <span className="gate__message">{t(g.loading)}</span>
                   <span className="gate__bar" aria-hidden="true">

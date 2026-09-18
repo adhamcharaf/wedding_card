@@ -470,9 +470,118 @@
 }
 
 /* Champ oublié : signalé jusqu'à l'envoi suivant. */
-.field__input.is-manquant {
+.field__input.is-manquant,
+.field.is-manquant .field__input {
   border-color: var(--ink);
   box-shadow: 0 0 0 1px var(--ink);
+}
+
+/* Code d'invitation tapé dans le formulaire : 4 chiffres espacés. */
+.field__code {
+  letter-spacing: 0.3em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Groupe d'invités (ADR-0004) ---------- */
+
+.membres {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: 0;
+  list-style: none;
+}
+
+/* Une personne : son nom, Oui / Non, et son mot s'il le souhaite. Un filet sépare les membres. */
+.membre {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid rgb(127 47 38 / 0.22);
+}
+
+.membre__nom {
+  padding: 0;
+  margin-bottom: 0.4rem;
+  font-size: 1.15rem;
+  letter-spacing: 0.06em;
+}
+
+/* Membre sans réponse à l'envoi : son nom est souligné comme un champ oublié. */
+.membre.is-manquant .membre__nom {
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.25em;
+}
+
+/* « Laisser un mot » : un lien discret sous les choix, pas un bouton. */
+.membre__mot {
+  align-self: flex-start;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  text-decoration-thickness: 1px;
+}
+
+/* Réponse déjà donnée : le récapitulatif, puis « Modifier ». */
+.resume__title {
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+.resume {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  width: 100%;
+  max-width: 22rem;
+  padding: 0;
+  list-style: none;
+}
+
+.resume__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.resume__nom {
+  font-size: 1.15rem;
+  letter-spacing: 0.06em;
+}
+
+.resume__presence {
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.resume__mot {
+  margin-top: 0.15rem;
+  font-style: italic;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+/* « Annuler » sous « Envoyer » quand on modifie une réponse. */
+.form__cancel {
+  align-self: center;
+  margin-top: -0.5rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  text-decoration-thickness: 1px;
 }
 
 /* Fenêtre par-dessus le formulaire : champ manquant ou envoi échoué. */

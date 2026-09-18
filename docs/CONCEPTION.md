@@ -34,7 +34,7 @@ Toutes en PNG transparent, exportées depuis la maquette :
 - GSAP + ScrollTrigger + Draggable (enveloppe, scroll, hirondelles)
 - Zustand : une seule store, la phase
 - Howler.js : musique (en place depuis le 2026-09-14, lancée au tap de la gate)
-- Google Sheet via une fonction Vercel : réponses RSVP (ADR-0003)
+- Google Sheet via une fonction Vercel : liste des invités et réponses RSVP (ADR-0003, ADR-0004)
 - Pas de R3F, pas de Theatre.js, pas de postprocessing
 
 ## 4. Machine à phases
@@ -43,11 +43,11 @@ Toutes en PNG transparent, exportées depuis la maquette :
 gate → intro → scroll
 ```
 
-- **gate** : la vidéo arrêtée sur sa première image (son poster), les oiseaux qui apportent l'enveloppe. Dans la bande de ciel, un accueil léger (décision du 2026-09-16) : d'abord le choix de la langue en deux boutons (Français / English), puis un champ « votre prénom (facultatif) » et le bouton « Ouvrir ». Le prénom est mémorisé (`prenom` dans le store, localStorage) et personnalise l'invitation, le RSVP (prérempli) et la phrase de fin ; vide, rien ne change. Le bouton FR/EN n'est pas affiché pendant l'accueil. Pendant ce temps, musique et film sont téléchargés en mémoire en parallèle (`src/lib/precharge.ts`, `fetch` en flux avec progression, puis blob), une fois le poster affiché : iOS ignore `preload="auto"`. « Ouvrir » reste grisé, avec le message « l'enveloppe est en route » et un trait de progression, tant que les deux ne sont pas là ; en cas d'échec ou après 30 s, il s'active et on lira en flux. Le tap lance `video.play()` et la musique dans le même geste (iOS l'exige), depuis les blobs : les deux partent ensemble. En revisite ou pour « revoir le film », l'accueil ne redemande rien : « Bonjour {prénom} » et « Ouvrir ».
+- **gate** : la vidéo arrêtée sur sa première image (son poster), les oiseaux qui apportent l'enveloppe. Dans la bande de ciel, un accueil léger (décision du 2026-09-16) : d'abord le choix de la langue en deux boutons (Français / English), puis le code d'invitation, un champ « votre prénom (facultatif) » et le bouton « Ouvrir ». Le code à 4 chiffres (ADR-0004) est lu dans le lien (`/4821` ou `?c=4821`, `src/lib/groupe.ts`) et vérifié auprès de `/api/rsvp` pendant que le film se télécharge : reconnu, on ne le voit jamais ; inconnu ou absent, un champ apparaît avec « pas de code ? écrivez-nous sur WhatsApp », et « Ouvrir » reste grisé tant qu'un code n'est pas reconnu (si le serveur ne répond pas, on ouvre quand même et le formulaire le redemandera). Le code reconnu est mémorisé (`code` dans le store) ; un lien avec un autre code l'emporte sur le code mémorisé. Le prénom est mémorisé (`prenom` dans le store, localStorage) et personnalise l'invitation, le formulaire (le mot de cette personne est déjà ouvert) et la phrase de fin ; vide, rien ne change. Le bouton FR/EN n'est pas affiché pendant l'accueil. Pendant ce temps, musique et film sont téléchargés en mémoire en parallèle (`src/lib/precharge.ts`, `fetch` en flux avec progression, puis blob), une fois le poster affiché : iOS ignore `preload="auto"`. « Ouvrir » reste grisé, avec le message « l'enveloppe est en route » et un trait de progression, tant que les deux ne sont pas là ; en cas d'échec ou après 30 s, il s'active et on lira en flux. Le tap lance `video.play()` et la musique dans le même geste (iOS l'exige), depuis les blobs : les deux partent ensemble. En revisite ou pour « revoir le film », l'accueil ne redemande rien : « Bonjour {prénom} » et « Ouvrir ».
 - **intro** : vidéo plein écran, `object-fit: cover`, `playsinline`, muette. La musique (`public/audio/intro-loop.m4a`, mp3 en secours, le morceau à partir de 1 min 32 jusqu'à sa fin, en boucle, mise en mémoire pendant la gate en même temps que le film, Howler en lecture HTML5) part dans le geste du tap, jamais avant, et continue sur tout le site ; un bouton haut-parleur en haut à gauche la coupe. Pas de bouton pour passer (choix d'Adham). À `timeupdate` sur les 450 dernières ms, la phase passe à `scroll` : le hero s'imprime derrière (voir 5) pendant que la vidéo se fond en 700 ms, puis elle est retirée du DOM. Si la vidéo échoue, on arrive directement sur le hero, sans impression.
 - **scroll** : sections, voir 5. Scroll bloqué (`html.is-locked`) tant qu'on n'y est pas, `ScrollTrigger.refresh()` au déblocage.
 
-`prefers-reduced-motion` : l'accueil (langue, prénom) reste, « Ouvrir » est actif tout de suite et mène au hero directement, sans film ; la musique part quand même.
+`prefers-reduced-motion` : l'accueil (langue, code, prénom) reste, « Ouvrir » est actif tout de suite et mène au hero directement, sans film ; la musique part quand même.
 
 Rejouer : bouton « revoir le film » en fin de page, qui remonte l'intro à neuf (`rejouer()` dans le store, clé `tour` sur le composant).
 
@@ -91,22 +91,22 @@ export const wedding = {
 
 Langue : choisie à l'accueil (Français / English, décision du 2026-09-16 ; anglais par défaut avant ce choix, plus de détection du navigateur), puis bouton FR/EN en haut à droite pour changer, choix mémorisé en localStorage. Hook `useT()` qui renvoie la bonne clé. Le RSVP et ses messages d'erreur passent aussi par là.
 
-## 7. RSVP (Google Sheet, ADR-0003)
+## 7. RSVP par groupe (Google Sheet, ADR-0003 et ADR-0004)
 
-Le fichier partagé est la base : chaque réponse ajoute une ligne à un Google Sheet d'Adham (date, prénom, nom, présence, message, langue), qu'il partage et exporte en Excel quand il veut.
+Le Google Sheet d'Adham est la base, dans les deux sens : l'onglet « Invités » (une ligne par personne : Code, Groupe, Prénom, Nom, Présence, Mot, Répondu le, Langue) est la liste qu'Adham remplit et le tableau de bord qu'il lit ; l'onglet « Journal » garde une ligne par personne à chaque envoi. Les deux sont créés par le menu « RSVP » du Sheet (`tools/sheets/Code.gs`), qui génère aussi un code à 4 chiffres par groupe. La liste n'est jamais dans le dépôt.
 
 Chemin d'une réponse :
 
-1. Le formulaire (`src/components/sections/Rsvp.tsx`) envoie un JSON à `/api/rsvp`, même origine : la politique de sécurité n'a pas à s'ouvrir.
-2. La fonction Vercel `api/rsvp.ts` valide (prénom, nom, présence, message obligatoires, longueurs bornées), ignore les envois où le piège à robots est rempli, et refuse tout après la clôture (fin du 15 décembre 2026, réponse 410 ; la date est écrite dans `api/rsvp.ts` et dans `wedding.rsvpClosesAt`, à changer ensemble).
-3. Elle transmet la ligne au script Apps Script attaché au Sheet (`tools/sheets/Code.gs`, publié en application web) avec un secret partagé. Adresse et secret vivent dans les variables Vercel `RSVP_SHEET_URL` et `RSVP_SECRET`, jamais dans le navigateur.
-4. Le site affiche le remerciement, ou le message de clôture. Un champ oublié (souvent le mot) ou un envoi échoué ouvre une petite fenêtre par-dessus le formulaire, qui nomme les champs manquants ; à sa fermeture, le curseur se pose dans le premier et les champs vides restent soulignés jusqu'à l'envoi suivant.
+1. L'accueil (ou le formulaire, si l'accueil est passé sans code reconnu) demande le groupe du code : `GET /api/rsvp?code=4821`, même origine. La fonction `api/rsvp.ts` interroge le script Apps Script (`action: chercher`) avec le secret partagé et renvoie le groupe seul (nom, membres, présences, mots), ou 404 après 0,8 s si le code est inconnu. Une seule recherche par visite (`src/lib/groupe.ts` la garde en cache), fraîche à chaque « Modifier ».
+2. Le formulaire (`src/components/sections/Rsvp.tsx`) affiche la liste du groupe : pour chaque membre, Oui / Non (rien de coché au départ) et « Laisser un mot », qui déplie un champ ; le champ de la personne dont le prénom a été donné à l'accueil est déjà ouvert. Sous la liste, les deux notes (soirée entre adultes, personne supplémentaire par WhatsApp). Un seul envoi pour tout le groupe.
+3. `POST /api/rsvp` avec le code et la liste des membres (présence obligatoire pour chacun, mot facultatif, au moins un mot dans le groupe, longueurs bornées). La fonction ignore les envois où le piège à robots est rempli, refuse tout après la clôture (fin du 15 décembre 2026, réponse 410 ; date dans `api/rsvp.ts` et `wedding.rsvpClosesAt`, à changer ensemble), et transmet au script (`action: repondre`), qui met à jour les lignes du groupe (une personne absente de l'onglet est ignorée : on ne crée jamais d'invité) et ajoute au Journal. Adresse et secret vivent dans les variables Vercel `RSVP_SHEET_URL` et `RSVP_SECRET`, jamais dans le navigateur.
+4. Le site affiche le remerciement puis le récapitulatif (« votre réponse du 12 novembre », chaque membre avec son choix et son mot) et un bouton « Modifier », jusqu'à la clôture. Un membre qui revient voit le récapitulatif, modifie, ajoute son mot, renvoie : les autres mots restent. Il manque une réponse ou tout mot : une fenêtre par-dessus le formulaire nomme les manques (« la réponse de Kadi », « un mot de l'un d'entre vous »), le curseur se pose sur le premier et les manques restent soulignés jusqu'à l'envoi suivant.
 
-Une invitation vaut pour une personne (décision du 2026-09-15) : pas de nombre de personnes. Deux notes sous le choix : soirée entre adultes, et personne supplémentaire à demander sur WhatsApp. Les doublons se trient dans le Sheet. Pas de limitation de débit : lien transmis de la main à la main, piège à robots et bornes de taille suffisent (décision du 2026-09-15).
+Les places sont comptées par groupe (décision du 2026-09-16) : pas de nom libre, une personne en plus se demande sur WhatsApp. Pas de limitation de débit au-delà du délai sur code faux : 10 000 codes pour une centaine de groupes, piège à robots et bornes de taille suffisent.
 
-En local, `vite` ne sert pas `api/` : la fonction se teste avec le serveur de test du scratchpad, qui l'empaquette et simule le script Google.
+En local, `vite` ne sert pas `api/` : la fonction se teste avec le serveur de test du scratchpad, qui l'empaquette et simule le script Google avec quelques groupes.
 
-Adresse publique : `https://adhamlara-wedding.online` (domaine Namecheap, DNS chez Vercel), `wedding-card-lyart-beta.vercel.app` en secours. Le site est marqué non indexable.
+Adresse publique : `https://adhamlara-wedding.online` (domaine Namecheap, DNS chez Vercel), `wedding-card-lyart-beta.vercel.app` en secours. Le site est marqué non indexable. Le lien envoyé à chaque groupe porte son code : `https://adhamlara-wedding.online/4821` (`vercel.json` renvoie `/:code(4 chiffres)` sur `index.html`).
 
 ## 8. Performance
 

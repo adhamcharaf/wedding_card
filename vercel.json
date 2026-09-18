@@ -1,6 +1,9 @@
 {
   "regions": ["cdg1"],
-  "rewrites": [{ "source": "/compte", "destination": "/index.html" }],
+  "rewrites": [
+    { "source": "/compte", "destination": "/index.html" },
+    { "source": "/:code(\\d{4})", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",

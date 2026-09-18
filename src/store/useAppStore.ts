@@ -23,6 +23,8 @@ interface AppState {
   lang: Lang
   /** Prénom donné à l'accueil, mémorisé. `null` tant que l'accueil n'a pas été passé, `''` si laissé vide. */
   prenom: string | null
+  /** Code d'invitation à 4 chiffres du groupe (ADR-0004), lu dans le lien ou tapé à l'accueil, mémorisé. */
+  code: string | null
   setPhase: (phase: Phase) => void
   /** Bouton « revoir le film » : retour à la gate, intro remontée à neuf. */
   rejouer: () => void
@@ -30,6 +32,7 @@ interface AppState {
   finirIntro: (impression: boolean) => void
   setLang: (lang: Lang) => void
   setPrenom: (prenom: string) => void
+  setCode: (code: string | null) => void
   setSonCoupe: (coupe: boolean) => void
 }
 
@@ -51,13 +54,15 @@ export const useAppStore = create<AppState>()(
       setLang: (lang) => set({ lang }),
       prenom: null,
       setPrenom: (prenom) => set({ prenom }),
+      code: null,
+      setCode: (code) => set({ code }),
       sonCoupe: false,
       setSonCoupe: (sonCoupe) => set({ sonCoupe }),
     }),
     {
       name: STORAGE_KEY,
-      // Langue et prénom sont mémorisés : la phase repart de zéro à chaque visite.
-      partialize: (state) => ({ lang: state.lang, prenom: state.prenom }),
+      // Langue, prénom et code sont mémorisés : la phase repart de zéro à chaque visite.
+      partialize: (state) => ({ lang: state.lang, prenom: state.prenom, code: state.code }),
     },
   ),
 )

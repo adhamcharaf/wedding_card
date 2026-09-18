@@ -8,7 +8,7 @@ Faire-part de mariage numérique pour Adham & Lara (8 janvier 2027, Abidjan). Un
 
 ## Stack (ADR-0001)
 
-Vite + React + TypeScript · GSAP (ScrollTrigger) · Zustand · Howler.js · Google Sheet via une fonction Vercel (RSVP, ADR-0003) · Vercel. Pas de 3D, pas de meta-framework.
+Vite + React + TypeScript · GSAP (ScrollTrigger) · Zustand · Howler.js · Google Sheet via une fonction Vercel (RSVP par groupe, ADR-0003 et 0004) · Vercel. Pas de 3D, pas de meta-framework.
 
 ## Démarrage local
 

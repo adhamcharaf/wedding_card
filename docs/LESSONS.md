@@ -155,7 +155,7 @@
 - **Contexte** : redémarrage du serveur de test depuis une commande qui contenait aussi son lancement.
 - **Symptôme** : la commande entière s'arrête (code 144), rien après n'est exécuté, y compris le relancement.
 - **Cause** : `pkill -f` compare le motif à la ligne de commande de tous les processus, dont celle du shell qui exécute la commande, qui contient forcément le motif puisqu'elle contient le lancement.
-- **Règle** : arrêter un serveur par son port ou son PID enregistré, jamais par un motif présent dans la même commande.
+- **Règle** : arrêter un serveur par son port ou son PID enregistré, jamais par un motif présent dans la même commande. Un parcours de `/proc` qui compare les lignes de commande a le même défaut (le shell qui lance le parcours contient le motif) : n'accepter que les lignes qui commencent par `node`, dans un script à part.
 
 ### Vercel compile `api/` fichier par fichier, sans empaqueter
 - **Contexte** : étape 3, `api/rsvp.ts` importait la date de clôture depuis `src/content/wedding.ts`.
