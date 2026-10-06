@@ -23,6 +23,9 @@ def cap(mot):
 def personne(ligne):
     """→ (prénom, nom, à_compléter)"""
     brut = re.sub(r'\s+', ' ', ligne).strip()
+    # « Madame Khalil », « Fiancé d'Ivana » : tout dans le prénom, pour que le site écrive « la réponse de Madame Khalil ».
+    if re.match(r'^(madame|monsieur|fiancée?) ', brut, re.I):
+        return brut, '', brut.lower().startswith('fianc')
     m = re.match(r'^(\S+) (mari|femme|copine|copain|fiancée?) de (.+)$', brut, re.I)
     if m:  # « Mehdi mari de Raw » : le prénom est connu, le nom non
         return cap(m.group(1)), '', True
@@ -46,7 +49,8 @@ def nom_groupe(membres):
     if len(noms) == 1 and all(n for _, n, _ in membres):
         (n,) = noms
         prenoms = [p for p, _, _ in membres]
-        return f'Famille {n}' if len(membres) > 2 else f'{prenoms[0]} & {prenoms[1]} {n}'
+        # Le premier prénom distingue deux familles du même nom (quatre foyers Charafeddine).
+        return f'Famille {n} ({prenoms[0]})' if len(membres) > 2 else f'{prenoms[0]} & {prenoms[1]} {n}'
     if len(membres) > 2:  # noms différents : les prénoms suffisent
         prenoms = [p for p, _, _ in membres]
         return ', '.join(prenoms[:-1]) + ' & ' + prenoms[-1]
@@ -63,15 +67,17 @@ pris |= set(codes.values())
 rng = random.Random(f'adham-lara-{PARTIE}')
 
 lignes, liens, a_completer = [], [], []
-for membres in groupes:
+for rang, membres in enumerate(groupes, 1):
     g = nom_groupe(membres)
-    if g not in codes:
+    # Clé par partie et par rang : deux groupes ne partagent jamais un code, même s'ils portent le même nom.
+    cle = f'{PARTIE}:{rang}:{g}'
+    if cle not in codes:
         while True:
             c = str(rng.randint(1000, 9999))
             if c not in pris:
                 break
-        pris.add(c); codes[g] = c
-    c = codes[g]
+        pris.add(c); codes[cle] = c
+    c = codes[cle]
     for p, n, todo in membres:
         lignes.append([c, g, p, n])
         if todo:
