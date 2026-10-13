@@ -118,6 +118,18 @@ export const wedding = {
       warning: { fr: '« Ne faites pas attention à lui. »', en: '“Don’t mind him.”' },
       see: { fr: 'Voir', en: 'View' },
       ps: { fr: 'PS d’Adham : n’écoutez pas Lara.', en: 'PS from Adham: don’t listen to Lara.' },
+      /** Système « Je l'offre » : un cadeau offert disparaît de la liste pour tous, sans nom. `{gift}` reçoit le nom du cadeau. */
+      offer: { fr: 'Je l’offre', en: 'I’ll give it' },
+      confirm: {
+        fr: 'Vous offrez {gift} ? Ce cadeau disparaîtra de la liste pour tous les invités. Votre nom n’est enregistré nulle part.',
+        en: 'Giving {gift}? This gift will disappear from the list for every guest. Your name is not recorded anywhere.',
+      },
+      yes: { fr: 'Oui, je l’offre', en: 'Yes, I’ll give it' },
+      cancel: { fr: 'Annuler', en: 'Cancel' },
+      thanks: { fr: 'Merci ! Lara fera semblant d’être surprise.', en: 'Thank you! Lara will pretend to be surprised.' },
+      already: { fr: 'Quelqu’un l’a offert juste avant vous. Il est retiré de la liste.', en: 'Someone gave it just before you. It has been taken off the list.' },
+      close: { fr: 'Fermer', en: 'Close' },
+      allGiven: { fr: 'Tout a été offert. Lara est soulagée.', en: 'Everything has been given. Lara is relieved.' },
       /** Texte alternatif du sticker d'Adham sous son PS. */
       stickerAlt: { fr: 'Adham qui tire la langue', en: 'Adham sticking his tongue out' },
     },
@@ -218,38 +230,45 @@ export const wedding = {
   ],
 
   /**
-   * La liste d'Adham (2026-10-13), sur sa page `/adham` : l'ampli et les
+   * La liste d'Adham (2026-10-13), sur sa page `/adham`. L'`id` sert au
+   * système « Je l'offre » : il doit figurer aussi dans `api/cadeaux.ts`. l'ampli et les
    * enceintes Klipsch retirés, trop chers (2026-10-13). Un nom court par
    * cadeau, sa page produit exacte (le modèle s'y lit ; l'enceinte Denon est la version avec Alexa, pas la NV), sans prix, et le
    * commentaire de Lara.
    */
   adhamList: [
     {
+      id: 'box-hue',
       name: { fr: 'La box Hue', en: 'The Hue box' },
       url: 'https://www.philips-hue.com/fr-fr/p/hue-philips-hue-play-hdmi-sync-box-8k/8719514458666',
       lara: { fr: 'Pour que les murs changent de couleur pendant les films. Apparemment, c’est vital.', en: 'So the walls change colour during films. Apparently, it’s vital.' },
     },
     {
+      id: 'barres-hue',
       name: { fr: 'Les barres Hue', en: 'The Hue bars' },
       url: 'https://www.philips-hue.com/fr-fr/p/hue-white-and-color-ambiance-hue-play-pack-x2/7820231P7',
       lara: { fr: 'Voir plus haut.', en: 'See above.' },
     },
     {
+      id: 'enceinte-denon',
       name: { fr: 'L’enceinte Denon, version Alexa', en: 'The Denon speaker, Alexa version' },
       url: 'https://www.son-video.com/article/haute-fidelite-systemes-multiroom-enceintes-multiroom/denon/home-150-blanc',
       lara: { fr: 'Une enceinte de plus. Évidemment.', en: 'One more speaker. Of course.' },
     },
     {
+      id: 'platine',
       name: { fr: 'La platine vinyle', en: 'The turntable' },
       url: 'https://www.ldlc.com/fiche/PB00437725.html',
       lara: { fr: 'Celle-là, par contre, c’est pour moi. Et pour nos soirées à deux.', en: 'This one, however, is for me. And for our evenings for two.' },
     },
     {
+      id: 'echo-show',
       name: { fr: 'L’Echo Show 8 (2025)', en: 'The Echo Show 8 (2025)' },
       url: 'https://www.amazon.fr/dp/B0DTQF1MQT',
       lara: { fr: 'Une deuxième voix féminine à la maison. Je surveille.', en: 'A second female voice in the house. I’m keeping an eye on it.' },
     },
     {
+      id: 'apple-tv',
       name: { fr: 'La nouvelle Apple TV 4K', en: 'The new Apple TV 4K' },
       url: 'https://www.apple.com/fr/apple-tv-4k/',
       lara: { fr: 'Elle n’est même pas encore sortie. Il a déjà mis un réveil.', en: 'It isn’t even out yet. He has already set an alarm.' },

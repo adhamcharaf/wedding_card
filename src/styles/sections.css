@@ -417,6 +417,41 @@
   opacity: 0.9;
 }
 
+/* « Je l'offre » : discret sous le mot de Lara, comme « Voir ». */
+.adham__offer {
+  align-self: flex-start;
+  padding: 0;
+  margin-top: 0.15rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  text-decoration-thickness: 1px;
+}
+
+/* Tous les cadeaux offerts : la phrase prend la place de la liste. */
+.adham__tout {
+  max-width: 22rem;
+  margin: 1rem 0;
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+/* « Annuler » sous le bouton plein de la fenêtre. */
+.popup__cancel {
+  padding: 0;
+  margin-top: -0.4rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  text-decoration-thickness: 1px;
+}
+
 /* Le sticker d'Adham sous son PS, en petit. Sa cachette coupe le bas : il
    surgit de derrière la ligne quand on arrive en bas de la page, avec un
    rebond, puis sautille de temps en temps comme pour vérifier que Lara ne

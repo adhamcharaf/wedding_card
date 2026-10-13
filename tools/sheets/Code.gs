@@ -5,12 +5,17 @@
  * `api/rsvp.ts` lui parle avec le secret partagé, pour retrouver un groupe
  * d'invités à partir de son code, et pour enregistrer la réponse du groupe.
  *
- * Deux onglets, créés au besoin par le script :
+ * Elle lui parle aussi depuis `api/cadeaux.ts`, pour la liste d'Adham : quels
+ * cadeaux ont déjà été offerts, et en marquer un comme offert.
+ *
+ * Trois onglets, créés au besoin par le script :
  *   « Invités » : une ligne par personne. Adham remplit Code, Groupe, Prénom,
  *     Nom ; le site remplit Présence, Mot, Répondu le, Langue. C'est l'état
  *     à jour, et le tableau de bord.
  *   « Journal » : une ligne par personne à chaque envoi, jamais modifiée.
  *     Si quelqu'un écrase par erreur, tout est encore là.
+ *   « Cadeaux » : une ligne par cadeau de la liste d'Adham déjà offert
+ *     (identifiant, date), sans nom. Effacer une ligne remet le cadeau en liste.
  *
  * Installation, une seule fois (cinq minutes) :
  *   1. Créer un Google Sheet vide, par exemple « RSVP mariage ».
@@ -37,6 +42,8 @@ var ONGLET_INVITES = 'Invités'
 var ONGLET_JOURNAL = 'Journal'
 var ENTETES_INVITES = ['Code', 'Groupe', 'Prénom', 'Nom', 'Présence', 'Mot', 'Répondu le', 'Langue']
 var ENTETES_JOURNAL = ['Date', 'Code', 'Groupe', 'Prénom', 'Nom', 'Présence', 'Mot', 'Langue']
+var ONGLET_CADEAUX = 'Cadeaux'
+var ENTETES_CADEAUX = ['Cadeau', 'Offert le']
 
 /** Colonnes de l'onglet Invités, à partir de 0. */
 var COL = { code: 0, groupe: 1, prenom: 2, nom: 3, presence: 4, mot: 5, reponduLe: 6, langue: 7 }
@@ -106,6 +113,10 @@ function doPost(e) {
     if (!SECRET || SECRET === 'remplacer-par-le-secret-partage' || donnees.secret !== SECRET) {
       return reponse({ error: 'forbidden' })
     }
+    // Liste d'Adham : pas de code d'invitation, les cadeaux sont anonymes.
+    if (donnees.action === 'cadeaux') return reponse({ ok: true, offerts: cadeauxOfferts() })
+    if (donnees.action === 'offrir') return reponse(offrir(donnees.cadeau))
+
     var code = normaliserCode(donnees.code)
     if (!code) return reponse({ error: 'invalid' })
 
@@ -129,6 +140,44 @@ function ecrire(code, donnees) {
   if (!verrou.tryLock(20000)) return { error: 'occupe' }
   try {
     return repondre(code, donnees)
+  } finally {
+    verrou.releaseLock()
+  }
+}
+
+/** Identifiants des cadeaux déjà offerts (lecture, sans verrou). */
+function cadeauxOfferts() {
+  var feuille = onglet(ONGLET_CADEAUX, ENTETES_CADEAUX)
+  var total = feuille.getLastRow() - 1
+  if (total <= 0) return []
+  return feuille
+    .getRange(2, 1, total, 1)
+    .getValues()
+    .map(function (l) {
+      return String(l[0]).trim()
+    })
+    .filter(function (id) {
+      return id !== ''
+    })
+}
+
+/**
+ * Marque un cadeau comme offert, sans rien noter de la personne. Déjà offert :
+ * on ne double pas la ligne, et on le dit au site, qui le retire aussi.
+ */
+function offrir(id) {
+  id = String(id || '').trim()
+  if (!/^[a-z0-9-]{2,40}$/.test(id)) return { error: 'invalid' }
+  var verrou = LockService.getDocumentLock()
+  if (!verrou.tryLock(20000)) return { error: 'occupe' }
+  try {
+    var offerts = cadeauxOfferts()
+    var deja = offerts.indexOf(id) >= 0
+    if (!deja) {
+      onglet(ONGLET_CADEAUX, ENTETES_CADEAUX).appendRow([id, new Date()])
+      offerts.push(id)
+    }
+    return { ok: true, deja: deja, offerts: offerts }
   } finally {
     verrou.releaseLock()
   }
