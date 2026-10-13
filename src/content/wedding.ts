@@ -217,21 +217,12 @@ export const wedding = {
   ],
 
   /**
-   * La liste d'Adham (2026-10-13), sur sa page `/adham` : un nom court par
+   * La liste d'Adham (2026-10-13), sur sa page `/adham` : l'ampli et les
+   * enceintes Klipsch retirés, trop chers (2026-10-13). Un nom court par
    * cadeau, sa page produit exacte (le modèle s'y lit), sans prix, et le
    * commentaire de Lara.
    */
   adhamList: [
-    {
-      name: { fr: 'L’ampli Denon', en: 'The Denon amp' },
-      url: 'https://www.easylounge.com/products/denon-avr-x2900h-dab-205778',
-      lara: { fr: 'Il dit que c’est « le cœur du système ». Quel système ?', en: 'He says it’s “the heart of the system”. What system?' },
-    },
-    {
-      name: { fr: 'Les enceintes Klipsch', en: 'The Klipsch speakers' },
-      url: 'https://www.ldlc.com/fiche/PB00495614.html',
-      lara: { fr: 'Sept enceintes. Pour un salon. Je répète : un salon.', en: 'Seven speakers. For a living room. I repeat: a living room.' },
-    },
     {
       name: { fr: 'La box Hue', en: 'The Hue box' },
       url: 'https://www.philips-hue.com/fr-fr/p/hue-philips-hue-play-hdmi-sync-box-8k/8719514458666',
