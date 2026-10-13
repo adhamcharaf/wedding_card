@@ -236,7 +236,7 @@ export const wedding = {
     },
     {
       name: { fr: 'L’enceinte Denon, version Alexa', en: 'The Denon speaker, Alexa version' },
-      url: 'https://www.denon.com/fr-fr/product/wireless-speakers/denon-home-150/DENONHOME150.html',
+      url: 'https://www.son-video.com/article/haute-fidelite-systemes-multiroom-enceintes-multiroom/denon/home-150-blanc',
       lara: { fr: 'Une enceinte de plus. Évidemment.', en: 'One more speaker. Of course.' },
     },
     {
