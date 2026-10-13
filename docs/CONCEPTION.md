@@ -55,7 +55,7 @@ Rejouer : bouton « revoir le film » en fin de page, qui remonte l'intro à neu
 
 Deux pages en plus, ouvertes depuis la liste de mariage, choisies dans `main.tsx` sur le chemin et renvoyées par `vercel.json` sur `index.html` :
 - `/compte`, les coordonnées bancaires (`src/pages/Compte.tsx`) ;
-- `/adham`, la liste d'Adham (`src/pages/ListeAdham.tsx`, 2026-10-13) : « (non validée par Lara) », « Ne faites pas attention à lui » signé Lara, six cadeaux avec un nom court (l'ampli et les enceintes Klipsch retirés, trop chers), un lien « Voir » vers la fiche produit exacte et le commentaire de Lara, sans prix, puis le PS d'Adham (« n'écoutez pas Lara »). Même fond et même typographie que la page du compte, aucun effet.
+- `/adham`, la liste d'Adham (`src/pages/ListeAdham.tsx`, 2026-10-13) : « (non validée par Lara) », « Ne faites pas attention à lui » signé Lara, six cadeaux avec un nom court (l'ampli et les enceintes Klipsch retirés, trop chers), un lien « Voir » vers la fiche produit exacte et le commentaire de Lara, sans prix, puis le PS d'Adham (« n'écoutez pas Lara ») et, dessous, son sticker WhatsApp en petit (`adham-sticker.webp`). Même fond et même typographie que la page du compte. Seul effet de la page : le sticker surgit de derrière une ligne avec un rebond quand il arrive à l'écran, puis sautille toutes les 3,6 s (CSS keyframes sur `transform`, rien sous `prefers-reduced-motion`).
 
 Sections, dans l'ordre (croquis de Lara, 2026-09-13) : hero (Save the Date) · photos d'enfance · invitation · date, heure, lieu, Maps · compte à rebours · liste de mariage avec le dessin du couple · RSVP · fin (phrase, « revoir le film », demi-soleil dessiné avec les initiales gravées, `sun-end.png`).
 

@@ -1,6 +1,7 @@
-import type { MouseEvent } from 'react'
+import { useEffect, useRef, useState, type MouseEvent } from 'react'
 import { Background } from '../components/Background'
 import { LangToggle } from '../components/LangToggle'
+import { assets } from '../content/assets'
 import { wedding } from '../content/wedding'
 import { useDocumentLang, useT } from '../i18n/useT'
 
@@ -14,6 +15,24 @@ export function ListeAdham() {
   useDocumentLang()
   const t = useT()
   const a = wedding.text.adham
+  const sticker = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+
+  // Le sticker attend d'être à l'écran pour surgir : sinon l'effet se jouerait hors de vue.
+  useEffect(() => {
+    const el = sticker.current
+    if (!el) return
+    const observateur = new IntersectionObserver(
+      ([entree]) => {
+        if (!entree.isIntersecting) return
+        setVisible(true)
+        observateur.disconnect()
+      },
+      { threshold: 0.6 },
+    )
+    observateur.observe(el)
+    return () => observateur.disconnect()
+  }, [])
 
   /** Revenir à la liste de mariage telle qu'on l'a quittée quand on vient du site ; sinon, la page d'accueil. */
   function retour(event: MouseEvent<HTMLAnchorElement>) {
@@ -52,6 +71,15 @@ export function ListeAdham() {
           </ul>
 
           <p className="adham__ps">{t(a.ps)}</p>
+          <div ref={sticker} className={visible ? 'adham__cachette is-visible' : 'adham__cachette'}>
+            <img
+              className="adham__sticker"
+              src={assets.adhamSticker.src}
+              alt={t(a.stickerAlt)}
+              width={assets.adhamSticker.width}
+              height={assets.adhamSticker.height}
+            />
+          </div>
 
           <a className="compte__back" href="/" onClick={retour}>
             {t(wedding.text.bank.back)}

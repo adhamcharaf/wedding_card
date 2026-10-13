@@ -118,6 +118,8 @@ export const wedding = {
       warning: { fr: '« Ne faites pas attention à lui. »', en: '“Don’t mind him.”' },
       see: { fr: 'Voir', en: 'View' },
       ps: { fr: 'PS d’Adham : n’écoutez pas Lara.', en: 'PS from Adham: don’t listen to Lara.' },
+      /** Texte alternatif du sticker d'Adham sous son PS. */
+      stickerAlt: { fr: 'Adham qui tire la langue', en: 'Adham sticking his tongue out' },
     },
 
     /** Page `/compte`, ouverte depuis la liste de mariage : les coordonnées bancaires hors de la page principale. */
