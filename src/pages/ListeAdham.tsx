@@ -11,7 +11,8 @@ type Cadeau = (typeof wedding.adhamList)[number]
 /** Fenêtre par-dessus la liste : on confirme, ça part, c'est fait, ou ça a échoué. */
 type Fenetre =
   | { etape: 'confirmer' | 'envoi'; cadeau: Cadeau }
-  | { etape: 'merci' | 'deja' | 'erreur'; cadeau: Cadeau }
+  | { etape: 'merci'; cadeau: Cadeau; merci: (typeof wedding.text.adham.thanks)[number] }
+  | { etape: 'deja' | 'erreur'; cadeau: Cadeau }
   | null
 
 /** « La box Hue » au milieu d'une phrase : « la box Hue ». */
@@ -63,7 +64,9 @@ export function ListeAdham() {
     try {
       const r = await offrir(cadeau.id)
       setOfferts(r.offerts)
-      setFenetre({ etape: r.deja ? 'deja' : 'merci', cadeau })
+      // L'un des deux remerciements, tiré une fois pour que le texte ne change pas sous les yeux.
+      const merci = a.thanks[Math.floor(Math.random() * a.thanks.length)]
+      setFenetre(r.deja ? { etape: 'deja', cadeau } : { etape: 'merci', cadeau, merci })
     } catch {
       setFenetre({ etape: 'erreur', cadeau })
     }
@@ -164,7 +167,7 @@ export function ListeAdham() {
                 {fenetre.etape === 'confirmer' || fenetre.etape === 'envoi'
                   ? t(a.confirm).replace('{gift}', enMinuscule(t(fenetre.cadeau.name)))
                   : fenetre.etape === 'merci'
-                    ? t(a.thanks)
+                    ? t(fenetre.merci)
                     : fenetre.etape === 'deja'
                       ? t(a.already)
                       : t(wedding.text.rsvp.errorGeneric)}
