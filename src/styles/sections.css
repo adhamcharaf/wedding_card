@@ -331,60 +331,30 @@
   opacity: 0.9;
 }
 
-/* ---------- La liste d'Adham ---------- */
+/* ---------- Page /adham : la liste d'Adham ---------- */
 
-/* Le lien qui la déplie : discret, comme « revoir le film ». */
-.adham__toggle {
-  margin-top: 0.75rem;
-  font-size: 0.8rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  opacity: 0.85;
-  text-decoration: underline;
-  text-underline-offset: 0.3em;
-  text-decoration-thickness: 1px;
-}
-
-/* Dépliage : fondu et 8 px de translateY, une fois à l'ouverture (docs/CONCEPTION.md §5). */
+/* Même cadrage que la page du compte : centrée dans l'écran. */
 .adham {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  max-width: 22rem;
-  margin-top: 0.75rem;
-  animation: deplier 450ms ease both;
-}
-
-.adham__title {
-  font-size: 1rem;
-  font-weight: 500;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
+  min-height: 100dvh;
+  justify-content: center;
 }
 
 .adham__subtitle {
   margin-top: -0.75rem;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-style: italic;
   opacity: 0.85;
 }
 
-/* Les mots de Lara et d'Adham, signés en petites capitales sous la phrase. */
+/* Le mot de Lara, la seule signature de la page. */
 .adham__quote {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.2rem;
-  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
   font-style: italic;
-  line-height: 1.4;
-}
-
-.adham__quote--ps {
-  margin-top: -0.25rem;
-  font-size: 1rem;
 }
 
 .adham__by {
@@ -395,50 +365,69 @@
   opacity: 0.8;
 }
 
+/* Un cadeau : son nom court et « Voir » sur une ligne, le mot de Lara dessous. Un filet entre deux cadeaux. */
 .adham__list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
   width: 100%;
-  margin: 0.25rem 0;
+  max-width: 22rem;
   padding: 0;
   list-style: none;
+  text-align: left;
 }
 
 .adham__item {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.3rem;
+  gap: 0.25rem;
+  padding: 0.95rem 0;
+  border-top: 1px solid rgb(127 47 38 / 0.22);
+}
+
+.adham__item:last-child {
+  border-bottom: 1px solid rgb(127 47 38 / 0.22);
+}
+
+.adham__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .adham__name {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   letter-spacing: 0.04em;
 }
 
+/* « Voir » : discret, comme les liens secondaires du site. */
+.adham__see {
+  flex-shrink: 0;
+  color: inherit;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  text-underline-offset: 0.3em;
+  text-decoration-thickness: 1px;
+}
+
 .adham__lara {
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   font-style: italic;
   line-height: 1.4;
   opacity: 0.9;
 }
 
-@keyframes deplier {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+.adham__outro {
+  max-width: 22rem;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  font-style: italic;
+  line-height: 1.45;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .adham {
-    animation: none;
-  }
+.adham__ps {
+  font-size: 0.95rem;
+  opacity: 0.85;
 }
 
 /* ---------- Page /compte ---------- */

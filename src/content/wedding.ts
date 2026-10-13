@@ -109,16 +109,16 @@ export const wedding = {
         fr: 'Nos listes vous attendent directement en boutique.',
         en: 'Our registries are waiting for you in store.',
       },
-      /** La liste d'Adham, repliée sous la liste officielle, commentée par Lara (2026-10-13). */
-      adham: {
-        teaser: { fr: 'Psst… Adham a aussi sa liste', en: 'Psst… Adham has a list too' },
-        hide: { fr: 'Refermer la liste d’Adham', en: 'Close Adham’s list' },
-        title: { fr: 'La liste d’Adham', en: 'Adham’s list' },
-        subtitle: { fr: '(non validée par Lara)', en: '(not approved by Lara)' },
-        warning: { fr: '« Ne faites pas attention à lui. »', en: '“Don’t mind him.”' },
-        outro: { fr: 'Tout cadeau de cette liste sera installé par vos soins.', en: 'Any gift from this list will be installed by you.' },
-        ps: { fr: 'PS : n’écoutez pas Lara.', en: 'PS: don’t listen to Lara.' },
-      },
+    },
+
+    /** Page `/adham`, ouverte depuis la liste de mariage : la liste d'Adham, commentée par Lara (2026-10-13). */
+    adham: {
+      title: { fr: 'La liste d’Adham', en: 'Adham’s list' },
+      subtitle: { fr: '(non validée par Lara)', en: '(not approved by Lara)' },
+      warning: { fr: '« Ne faites pas attention à lui. »', en: '“Don’t mind him.”' },
+      see: { fr: 'Voir', en: 'View' },
+      outro: { fr: 'Tout cadeau de cette liste sera installé par vos soins.', en: 'Any gift from this list will be installed by you.' },
+      ps: { fr: 'PS d’Adham : n’écoutez pas Lara.', en: 'PS from Adham: don’t listen to Lara.' },
     },
 
     /** Page `/compte`, ouverte depuis la liste de mariage : les coordonnées bancaires hors de la page principale. */
@@ -207,46 +207,48 @@ export const wedding = {
 
   /**
    * Liste de Lara, 2026-09-13, boutiques revues par Adham le 2026-10-13. Les boutiques n'ont pas de lien : les listes
-   * n'existent qu'en magasin (2026-09-15). Le compte ouvre la page `/compte`.
+   * n'existent qu'en magasin (2026-09-15). Le compte ouvre la page `/compte`, la liste d'Adham la page `/adham`.
    */
   registry: [
     { label: { fr: 'Cilya’s concept', en: 'Cilya’s concept' }, url: '' },
     { label: { fr: 'Orca deco', en: 'Orca deco' }, url: '' },
     { label: { fr: 'Compte en banque', en: 'Bank account' }, url: '/compte' },
+    { label: { fr: 'La liste d’Adham', en: 'Adham’s list' }, url: '/adham' },
   ],
 
   /**
-   * La liste d'Adham (2026-10-13) : chaque cadeau mène à sa page produit
-   * exacte, sans prix, avec le commentaire de Lara.
+   * La liste d'Adham (2026-10-13), sur sa page `/adham` : un nom court par
+   * cadeau, sa page produit exacte (le modèle s'y lit), sans prix, et le
+   * commentaire de Lara.
    */
   adhamList: [
     {
-      name: { fr: 'Ampli home cinéma Denon AVR-X2900H', en: 'Denon AVR-X2900H home cinema receiver' },
+      name: { fr: 'L’ampli Denon', en: 'The Denon amp' },
       url: 'https://www.easylounge.com/products/denon-avr-x2900h-dab-205778',
       lara: { fr: 'Il dit que c’est « le cœur du système ». Quel système ?', en: 'He says it’s “the heart of the system”. What system?' },
     },
     {
-      name: { fr: 'Pack d’enceintes Klipsch 5.1.2 Atmos', en: 'Klipsch 5.1.2 Atmos speaker pack' },
+      name: { fr: 'Les enceintes Klipsch', en: 'The Klipsch speakers' },
       url: 'https://www.ldlc.com/fiche/PB00495614.html',
       lara: { fr: 'Sept enceintes. Pour un salon. Je répète : un salon.', en: 'Seven speakers. For a living room. I repeat: a living room.' },
     },
     {
-      name: { fr: 'Philips Hue Play HDMI Sync Box 8K', en: 'Philips Hue Play HDMI Sync Box 8K' },
+      name: { fr: 'La box Hue', en: 'The Hue box' },
       url: 'https://www.philips-hue.com/fr-fr/p/hue-philips-hue-play-hdmi-sync-box-8k/8719514458666',
       lara: { fr: 'Pour que les murs changent de couleur pendant les films. Apparemment, c’est vital.', en: 'So the walls change colour during films. Apparently, it’s vital.' },
     },
     {
-      name: { fr: 'Philips Hue Play, deux barres lumineuses', en: 'Philips Hue Play, two light bars' },
+      name: { fr: 'Les barres Hue', en: 'The Hue bars' },
       url: 'https://www.philips-hue.com/fr-fr/p/hue-white-and-color-ambiance-hue-play-pack-x2/7820231P7',
       lara: { fr: 'Voir plus haut.', en: 'See above.' },
     },
     {
-      name: { fr: 'Enceinte Denon Home 150', en: 'Denon Home 150 speaker' },
+      name: { fr: 'L’enceinte Denon', en: 'The Denon speaker' },
       url: 'https://www.denon.com/fr-fr/product/wireless-speakers/denon-home-150/DENONHOME150.html',
       lara: { fr: 'Une enceinte de plus. Évidemment.', en: 'One more speaker. Of course.' },
     },
     {
-      name: { fr: 'Platine vinyle Audio-Technica AT-LP120XBT', en: 'Audio-Technica AT-LP120XBT turntable' },
+      name: { fr: 'La platine vinyle', en: 'The turntable' },
       url: 'https://www.ldlc.com/fiche/PB00437725.html',
       lara: { fr: 'Celle-là, par contre, c’est pour moi. Et pour nos soirées à deux.', en: 'This one, however, is for me. And for our evenings for two.' },
     },

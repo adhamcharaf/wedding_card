@@ -53,7 +53,9 @@ Rejouer : bouton « revoir le film » en fin de page, qui remonte l'intro à neu
 
 ## 5. Le scroll
 
-Une seule page en plus : `/compte`, les coordonnées bancaires, ouverte depuis la liste de mariage (`src/pages/Compte.tsx`, choisie dans `main.tsx` sur le chemin, `vercel.json` la renvoie sur `index.html`).
+Deux pages en plus, ouvertes depuis la liste de mariage, choisies dans `main.tsx` sur le chemin et renvoyées par `vercel.json` sur `index.html` :
+- `/compte`, les coordonnées bancaires (`src/pages/Compte.tsx`) ;
+- `/adham`, la liste d'Adham (`src/pages/ListeAdham.tsx`, 2026-10-13) : « (non validée par Lara) », « Ne faites pas attention à lui » signé Lara, six cadeaux avec un nom court, un lien « Voir » vers la fiche produit exacte et le commentaire de Lara, sans prix, puis le PS d'Adham. Même fond et même typographie que la page du compte, aucun effet.
 
 Sections, dans l'ordre (croquis de Lara, 2026-09-13) : hero (Save the Date) · photos d'enfance · invitation · date, heure, lieu, Maps · compte à rebours · liste de mariage avec le dessin du couple · RSVP · fin (phrase, « revoir le film », demi-soleil dessiné avec les initiales gravées, `sun-end.png`).
 
@@ -67,7 +69,7 @@ Effets, et seulement ceux-là :
 - **Compte à rebours** : chiffres qui défilent verticalement à chaque changement (GSAP), pas de flip 3D.
 - **Photos d'enfance qui sautillent** (ajout du 2026-09-03, `DECISIONS.md`) : section « These two are getting married » entre l'invitation et la date. Les deux photos oscillent de ±4° autour du pied avec un petit saut à chaque changement d'appui, en alternance, CSS keyframes sur `transform`, cycle de 1,4 s, en pause hors écran, désactivé sous `prefers-reduced-motion`.
 - Apparition des textes : fondu + 12 px de translateY, une fois, pas de répétition au retour.
-- **La liste d'Adham** (ajout du 2026-10-13, `DECISIONS.md`) : sous la liste officielle, un lien discret « Psst… Adham a aussi sa liste » déplie six cadeaux, chacun avec le lien de sa page produit et un commentaire de Lara, sans prix. Dépliage en fondu + 8 px de translateY, 450 ms, sans effet sous `prefers-reduced-motion`. Contenu dans `wedding.adhamList` et `text.registry.adham`.
+
 
 Desktop : le site reste une colonne mobile de 480 px max, centrée sur un fond pêche plein écran avec le grain. Pas de mise en page desktop spécifique en V1.
 
