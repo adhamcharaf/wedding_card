@@ -126,10 +126,11 @@ export const wedding = {
       },
       yes: { fr: 'Oui, je l’offre', en: 'Yes, I’ll give it' },
       cancel: { fr: 'Annuler', en: 'Cancel' },
-      thanks: {
-        fr: 'Merci ! Vous êtes officiellement l’invité préféré d’Adham. Il vous doit une danse au mariage.',
-        en: 'Thank you! You are officially Adham’s favourite guest. He owes you a dance at the wedding.',
-      },
+      /** Deux remerciements, l'un ou l'autre au hasard. */
+      thanks: [
+        { fr: 'Merci ! Vous êtes officiellement l’invité préféré d’Adham.', en: 'Thank you! You are officially Adham’s favourite guest.' },
+        { fr: 'Merci ! Adham vous doit une danse au mariage.', en: 'Thank you! Adham owes you a dance at the wedding.' },
+      ],
       already: { fr: 'Quelqu’un l’a offert juste avant vous. Il est retiré de la liste.', en: 'Someone gave it just before you. It has been taken off the list.' },
       close: { fr: 'Fermer', en: 'Close' },
       allGiven: { fr: 'Tout a été offert. Lara est soulagée.', en: 'Everything has been given. Lara is relieved.' },
