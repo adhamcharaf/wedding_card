@@ -67,6 +67,7 @@ Effets, et seulement ceux-là :
 - **Compte à rebours** : chiffres qui défilent verticalement à chaque changement (GSAP), pas de flip 3D.
 - **Photos d'enfance qui sautillent** (ajout du 2026-09-03, `DECISIONS.md`) : section « These two are getting married » entre l'invitation et la date. Les deux photos oscillent de ±4° autour du pied avec un petit saut à chaque changement d'appui, en alternance, CSS keyframes sur `transform`, cycle de 1,4 s, en pause hors écran, désactivé sous `prefers-reduced-motion`.
 - Apparition des textes : fondu + 12 px de translateY, une fois, pas de répétition au retour.
+- **La liste d'Adham** (ajout du 2026-10-13, `DECISIONS.md`) : sous la liste officielle, un lien discret « Psst… Adham a aussi sa liste » déplie six cadeaux, chacun avec le lien de sa page produit et un commentaire de Lara, sans prix. Dépliage en fondu + 8 px de translateY, 450 ms, sans effet sous `prefers-reduced-motion`. Contenu dans `wedding.adhamList` et `text.registry.adham`.
 
 Desktop : le site reste une colonne mobile de 480 px max, centrée sur un fond pêche plein écran avec le grain. Pas de mise en page desktop spécifique en V1.
 

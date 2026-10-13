@@ -331,6 +331,116 @@
   opacity: 0.9;
 }
 
+/* ---------- La liste d'Adham ---------- */
+
+/* Le lien qui la déplie : discret, comme « revoir le film ». */
+.adham__toggle {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  text-decoration-thickness: 1px;
+}
+
+/* Dépliage : fondu et 8 px de translateY, une fois à l'ouverture (docs/CONCEPTION.md §5). */
+.adham {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 22rem;
+  margin-top: 0.75rem;
+  animation: deplier 450ms ease both;
+}
+
+.adham__title {
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.adham__subtitle {
+  margin-top: -0.75rem;
+  font-size: 0.9rem;
+  font-style: italic;
+  opacity: 0.85;
+}
+
+/* Les mots de Lara et d'Adham, signés en petites capitales sous la phrase. */
+.adham__quote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 1.1rem;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.adham__quote--ps {
+  margin-top: -0.25rem;
+  font-size: 1rem;
+}
+
+.adham__by {
+  font-size: 0.72rem;
+  font-style: normal;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.adham__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  width: 100%;
+  margin: 0.25rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.adham__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.adham__name {
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+}
+
+.adham__lara {
+  font-size: 0.95rem;
+  font-style: italic;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+@keyframes deplier {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .adham {
+    animation: none;
+  }
+}
+
 /* ---------- Page /compte ---------- */
 
 .compte {

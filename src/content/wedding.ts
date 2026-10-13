@@ -109,6 +109,16 @@ export const wedding = {
         fr: 'Nos listes vous attendent directement en boutique.',
         en: 'Our registries are waiting for you in store.',
       },
+      /** La liste d'Adham, repliée sous la liste officielle, commentée par Lara (2026-10-13). */
+      adham: {
+        teaser: { fr: 'Psst… Adham a aussi sa liste', en: 'Psst… Adham has a list too' },
+        hide: { fr: 'Refermer la liste d’Adham', en: 'Close Adham’s list' },
+        title: { fr: 'La liste d’Adham', en: 'Adham’s list' },
+        subtitle: { fr: '(non validée par Lara)', en: '(not approved by Lara)' },
+        warning: { fr: '« Ne faites pas attention à lui. »', en: '“Don’t mind him.”' },
+        outro: { fr: 'Tout cadeau de cette liste sera installé par vos soins.', en: 'Any gift from this list will be installed by you.' },
+        ps: { fr: 'PS : n’écoutez pas Lara.', en: 'PS: don’t listen to Lara.' },
+      },
     },
 
     /** Page `/compte`, ouverte depuis la liste de mariage : les coordonnées bancaires hors de la page principale. */
@@ -203,6 +213,43 @@ export const wedding = {
     { label: { fr: 'Cilya’s concept', en: 'Cilya’s concept' }, url: '' },
     { label: { fr: 'Orca deco', en: 'Orca deco' }, url: '' },
     { label: { fr: 'Compte en banque', en: 'Bank account' }, url: '/compte' },
+  ],
+
+  /**
+   * La liste d'Adham (2026-10-13) : chaque cadeau mène à sa page produit
+   * exacte, sans prix, avec le commentaire de Lara.
+   */
+  adhamList: [
+    {
+      name: { fr: 'Ampli home cinéma Denon AVR-X2900H', en: 'Denon AVR-X2900H home cinema receiver' },
+      url: 'https://www.easylounge.com/products/denon-avr-x2900h-dab-205778',
+      lara: { fr: 'Il dit que c’est « le cœur du système ». Quel système ?', en: 'He says it’s “the heart of the system”. What system?' },
+    },
+    {
+      name: { fr: 'Pack d’enceintes Klipsch 5.1.2 Atmos', en: 'Klipsch 5.1.2 Atmos speaker pack' },
+      url: 'https://www.ldlc.com/fiche/PB00495614.html',
+      lara: { fr: 'Sept enceintes. Pour un salon. Je répète : un salon.', en: 'Seven speakers. For a living room. I repeat: a living room.' },
+    },
+    {
+      name: { fr: 'Philips Hue Play HDMI Sync Box 8K', en: 'Philips Hue Play HDMI Sync Box 8K' },
+      url: 'https://www.philips-hue.com/fr-fr/p/hue-philips-hue-play-hdmi-sync-box-8k/8719514458666',
+      lara: { fr: 'Pour que les murs changent de couleur pendant les films. Apparemment, c’est vital.', en: 'So the walls change colour during films. Apparently, it’s vital.' },
+    },
+    {
+      name: { fr: 'Philips Hue Play, deux barres lumineuses', en: 'Philips Hue Play, two light bars' },
+      url: 'https://www.philips-hue.com/fr-fr/p/hue-white-and-color-ambiance-hue-play-pack-x2/7820231P7',
+      lara: { fr: 'Voir plus haut.', en: 'See above.' },
+    },
+    {
+      name: { fr: 'Enceinte Denon Home 150', en: 'Denon Home 150 speaker' },
+      url: 'https://www.denon.com/fr-fr/product/wireless-speakers/denon-home-150/DENONHOME150.html',
+      lara: { fr: 'Une enceinte de plus. Évidemment.', en: 'One more speaker. Of course.' },
+    },
+    {
+      name: { fr: 'Platine vinyle Audio-Technica AT-LP120XBT', en: 'Audio-Technica AT-LP120XBT turntable' },
+      url: 'https://www.ldlc.com/fiche/PB00437725.html',
+      lara: { fr: 'Celle-là, par contre, c’est pour moi. Et pour nos soirées à deux.', en: 'This one, however, is for me. And for our evenings for two.' },
+    },
   ],
 
   /** Coordonnées du RIB AFG Bank fourni par Adham le 2026-09-15 (compte en XOF, agence de Biétry). */
