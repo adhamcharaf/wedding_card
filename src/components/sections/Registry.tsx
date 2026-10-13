@@ -3,7 +3,7 @@ import { wedding } from '../../content/wedding'
 import { useT } from '../../i18n/useT'
 import { Reveal } from '../Reveal'
 
-/** Liste de mariage et dessin du couple (docs/mockups/3.png). Le compte en banque ouvre sa propre page. */
+/** Liste de mariage et dessin du couple (docs/mockups/3.png). Le compte en banque et la liste d'Adham ouvrent chacun leur page. */
 export function Registry() {
   const t = useT()
   return (

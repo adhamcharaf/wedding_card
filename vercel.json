@@ -2,6 +2,7 @@
   "regions": ["cdg1"],
   "rewrites": [
     { "source": "/compte", "destination": "/index.html" },
+    { "source": "/adham", "destination": "/index.html" },
     { "source": "/:code(\\d{4})", "destination": "/index.html" }
   ],
   "headers": [
