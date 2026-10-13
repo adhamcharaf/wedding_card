@@ -219,7 +219,7 @@ export const wedding = {
   /**
    * La liste d'Adham (2026-10-13), sur sa page `/adham` : l'ampli et les
    * enceintes Klipsch retirés, trop chers (2026-10-13). Un nom court par
-   * cadeau, sa page produit exacte (le modèle s'y lit), sans prix, et le
+   * cadeau, sa page produit exacte (le modèle s'y lit ; l'enceinte Denon est la version avec Alexa, pas la NV), sans prix, et le
    * commentaire de Lara.
    */
   adhamList: [
@@ -234,7 +234,7 @@ export const wedding = {
       lara: { fr: 'Voir plus haut.', en: 'See above.' },
     },
     {
-      name: { fr: 'L’enceinte Denon', en: 'The Denon speaker' },
+      name: { fr: 'L’enceinte Denon, version Alexa', en: 'The Denon speaker, Alexa version' },
       url: 'https://www.denon.com/fr-fr/product/wireless-speakers/denon-home-150/DENONHOME150.html',
       lara: { fr: 'Une enceinte de plus. Évidemment.', en: 'One more speaker. Of course.' },
     },
@@ -242,6 +242,16 @@ export const wedding = {
       name: { fr: 'La platine vinyle', en: 'The turntable' },
       url: 'https://www.ldlc.com/fiche/PB00437725.html',
       lara: { fr: 'Celle-là, par contre, c’est pour moi. Et pour nos soirées à deux.', en: 'This one, however, is for me. And for our evenings for two.' },
+    },
+    {
+      name: { fr: 'L’Echo Show 8 (2025)', en: 'The Echo Show 8 (2025)' },
+      url: 'https://www.amazon.fr/dp/B0DTQF1MQT',
+      lara: { fr: 'Un écran pour parler à Alexa. Moi, il ne m’écoute déjà pas.', en: 'A screen to talk to Alexa. He already doesn’t listen to me.' },
+    },
+    {
+      name: { fr: 'La nouvelle Apple TV 4K', en: 'The new Apple TV 4K' },
+      url: 'https://www.apple.com/fr/apple-tv-4k/',
+      lara: { fr: 'Elle n’est même pas encore sortie. Il a déjà mis un réveil.', en: 'It isn’t even out yet. He has already set an alarm.' },
     },
   ],
 
