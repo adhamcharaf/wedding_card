@@ -121,8 +121,8 @@ export const wedding = {
       /** Système « Je l'offre » : un cadeau offert disparaît de la liste pour tous, sans nom. `{gift}` reçoit le nom du cadeau. */
       offer: { fr: 'Je l’offre', en: 'I’ll give it' },
       confirm: {
-        fr: 'Vous offrez {gift} ? Ce cadeau disparaîtra de la liste pour tous les invités. Votre nom n’est enregistré nulle part.',
-        en: 'Giving {gift}? This gift will disappear from the list for every guest. Your name is not recorded anywhere.',
+        fr: 'Vous offrez {gift} ? Ce cadeau disparaîtra de la liste pour tous les invités. Votre nom restera anonyme.',
+        en: 'Giving {gift}? This gift will disappear from the list for every guest. Your name will stay anonymous.',
       },
       yes: { fr: 'Oui, je l’offre', en: 'Yes, I’ll give it' },
       cancel: { fr: 'Annuler', en: 'Cancel' },
