@@ -101,7 +101,6 @@ function genererCodes() {
 // ---------- Appels du site ----------
 
 function doPost(e) {
-  var verrou = LockService.getScriptLock()
   try {
     var donnees = JSON.parse(e.postData.contents)
     if (!SECRET || SECRET === 'remplacer-par-le-secret-partage' || donnees.secret !== SECRET) {
@@ -110,17 +109,28 @@ function doPost(e) {
     var code = normaliserCode(donnees.code)
     if (!code) return reponse({ error: 'invalid' })
 
-    // Une seule écriture à la fois : deux membres d'un même groupe peuvent répondre ensemble.
-    verrou.waitLock(10000)
+    // Une lecture ne prend aucun verrou : un verrou resté coincé chez Google
+    // ne doit jamais empêcher un invité d'ouvrir sa lettre (docs/LESSONS.md).
     if (donnees.action === 'chercher') return reponse(chercher(code))
-    if (donnees.action === 'repondre') return reponse(repondre(code, donnees))
+    if (donnees.action === 'repondre') return reponse(ecrire(code, donnees))
     return reponse({ error: 'invalid' })
   } catch (err) {
     return reponse({ error: String(err) })
+  }
+}
+
+/**
+ * Une seule écriture à la fois : deux membres d'un même groupe peuvent
+ * répondre ensemble. Verrou du document plutôt que du script, et tentative
+ * bornée : si Google ne le rend pas, l'invité voit « réessayez », rien n'est perdu.
+ */
+function ecrire(code, donnees) {
+  var verrou = LockService.getDocumentLock()
+  if (!verrou.tryLock(20000)) return { error: 'occupe' }
+  try {
+    return repondre(code, donnees)
   } finally {
-    try {
-      verrou.releaseLock()
-    } catch (ignore) {}
+    verrou.releaseLock()
   }
 }
 

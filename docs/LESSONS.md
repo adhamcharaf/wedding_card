@@ -162,3 +162,9 @@
 - **Symptôme** : build vert, mais chaque appel répondait 500 `FUNCTION_INVOCATION_FAILED` : `Cannot find module '/var/task/src/content/wedding'`. Le journal de build montrait aussi des erreurs TypeScript ignorées (extension manquante, `process` inconnu) : Vercel compile avec le `tsconfig.json` le plus proche du fichier, ici la racine qui n'inclut rien.
 - **Cause** : le constructeur Node de Vercel compile les fichiers de `api/` un par un et ne suit pas les imports vers le reste du dépôt.
 - **Règle** : une fonction `api/` se suffit à elle-même (pas d'import depuis `src/`), avec son propre `api/tsconfig.json` (types Node, DOM pour `Request`/`Response`). On lit le journal de build même quand il est vert, et on appelle l'adresse déployée avant d'annoncer que ça marche.
+
+### Un verrou Apps Script resté pris bloque toutes les lettres
+- **Contexte** : RSVP par groupe, le script du Sheet prenait le verrou du script (`LockService.getScriptLock`, attente de 10 s) avant chaque appel, lectures comprises.
+- **Symptôme** : du jour au lendemain, plus aucun lien ne marchait. La page s'ouvrait, mais `/api/rsvp` répondait 502 ; appelé directement, le script renvoyait « Lock timeout: another process was holding the lock for too long » à chaque essai, alors qu'un seul appel était arrivé sur Vercel dans l'heure.
+- **Cause** : le verrou restait détenu côté Google, sans trafic pour l'expliquer. Comme les lectures l'attendaient aussi, une seule exécution coincée suffisait à fermer le faire-part à tout le monde.
+- **Règle** : une lecture ne prend jamais de verrou. Une écriture prend le verrou du document avec `tryLock` borné et renvoie une erreur douce si elle ne l'obtient pas. Pour diagnostiquer, appeler le script directement avec une lecture, avant de soupçonner le site.

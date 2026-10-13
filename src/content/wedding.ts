@@ -196,12 +196,12 @@ export const wedding = {
   },
 
   /**
-   * Liste de Lara, 2026-09-13. Les boutiques n'ont pas de lien : les listes
+   * Liste de Lara, 2026-09-13, boutiques revues par Adham le 2026-10-13. Les boutiques n'ont pas de lien : les listes
    * n'existent qu'en magasin (2026-09-15). Le compte ouvre la page `/compte`.
    */
   registry: [
-    { label: { fr: 'Lovely home', en: 'Lovely home' }, url: '' },
-    { label: { fr: 'Cilya home', en: 'Cilya home' }, url: '' },
+    { label: { fr: 'Cilya’s concept', en: 'Cilya’s concept' }, url: '' },
+    { label: { fr: 'Orca deco', en: 'Orca deco' }, url: '' },
     { label: { fr: 'Compte en banque', en: 'Bank account' }, url: '/compte' },
   ],
 

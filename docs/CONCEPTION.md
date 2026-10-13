@@ -84,7 +84,7 @@ export const wedding = {
     invitation: { fr: "...", en: "With full hearts, we joyfully invite you to our wedding" },
     // etc. une clé par bloc de texte
   },
-  registry: [{ label: { fr: "Cilya home", en: "Cilya home" }, url: "" }],
+  registry: [{ label: { fr: "Cilya's concept", en: "Cilya's concept" }, url: "" }],
   bank: { holder: "", name: "", iban: "", swift: "" },
 };
 ```
@@ -101,6 +101,8 @@ Chemin d'une réponse :
 2. Le formulaire (`src/components/sections/Rsvp.tsx`) affiche la liste du groupe : pour chaque membre, Oui / Non (rien de coché au départ) et « Laisser un mot », qui déplie un champ ; le champ de la personne dont le prénom a été donné à l'accueil est déjà ouvert. Sous la liste, les deux notes (soirée entre adultes, personne supplémentaire par WhatsApp). Un seul envoi pour tout le groupe.
 3. `POST /api/rsvp` avec le code et la liste des membres (présence obligatoire pour chacun, mot facultatif, au moins un mot dans le groupe, longueurs bornées). La fonction ignore les envois où le piège à robots est rempli, refuse tout après la clôture (fin du 15 décembre 2026, réponse 410 ; date dans `api/rsvp.ts` et `wedding.rsvpClosesAt`, à changer ensemble), et transmet au script (`action: repondre`), qui met à jour les lignes du groupe (une personne absente de l'onglet est ignorée : on ne crée jamais d'invité) et ajoute au Journal. Adresse et secret vivent dans les variables Vercel `RSVP_SHEET_URL` et `RSVP_SECRET`, jamais dans le navigateur.
 4. Le site affiche le remerciement puis le récapitulatif (« votre réponse du 12 novembre », chaque membre avec son choix et son mot) et un bouton « Modifier », jusqu'à la clôture. Un membre qui revient voit le récapitulatif, modifie, ajoute son mot, renvoie : les autres mots restent. Il manque une réponse ou tout mot : une fenêtre par-dessus le formulaire nomme les manques (« la réponse de Kadi », « un mot de l'un d'entre vous »), le curseur se pose sur le premier et les manques restent soulignés jusqu'à l'envoi suivant.
+
+Envoi des invitations (décision du 2026-10-13) : une colonne Téléphone dans l'onglet Invités et une colonne « Envoyer » qui, par une formule du Sheet, ouvre WhatsApp avec le message et le lien du groupe déjà écrits. Adham envoie à une personne par groupe et transfère le même message aux autres membres : le message ne nomme personne, pour pouvoir être transféré. Les numéros sans indicatif sont lus comme ivoiriens ; les autres pays s'écrivent avec leur indicatif.
 
 Les places sont comptées par groupe (décision du 2026-09-16) : pas de nom libre, une personne en plus se demande sur WhatsApp. Pas de limitation de débit au-delà du délai sur code faux : 10 000 codes pour une centaine de groupes, piège à robots et bornes de taille suffisent.
 
