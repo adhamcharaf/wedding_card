@@ -84,7 +84,7 @@ export const wedding = {
     invitation: { fr: "...", en: "With full hearts, we joyfully invite you to our wedding" },
     // etc. une clé par bloc de texte
   },
-  registry: [{ label: { fr: "Cilya home", en: "Cilya home" }, url: "" }],
+  registry: [{ label: { fr: "Cilya's concept", en: "Cilya's concept" }, url: "" }],
   bank: { holder: "", name: "", iban: "", swift: "" },
 };
 ```
