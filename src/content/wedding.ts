@@ -245,7 +245,7 @@ export const wedding = {
     {
       name: { fr: 'L’Echo Show 8 (2025)', en: 'The Echo Show 8 (2025)' },
       url: 'https://www.amazon.fr/dp/B0DTQF1MQT',
-      lara: { fr: 'Comme ça, quand je dis non, il ira demander à Alexa.', en: 'That way, when I say no, he can go and ask Alexa.' },
+      lara: { fr: 'Une deuxième voix féminine à la maison. Je surveille.', en: 'A second female voice in the house. I’m keeping an eye on it.' },
     },
     {
       name: { fr: 'La nouvelle Apple TV 4K', en: 'The new Apple TV 4K' },
