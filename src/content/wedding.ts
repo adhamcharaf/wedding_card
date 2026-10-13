@@ -117,7 +117,6 @@ export const wedding = {
       subtitle: { fr: '(non validée par Lara)', en: '(not approved by Lara)' },
       warning: { fr: '« Ne faites pas attention à lui. »', en: '“Don’t mind him.”' },
       see: { fr: 'Voir', en: 'View' },
-      outro: { fr: 'Tout cadeau de cette liste sera installé par vos soins.', en: 'Any gift from this list will be installed by you.' },
       ps: { fr: 'PS d’Adham : n’écoutez pas Lara.', en: 'PS from Adham: don’t listen to Lara.' },
     },
 
@@ -246,7 +245,7 @@ export const wedding = {
     {
       name: { fr: 'L’Echo Show 8 (2025)', en: 'The Echo Show 8 (2025)' },
       url: 'https://www.amazon.fr/dp/B0DTQF1MQT',
-      lara: { fr: 'Un écran pour parler à Alexa. Moi, il ne m’écoute déjà pas.', en: 'A screen to talk to Alexa. He already doesn’t listen to me.' },
+      lara: { fr: 'Comme ça, quand je dis non, il ira demander à Alexa.', en: 'That way, when I say no, he can go and ask Alexa.' },
     },
     {
       name: { fr: 'La nouvelle Apple TV 4K', en: 'The new Apple TV 4K' },

@@ -51,7 +51,6 @@ export function ListeAdham() {
             ))}
           </ul>
 
-          <p className="adham__outro">{t(a.outro)}</p>
           <p className="adham__ps">{t(a.ps)}</p>
 
           <a className="compte__back" href="/" onClick={retour}>

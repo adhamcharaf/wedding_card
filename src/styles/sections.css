@@ -417,17 +417,12 @@
   opacity: 0.9;
 }
 
-.adham__outro {
-  max-width: 22rem;
-  margin-top: 1rem;
-  font-size: 1.1rem;
-  font-style: italic;
-  line-height: 1.45;
-}
-
+/* Le PS d'Adham, sous le dernier filet. */
 .adham__ps {
-  font-size: 0.95rem;
-  opacity: 0.85;
+  margin-top: 1rem;
+  font-size: 1.05rem;
+  font-style: italic;
+  opacity: 0.9;
 }
 
 /* ---------- Page /compte ---------- */
