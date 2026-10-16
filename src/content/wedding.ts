@@ -109,33 +109,39 @@ export const wedding = {
         fr: 'Nos listes vous attendent directement en boutique.',
         en: 'Our registries are waiting for you in store.',
       },
+      /** Sous la note des boutiques, le lien discret vers la page `/adham` (2026-10-16). */
+      groom: {
+        fr: 'Et pour ceux qui voudraient gâter le marié, il a ses propres priorités.',
+        en: 'And for those who would like to spoil the groom, he has his own priorities.',
+      },
     },
 
-    /** Page `/adham`, ouverte depuis la liste de mariage : la liste d'Adham, commentée par Lara (2026-10-13). */
+    /**
+     * Page `/adham`, ouverte depuis la liste de mariage : les envies du marié (2026-10-13, revue le 2026-10-16).
+     * Un seul trait d'humour, l'intro d'Adham ; le reste aussi sobre que la page du compte.
+     */
     adham: {
-      title: { fr: 'La liste d’Adham', en: 'Adham’s list' },
-      subtitle: { fr: '(non validée par Lara)', en: '(not approved by Lara)' },
-      warning: { fr: '« Ne faites pas attention à lui. »', en: '“Don’t mind him.”' },
-      see: { fr: 'Voir', en: 'View' },
-      ps: { fr: 'PS d’Adham : n’écoutez pas Lara.', en: 'PS from Adham: don’t listen to Lara.' },
-      /** Système « Je l'offre » : un cadeau offert disparaît de la liste pour tous, sans nom. `{gift}` reçoit le nom du cadeau. */
+      title: { fr: 'Pour le marié', en: 'For the groom' },
+      intro: {
+        fr: '« Lara s’est occupée de la déco. Je me suis occupé de l’essentiel. »',
+        en: '“Lara took care of the decor. I took care of the essentials.”',
+      },
+      /** Système « Je l'offre » : un cadeau offert disparaît de la liste pour tous, sans nom. Le nom du cadeau s'affiche au-dessus de la question. */
       offer: { fr: 'Je l’offre', en: 'I’ll give it' },
       confirm: {
-        fr: 'Vous offrez {gift} ? Ce cadeau disparaîtra de la liste pour tous les invités. Votre nom restera anonyme.',
-        en: 'Giving {gift}? This gift will disappear from the list for every guest. Your name will stay anonymous.',
+        fr: 'Vous offrez ce cadeau ? Il disparaîtra de la liste pour tous les invités. Votre nom restera anonyme.',
+        en: 'Giving this gift? It will disappear from the list for every guest. Your name will stay anonymous.',
       },
       yes: { fr: 'Oui, je l’offre', en: 'Yes, I’ll give it' },
       cancel: { fr: 'Annuler', en: 'Cancel' },
-      /** Deux remerciements, l'un ou l'autre au hasard. */
-      thanks: [
-        { fr: 'Merci ! Vous êtes officiellement l’invité préféré d’Adham.', en: 'Thank you! You are officially Adham’s favourite guest.' },
-        { fr: 'Merci ! Adham vous doit une danse au mariage.', en: 'Thank you! Adham owes you a dance at the wedding.' },
-      ],
+      thanks: {
+        fr: 'Merci infiniment. Adham vous remerciera de vive voix le 8 janvier.',
+        en: 'Thank you so much. Adham will thank you in person on January 8.',
+      },
       already: { fr: 'Quelqu’un l’a offert juste avant vous. Il est retiré de la liste.', en: 'Someone gave it just before you. It has been taken off the list.' },
       close: { fr: 'Fermer', en: 'Close' },
-      allGiven: { fr: 'Tout a été offert. Lara est soulagée.', en: 'Everything has been given. Lara is relieved.' },
-      /** Texte alternatif du sticker d'Adham sous son PS. */
-      stickerAlt: { fr: 'Adham qui tire la langue', en: 'Adham sticking his tongue out' },
+      allGiven: { fr: 'Tout a été offert. Merci infiniment.', en: 'Everything has been given. Thank you so much.' },
+      closing: { fr: 'Merci, du fond du cœur.', en: 'Thank you, from the bottom of my heart.' },
     },
 
     /** Page `/compte`, ouverte depuis la liste de mariage : les coordonnées bancaires hors de la page principale. */
@@ -224,58 +230,50 @@ export const wedding = {
 
   /**
    * Liste de Lara, 2026-09-13, boutiques revues par Adham le 2026-10-13. Les boutiques n'ont pas de lien : les listes
-   * n'existent qu'en magasin (2026-09-15). Le compte ouvre la page `/compte`, la liste d'Adham la page `/adham`.
+   * n'existent qu'en magasin (2026-09-15). Le compte ouvre la page `/compte`. La page `/adham` s'ouvre par la
+   * phrase `text.registry.groom`, sous la note des boutiques, pour rester un aparté (2026-10-16).
    */
   registry: [
     { label: { fr: 'Cilya’s concept', en: 'Cilya’s concept' }, url: '' },
     { label: { fr: 'Orca deco', en: 'Orca deco' }, url: '' },
     { label: { fr: 'Compte en banque', en: 'Bank account' }, url: '/compte' },
-    { label: { fr: 'La liste d’Adham', en: 'Adham’s list' }, url: '/adham' },
   ],
 
   /**
-   * La liste d'Adham (2026-10-13), sur sa page `/adham`. L'`id` sert au
-   * système « Je l'offre » : il doit figurer aussi dans `api/cadeaux.ts`. l'ampli et les
-   * enceintes Klipsch retirés, trop chers (2026-10-13). Un nom court par
-   * cadeau, sa page produit exacte (le modèle s'y lit ; l'enceinte Denon est la version avec Alexa, pas la NV), sans prix, et le
-   * commentaire de Lara.
+   * Les envies du marié, sur la page `/adham` (2026-10-13, revue le 2026-10-16). L'`id` sert au système
+   * « Je l'offre » : il doit figurer aussi dans `api/cadeaux.ts`. Un nom simple, sans commentaire ni prix ;
+   * le nom mène à la page produit exacte (l'enceinte Denon est la version avec Alexa, pas la NV).
    */
   adhamList: [
     {
       id: 'box-hue',
-      name: { fr: 'La box Hue', en: 'The Hue box' },
+      name: { fr: 'Hue Sync Box', en: 'Hue Sync Box' },
       url: 'https://www.philips-hue.com/fr-fr/p/hue-philips-hue-play-hdmi-sync-box-8k/8719514458666',
-      lara: { fr: 'Pour que les murs changent de couleur pendant les films. Apparemment, c’est vital.', en: 'So the walls change colour during films. Apparently, it’s vital.' },
     },
     {
       id: 'barres-hue',
-      name: { fr: 'Les barres Hue', en: 'The Hue bars' },
+      name: { fr: 'Barres Hue Play', en: 'Hue Play light bars' },
       url: 'https://www.philips-hue.com/fr-fr/p/hue-white-and-color-ambiance-hue-play-pack-x2/7820231P7',
-      lara: { fr: 'Voir plus haut.', en: 'See above.' },
     },
     {
       id: 'enceinte-denon',
-      name: { fr: 'L’enceinte Denon, version Alexa', en: 'The Denon speaker, Alexa version' },
+      name: { fr: 'Enceinte Denon Home 150', en: 'Denon Home 150 speaker' },
       url: 'https://www.son-video.com/article/haute-fidelite-systemes-multiroom-enceintes-multiroom/denon/home-150-blanc',
-      lara: { fr: 'Une enceinte de plus. Évidemment.', en: 'One more speaker. Of course.' },
     },
     {
       id: 'platine',
-      name: { fr: 'La platine vinyle', en: 'The turntable' },
+      name: { fr: 'Platine vinyle', en: 'Turntable' },
       url: 'https://www.ldlc.com/fiche/PB00437725.html',
-      lara: { fr: 'Celle-là, par contre, c’est pour moi. Et pour nos soirées à deux.', en: 'This one, however, is for me. And for our evenings for two.' },
     },
     {
       id: 'echo-show',
-      name: { fr: 'L’Echo Show 8 (2025)', en: 'The Echo Show 8 (2025)' },
+      name: { fr: 'Echo Show 8', en: 'Echo Show 8' },
       url: 'https://www.amazon.fr/dp/B0DTQF1MQT',
-      lara: { fr: 'Une deuxième voix féminine à la maison. Je surveille.', en: 'A second female voice in the house. I’m keeping an eye on it.' },
     },
     {
       id: 'apple-tv',
-      name: { fr: 'La nouvelle Apple TV 4K', en: 'The new Apple TV 4K' },
+      name: { fr: 'Apple TV 4K', en: 'Apple TV 4K' },
       url: 'https://www.apple.com/fr/apple-tv-4k/',
-      lara: { fr: 'Elle n’est même pas encore sortie. Il a déjà mis un réveil.', en: 'It isn’t even out yet. He has already set an alarm.' },
     },
   ],
 
