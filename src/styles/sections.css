@@ -331,7 +331,19 @@
   opacity: 0.9;
 }
 
-/* ---------- Page /adham : la liste d'Adham ---------- */
+/* La phrase vers la page du marié : un aparté, souligné en léger. */
+.registry__groom {
+  max-width: 20rem;
+  margin-top: 0.25rem;
+  text-wrap: balance;
+}
+
+.registry__groom .link {
+  text-decoration-color: rgb(127 47 38 / 0.35);
+  text-decoration-thickness: 1px;
+}
+
+/* ---------- Page /adham : les envies du marié ---------- */
 
 /* Même cadrage que la page du compte : centrée dans l'écran. */
 .adham {
@@ -339,22 +351,17 @@
   justify-content: center;
 }
 
-.adham__subtitle {
-  margin-top: -0.75rem;
-  font-size: 0.95rem;
-  font-style: italic;
-  opacity: 0.85;
-}
-
-/* Le mot de Lara, la seule signature de la page. */
+/* L'intro d'Adham, signée comme une citation : le seul trait d'humour de la page. */
 .adham__quote {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.2rem;
+  gap: 0.35rem;
+  max-width: 22rem;
   margin-bottom: 0.5rem;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-style: italic;
+  line-height: 1.4;
 }
 
 .adham__by {
@@ -365,7 +372,7 @@
   opacity: 0.8;
 }
 
-/* Un cadeau : son nom court et « Voir » sur une ligne, le mot de Lara dessous. Un filet entre deux cadeaux. */
+/* Un cadeau par ligne : son nom, qui ouvre la fiche, et « Je l'offre » à droite. Un filet entre deux cadeaux. */
 .adham__list {
   width: 100%;
   max-width: 22rem;
@@ -376,9 +383,10 @@
 
 .adham__item {
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding: 0.95rem 0;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 0;
   border-top: 1px solid rgb(127 47 38 / 0.22);
 }
 
@@ -386,42 +394,19 @@
   border-bottom: 1px solid rgb(127 47 38 / 0.22);
 }
 
-.adham__row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
 .adham__name {
+  color: inherit;
   font-size: 1.2rem;
   letter-spacing: 0.04em;
-}
-
-/* « Voir » : discret, comme les liens secondaires du site. */
-.adham__see {
-  flex-shrink: 0;
-  color: inherit;
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  opacity: 0.85;
-  text-underline-offset: 0.3em;
+  text-decoration-color: rgb(127 47 38 / 0.35);
   text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
 }
 
-.adham__lara {
-  font-size: 0.98rem;
-  font-style: italic;
-  line-height: 1.4;
-  opacity: 0.9;
-}
-
-/* « Je l'offre » : discret sous le mot de Lara, comme « Voir ». */
+/* « Je l'offre » : discret, comme « Retour au faire-part ». */
 .adham__offer {
-  align-self: flex-start;
+  flex-shrink: 0;
   padding: 0;
-  margin-top: 0.15rem;
   font-size: 0.72rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -439,6 +424,19 @@
   font-style: italic;
 }
 
+.adham__closing {
+  margin-top: 0.75rem;
+  font-size: 1.05rem;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+/* Le nom du cadeau au-dessus de la question, dans la fenêtre « Je l'offre ». */
+.popup__gift {
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+}
+
 /* « Annuler » sous le bouton plein de la fenêtre. */
 .popup__cancel {
   padding: 0;
@@ -450,67 +448,6 @@
   text-decoration: underline;
   text-underline-offset: 0.3em;
   text-decoration-thickness: 1px;
-}
-
-/* Le sticker d'Adham sous son PS, en petit. Sa cachette coupe le bas : il
-   surgit de derrière la ligne quand on arrive en bas de la page, avec un
-   rebond, puis sautille de temps en temps comme pour vérifier que Lara ne
-   regarde pas. Seul transform est animé ; rien sous prefers-reduced-motion. */
-/* Sticker de 96 x 145 px, plus 16 px au-dessus pour qu'il ait la place de sauter.
-   Le filet du bas est la ligne derrière laquelle il se cache. */
-.adham__cachette {
-  box-sizing: content-box;
-  width: 120px;
-  height: 145px;
-  padding-top: 16px;
-  overflow: hidden;
-  border-bottom: 1px solid rgb(127 47 38 / 0.35);
-}
-
-.adham__sticker {
-  display: block;
-  width: 96px;
-  margin: 0 auto;
-  height: auto;
-  transform: translateY(100%) rotate(0deg);
-  transform-origin: 50% 100%;
-}
-
-.adham__cachette.is-visible .adham__sticker {
-  animation:
-    surgir-sournois 900ms cubic-bezier(0.3, 1.4, 0.5, 1) both,
-    sautiller 3.6s ease-in-out 1.6s infinite;
-}
-
-@keyframes surgir-sournois {
-  0% { transform: translateY(100%) rotate(0deg); }
-  45% { transform: translateY(100%) rotate(0deg); }
-  80% { transform: translateY(-6%) rotate(-9deg); }
-  100% { transform: translateY(0) rotate(-5deg); }
-}
-
-@keyframes sautiller {
-  0%, 70%, 100% { transform: translateY(0) rotate(-5deg); }
-  76% { transform: translateY(-9%) rotate(-11deg); }
-  82% { transform: translateY(0) rotate(-2deg); }
-  88% { transform: translateY(-4%) rotate(-7deg); }
-  94% { transform: translateY(0) rotate(-5deg); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .adham__sticker,
-  .adham__cachette.is-visible .adham__sticker {
-    animation: none;
-    transform: rotate(-5deg);
-  }
-}
-
-/* Le PS d'Adham, sous le dernier filet. */
-.adham__ps {
-  margin-top: 1rem;
-  font-size: 1.05rem;
-  font-style: italic;
-  opacity: 0.9;
 }
 
 /* ---------- Page /compte ---------- */

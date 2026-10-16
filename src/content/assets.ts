@@ -11,8 +11,6 @@ export const assets = {
   card: { src: '/images/card.png', width: 1000, height: 1540 },
   /** Dessin au trait, texte « Bride & Groom » inclus dans l'image. */
   couple: { src: '/images/couple.png', width: 377, height: 572 },
-  /** Sticker WhatsApp d'Adham, sous son PS sur la page `/adham` (fourni le 2026-10-13, fond transparent). */
-  adhamSticker: { src: '/images/adham-sticker.webp', width: 300, height: 454 },
   babyA: { src: '/images/baby-adham.png', width: 350, height: 560 },
   babyB: { src: '/images/baby-lara.png', width: 526, height: 560 },
   /** Demi-soleil de fin de page, dessiné par Adham, initiales gravées dans l'image. */

@@ -1,37 +1,27 @@
-import { useEffect, useRef, useState, type MouseEvent } from 'react'
+import { useEffect, useState, type MouseEvent } from 'react'
 import { createPortal } from 'react-dom'
 import { Background } from '../components/Background'
 import { LangToggle } from '../components/LangToggle'
-import { assets } from '../content/assets'
 import { wedding } from '../content/wedding'
 import { useDocumentLang, useT } from '../i18n/useT'
 import { cadeauxOfferts, offrir } from '../lib/cadeaux'
 
 type Cadeau = (typeof wedding.adhamList)[number]
 /** Fenêtre par-dessus la liste : on confirme, ça part, c'est fait, ou ça a échoué. */
-type Fenetre =
-  | { etape: 'confirmer' | 'envoi'; cadeau: Cadeau }
-  | { etape: 'merci'; cadeau: Cadeau; merci: (typeof wedding.text.adham.thanks)[number] }
-  | { etape: 'deja' | 'erreur'; cadeau: Cadeau }
-  | null
-
-/** « La box Hue » au milieu d'une phrase : « la box Hue ». */
-const enMinuscule = (nom: string) => nom.charAt(0).toLocaleLowerCase() + nom.slice(1)
+type Fenetre = { etape: 'confirmer' | 'envoi' | 'merci' | 'deja' | 'erreur'; cadeau: Cadeau } | null
 
 /**
- * Page `/adham` : la liste d'Adham, commentée par Lara (docs/CONCEPTION.md §5).
- * Hors de la page principale pour garder la liste de mariage sobre. Même fond,
- * même typographie que la page du compte, ni film ni musique. Un nom court
- * par cadeau : le modèle exact se lit sur la fiche produit, ouverte à part.
- * « Je l'offre » retire un cadeau de la liste pour tous les invités, sans
- * enregistrer qui l'offre (`/api/cadeaux`, onglet « Cadeaux » du Sheet).
+ * Page `/adham` : les envies du marié (docs/CONCEPTION.md §5). Un aparté,
+ * ouvert par une phrase sous la liste de mariage. Même fond, même typographie
+ * et même sobriété que la page du compte, ni film ni musique ; le seul trait
+ * d'humour est l'intro d'Adham. Le nom de chaque cadeau ouvre sa fiche produit,
+ * à part. « Je l'offre » retire un cadeau de la liste pour tous les invités,
+ * sans enregistrer qui l'offre (`/api/cadeaux`, onglet « Cadeaux » du Sheet).
  */
 export function ListeAdham() {
   useDocumentLang()
   const t = useT()
   const a = wedding.text.adham
-  const sticker = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
   /** Cadeaux déjà offerts ; `null` tant que la liste n'est pas connue : pas de bouton « Je l'offre » sans elle. */
   const [offerts, setOfferts] = useState<string[] | null>(null)
   const [fenetre, setFenetre] = useState<Fenetre>(null)
@@ -64,31 +54,14 @@ export function ListeAdham() {
     try {
       const r = await offrir(cadeau.id)
       setOfferts(r.offerts)
-      // L'un des deux remerciements, tiré une fois pour que le texte ne change pas sous les yeux.
-      const merci = a.thanks[Math.floor(Math.random() * a.thanks.length)]
-      setFenetre(r.deja ? { etape: 'deja', cadeau } : { etape: 'merci', cadeau, merci })
+      setFenetre({ etape: r.deja ? 'deja' : 'merci', cadeau })
     } catch {
       setFenetre({ etape: 'erreur', cadeau })
     }
   }
 
   const restants = wedding.adhamList.filter((item) => !offerts?.includes(item.id))
-
-  // Le sticker attend d'être à l'écran pour surgir : sinon l'effet se jouerait hors de vue.
-  useEffect(() => {
-    const el = sticker.current
-    if (!el) return
-    const observateur = new IntersectionObserver(
-      ([entree]) => {
-        if (!entree.isIntersecting) return
-        setVisible(true)
-        observateur.disconnect()
-      },
-      { threshold: 0.6 },
-    )
-    observateur.observe(el)
-    return () => observateur.disconnect()
-  }, [])
+  const question = fenetre?.etape === 'confirmer' || fenetre?.etape === 'envoi'
 
   /** Revenir à la liste de mariage telle qu'on l'a quittée quand on vient du site ; sinon, la page d'accueil. */
   function retour(event: MouseEvent<HTMLAnchorElement>) {
@@ -105,11 +78,10 @@ export function ListeAdham() {
       <main className="column">
         <section className="section adham">
           <h1 className="section__title">{t(a.title)}</h1>
-          <p className="adham__subtitle">{t(a.subtitle)}</p>
           <span className="vline" aria-hidden="true" />
           <p className="adham__quote">
-            {t(a.warning)}
-            <span className="adham__by">{wedding.couple.b}</span>
+            {t(a.intro)}
+            <span className="adham__by">{wedding.couple.a}</span>
           </p>
 
           {restants.length === 0 ? (
@@ -118,13 +90,9 @@ export function ListeAdham() {
             <ul className="adham__list">
               {restants.map((item) => (
                 <li className="adham__item" key={item.id}>
-                  <div className="adham__row">
-                    <span className="adham__name">{t(item.name)}</span>
-                    <a className="adham__see" href={item.url} target="_blank" rel="noopener noreferrer">
-                      {t(a.see)}
-                    </a>
-                  </div>
-                  <p className="adham__lara">{t(item.lara)}</p>
+                  <a className="adham__name" href={item.url} target="_blank" rel="noopener noreferrer">
+                    {t(item.name)}
+                  </a>
                   {offerts && (
                     <button type="button" className="adham__offer" onClick={() => setFenetre({ etape: 'confirmer', cadeau: item })}>
                       {t(a.offer)}
@@ -135,17 +103,7 @@ export function ListeAdham() {
             </ul>
           )}
 
-          <p className="adham__ps">{t(a.ps)}</p>
-          <div ref={sticker} className={visible ? 'adham__cachette is-visible' : 'adham__cachette'}>
-            <img
-              className="adham__sticker"
-              src={assets.adhamSticker.src}
-              alt={t(a.stickerAlt)}
-              width={assets.adhamSticker.width}
-              height={assets.adhamSticker.height}
-            />
-          </div>
-
+          <p className="adham__closing">{t(a.closing)}</p>
           <a className="compte__back" href="/" onClick={retour}>
             {t(wedding.text.bank.back)}
           </a>
@@ -163,16 +121,17 @@ export function ListeAdham() {
             onClick={() => fenetre.etape !== 'envoi' && setFenetre(null)}
           >
             <div className="popup__card" onClick={(e) => e.stopPropagation()}>
+              {question && <p className="popup__gift">{t(fenetre.cadeau.name)}</p>}
               <p className="popup__text" id="cadeau-texte">
-                {fenetre.etape === 'confirmer' || fenetre.etape === 'envoi'
-                  ? t(a.confirm).replace('{gift}', enMinuscule(t(fenetre.cadeau.name)))
+                {question
+                  ? t(a.confirm)
                   : fenetre.etape === 'merci'
-                    ? t(fenetre.merci)
+                    ? t(a.thanks)
                     : fenetre.etape === 'deja'
                       ? t(a.already)
                       : t(wedding.text.rsvp.errorGeneric)}
               </p>
-              {fenetre.etape === 'confirmer' || fenetre.etape === 'envoi' ? (
+              {question ? (
                 <>
                   <button
                     type="button"

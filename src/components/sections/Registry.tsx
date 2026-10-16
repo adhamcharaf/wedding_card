@@ -3,7 +3,10 @@ import { wedding } from '../../content/wedding'
 import { useT } from '../../i18n/useT'
 import { Reveal } from '../Reveal'
 
-/** Liste de mariage et dessin du couple (docs/mockups/3.png). Le compte en banque et la liste d'Adham ouvrent chacun leur page. */
+/**
+ * Liste de mariage et dessin du couple (docs/mockups/3.png). Le compte en banque ouvre sa page ; la page du
+ * marié (`/adham`) s'ouvre par une phrase sous la note des boutiques, en aparté.
+ */
 export function Registry() {
   const t = useT()
   return (
@@ -29,6 +32,11 @@ export function Registry() {
           ))}
         </ul>
         <p className="registry__note">{t(wedding.text.registry.inStore)}</p>
+        <p className="registry__note registry__groom">
+          <a className="link" href="/adham">
+            {t(wedding.text.registry.groom)}
+          </a>
+        </p>
         <img
           className="couple"
           src={assets.couple.src}
