@@ -62,8 +62,9 @@ type EtatCode = 'vide' | 'verif' | 'ok' | 'inconnu' | 'panne'
  * inconnu), un prénom facultatif qui personnalise le site, et « Ouvrir »,
  * proposé seulement quand musique et film sont en mémoire et le code reconnu
  * (un trait montre la progression). Le tap lance les deux dans le même geste
- * (iOS l'exige), donc ensemble. Pas de bouton pour passer. Sur les dernières
- * 450 ms, le hero s'imprime derrière et la vidéo se fond.
+ * (iOS l'exige), donc ensemble. Pendant le film, « Passer » mène tout de suite
+ * à la carte, la musique continue. Sur les dernières 450 ms, le hero s'imprime
+ * derrière et la vidéo se fond.
  * Remonté à neuf à chaque « revoir le film » via la clé `tour` (App.tsx).
  */
 export function Intro() {
@@ -209,6 +210,12 @@ export function Intro() {
     v.play().catch(() => terminer(false))
   }
 
+  /** « Passer » : la carte s'imprime comme à la fin du film, la musique continue. */
+  function passer() {
+    video.current?.pause()
+    terminer(true)
+  }
+
   function surTemps() {
     const v = video.current
     if (!v || phase !== 'intro' || !Number.isFinite(v.duration)) return
@@ -235,6 +242,12 @@ export function Intro() {
         onEnded={() => terminer(true)}
         onError={() => terminer(false)}
       />
+
+      {phase === 'intro' && !finie && (
+        <button type="button" className="intro__skip" onClick={passer}>
+          {t(g.skip)}
+        </button>
+      )}
 
       {phase === 'gate' && (
         <div className="gate">
