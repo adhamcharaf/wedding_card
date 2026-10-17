@@ -59,6 +59,8 @@ export const wedding = {
         en: "This code doesn't match any invitation. Please check it, or message us on WhatsApp.",
       },
       open: { fr: 'Ouvrir', en: 'Open' },
+      /** Pendant le film, pour arriver tout de suite sur la carte (2026-10-17). */
+      skip: { fr: 'Passer', en: 'Skip' },
       /** Sous le bouton, tant que tout n'est pas en mémoire. */
       loading: { fr: "L'enveloppe est en route", en: 'The envelope is on its way' },
       /** Revisite ou « revoir le film », quand un prénom est connu. `{name}` est remplacé. */

@@ -225,6 +225,25 @@ html.is-locked body {
   opacity: 0;
 }
 
+/* « Passer », pendant le film : pastille crème en bas, comme l'indication de
+   défilement. Elle apparaît après une seconde, pour qu'on ne la touche pas
+   par erreur juste après « Ouvrir ». */
+.intro__skip {
+  position: absolute;
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  left: 50%;
+  padding: 0.4rem 1.1rem;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: rgb(255 244 236 / 0.6);
+  transform: translateX(-50%);
+  color: var(--ink);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  animation: apparaitre 600ms ease 1000ms both;
+}
+
 /* L'accueil se pose dans la bande de ciel entre l'enveloppe portée par les
    oiseaux (jusqu'à 47 % de la hauteur du film) et les rayons du soleil (55 %) :
    langue, code d'invitation s'il manque, prénom facultatif, puis « Ouvrir »
