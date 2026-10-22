@@ -55,6 +55,37 @@ function texte(valeur: unknown, max: number): string | null {
   return propre.length > 0 && propre.length <= max ? propre : null
 }
 
+/**
+ * Prénom ou nom tel que le Sheet l'a donné, seulement débarrassé des espaces
+ * en bord : le script retrouve chaque personne par ce texte exact.
+ */
+function nomRecu(valeur: unknown, max: number): string | null {
+  if (typeof valeur !== 'string') return null
+  const propre = valeur.trim()
+  return propre.length > 0 && propre.length <= max ? propre : null
+}
+
+/** Clé d'une personne dans son groupe, comme `clePersonne` dans tools/sheets/Code.gs. */
+const clePersonne = (prenom: string, nom: string) => `${prenom.trim()}|${nom.trim()}`.toLowerCase()
+
+/**
+ * Les membres envoyés que le Sheet n'a pas enregistrés. Le script ignore sans
+ * erreur une personne qu'il ne retrouve pas, par exemple quand son nom a été
+ * corrigé dans le Sheet pendant que l'invité avait la page ouverte : sans ce
+ * contrôle, l'invité verrait « merci » alors que rien n'est écrit.
+ */
+function nonEnregistres(envoyes: Membre[], groupe: unknown): Membre[] {
+  const recus = (groupe as { membres?: unknown }).membres
+  if (!Array.isArray(recus)) return envoyes
+  return envoyes.filter(
+    (m) =>
+      !recus.some((brut) => {
+        const r = brut as Record<string, unknown>
+        return clePersonne(String(r.prenom ?? ''), String(r.nom ?? '')) === clePersonne(m.prenom, m.nom) && r.presence === m.presence
+      }),
+  )
+}
+
 /** Les membres reçus, ou `null` si la réponse n'est pas exploitable. */
 function lireMembres(valeur: unknown): Membre[] | null {
   if (!Array.isArray(valeur) || valeur.length === 0 || valeur.length > MAX_MEMBRES) return null
@@ -62,9 +93,9 @@ function lireMembres(valeur: unknown): Membre[] | null {
   for (const brut of valeur) {
     if (!brut || typeof brut !== 'object') return null
     const m = brut as Record<string, unknown>
-    const prenom = texte(m.prenom, MAX_NOM)
+    const prenom = nomRecu(m.prenom, MAX_NOM)
     // Le nom est facultatif : la liste d'Adham a des invités connus par leur seul prénom.
-    const nom = m.nom === undefined || m.nom === '' ? '' : texte(m.nom, MAX_NOM)
+    const nom = m.nom === undefined || m.nom === '' ? '' : nomRecu(m.nom, MAX_NOM)
     if (!prenom || nom === null || (m.presence !== 'Oui' && m.presence !== 'Non')) return null
     const mot = m.mot === undefined || m.mot === '' ? '' : texte(m.mot, MAX_MOT)
     if (mot === null) return null
@@ -145,6 +176,8 @@ export async function POST(request: Request): Promise<Response> {
       return json({ error: 'inconnu' }, 404)
     }
     if (!resultat.ok || !resultat.groupe) return json({ error: 'sheet' }, 502)
+    // Quelqu'un n'a pas été retrouvé : on renvoie la liste à jour pour que l'invité la vérifie et renvoie.
+    if (nonEnregistres(membres, resultat.groupe).length > 0) return json({ error: 'perime', groupe: resultat.groupe }, 409)
     return json({ ok: true, groupe: resultat.groupe })
   } catch (err) {
     return panne(err)

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { createPortal } from 'react-dom'
 import { wedding } from '../../content/wedding'
 import { nommer, useT } from '../../i18n/useT'
-import { CODE, CodeInconnu, chercherGroupe, nomComplet, repondre, type Groupe, type Presence } from '../../lib/groupe'
+import { CODE, CodeInconnu, GroupePerime, chercherGroupe, nomComplet, repondre, type Groupe, type Presence } from '../../lib/groupe'
 import { useAppStore } from '../../store/useAppStore'
 import { noteAvecLien } from '../NoteWhatsApp'
 import { Reveal } from '../Reveal'
@@ -15,7 +15,7 @@ import { Reveal } from '../Reveal'
  */
 type Etat = 'code' | 'chargement' | 'saisie' | 'envoi' | 'resume' | 'panne' | 'clos'
 /** Fenêtre par-dessus le formulaire : il manque quelque chose, ou l'envoi a échoué. */
-type Fenetre = { type: 'manquant'; champs: string[] } | { type: 'erreur' } | null
+type Fenetre = { type: 'manquant'; champs: string[] } | { type: 'erreur' } | { type: 'perime' } | null
 /** Ce que l'invité remplit pour chaque membre, dans l'ordre du groupe. */
 interface Saisie {
   presence: Presence
@@ -166,7 +166,23 @@ export function Rsvp() {
       setMerci(true)
       setEtat('resume')
     } catch (err) {
-      if (err instanceof Error && err.message === 'closed') {
+      if (err instanceof GroupePerime) {
+        // La liste a changé : on garde ce que l'invité a rempli, retrouvé par
+        // prénom (ou par place si la liste a gardé sa taille), et il renvoie.
+        const avant = groupe.membres
+        const apres = err.groupe.membres
+        setGroupe(err.groupe)
+        setSaisies(
+          apres.map((m, i) => {
+            const j = avant.findIndex((a) => memeNom(a.prenom, m.prenom))
+            const k = j >= 0 ? j : avant.length === apres.length ? i : -1
+            return k >= 0 ? saisies[k] : { presence: m.presence, mot: m.mot, ouvert: false }
+          }),
+        )
+        setMarques({ membres: [], mot: false })
+        setEtat('saisie')
+        setFenetre({ type: 'perime' })
+      } else if (err instanceof Error && err.message === 'closed') {
         setEtat('clos')
       } else if (err instanceof CodeInconnu) {
         setCode(null)
@@ -338,7 +354,11 @@ export function Rsvp() {
           <div className="popup" role="alertdialog" aria-modal="true" aria-describedby="rsvp-popup-texte" onClick={fermer}>
             <div className="popup__card" onClick={(e) => e.stopPropagation()}>
               <p className="popup__text" id="rsvp-popup-texte">
-                {fenetre.type === 'manquant' ? t(r.missing).replace('{fields}', fenetre.champs.join(', ')) : t(r.errorGeneric)}
+                {fenetre.type === 'manquant'
+                  ? t(r.missing).replace('{fields}', fenetre.champs.join(', '))
+                  : fenetre.type === 'perime'
+                    ? t(r.stale)
+                    : t(r.errorGeneric)}
               </p>
               <button type="button" className="btn btn--solid" onClick={fermer} autoFocus>
                 {t(r.ok)}

@@ -44,6 +44,18 @@ export class CodeInconnu extends Error {
   }
 }
 
+/**
+ * Le Sheet n'a pas retrouvé quelqu'un : la liste du groupe a changé pendant que
+ * la page était ouverte (un nom corrigé). Porte la liste à jour, à vérifier puis renvoyer.
+ */
+export class GroupePerime extends Error {
+  readonly groupe: Groupe
+  constructor(groupe: Groupe) {
+    super('perime')
+    this.groupe = groupe
+  }
+}
+
 let cache: { code: string; promesse: Promise<Groupe> } | null = null
 
 /** Le code écrit dans le lien : `/4821` ou `?c=4821`. */
@@ -81,6 +93,12 @@ export async function repondre(code: string, membres: Reponse[], lang: string, w
     body: JSON.stringify({ code, membres, lang, website }),
   })
   if (reponse.status === 410) throw new Error('closed')
+  if (reponse.status === 409) {
+    const corps = (await reponse.json()) as { groupe?: Groupe }
+    if (!corps.groupe) throw new Error('409')
+    cache = { code, promesse: Promise.resolve(corps.groupe) }
+    throw new GroupePerime(corps.groupe)
+  }
   const groupe = await lire(reponse)
   cache = { code, promesse: Promise.resolve(groupe) }
   return groupe

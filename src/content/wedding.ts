@@ -209,6 +209,11 @@ export const wedding = {
         en: 'Something went wrong. Please try again in a moment.',
       },
       retry: { fr: 'Réessayer', en: 'Try again' },
+      /** La liste du groupe a changé pendant que la page était ouverte : rien n'a été perdu, il faut renvoyer. */
+      stale: {
+        fr: 'La liste de votre groupe vient d’être mise à jour. Vérifiez vos réponses, puis appuyez de nouveau sur Envoyer.',
+        en: 'Your group’s list has just been updated. Please check your replies, then tap Send again.',
+      },
       /** Affiché à la place du formulaire après `rsvpClosesAt`. */
       closed: {
         fr: 'Les réponses sont closes depuis le 15 décembre. Pour toute question, écrivez-nous sur WhatsApp.',
