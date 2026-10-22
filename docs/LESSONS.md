@@ -168,3 +168,9 @@
 - **Symptôme** : du jour au lendemain, plus aucun lien ne marchait. La page s'ouvrait, mais `/api/rsvp` répondait 502 ; appelé directement, le script renvoyait « Lock timeout: another process was holding the lock for too long » à chaque essai, alors qu'un seul appel était arrivé sur Vercel dans l'heure.
 - **Cause** : le verrou restait détenu côté Google, sans trafic pour l'expliquer. Comme les lectures l'attendaient aussi, une seule exécution coincée suffisait à fermer le faire-part à tout le monde.
 - **Règle** : une lecture ne prend jamais de verrou. Une écriture prend le verrou du document avec `tryLock` borné et renvoie une erreur douce si elle ne l'obtient pas. Pour diagnostiquer, appeler le script directement avec une lecture, avant de soupçonner le site.
+
+### Un nom corrigé dans le Sheet faisait perdre une réponse en silence
+- **Contexte** : partie 3 des invités, noms de famille ajoutés dans le Sheet (Daniella → Daniella Kabbani) pendant que des invités avaient déjà le lien.
+- **Symptôme** : Daniella voyait « Merci, votre réponse est bien enregistrée », mais rien n'arrivait, ni dans l'onglet Invités ni dans le Journal.
+- **Cause** : le script retrouve chaque personne par son prénom et son nom. La page ouverte avant la correction envoyait l'ancien nom ; le script ignorait cette personne sans erreur et répondait `ok`, avec la liste à jour sans réponse.
+- **Règle** : `api/rsvp.ts` vérifie que chaque personne envoyée revient avec sa réponse dans la liste renvoyée par le script ; sinon 409 `perime`, et le formulaire recharge la liste à jour en gardant ce qui était rempli, puis demande de renvoyer. Les prénoms et noms ne sont plus réécrits côté serveur (seulement les espaces en bord), pour rester identiques au Sheet. Un « ok » du script ne prouve pas qu'il a écrit.

@@ -32,4 +32,7 @@ La liste vit dans le Google Sheet (onglet « Invités », une ligne par personne
 
 ## Révision
 
+Révisé le 2026-10-22 à la demande d'Adham : chaque membre reçoit le lien, donc chacun peut répondre pour soi sans attendre les autres. Le formulaire n'envoie que les réponses données ou changées ; le mot reste obligatoire pour le groupe, en comptant ceux déjà laissés.
+
+
 À reconsidérer si Adham veut des invités hors liste (un « plus un » libre) : il faudrait un champ nom ouvert dans le groupe, ce qu'il a refusé le 2026-09-16.

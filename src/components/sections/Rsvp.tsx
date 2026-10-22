@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { createPortal } from 'react-dom'
 import { wedding } from '../../content/wedding'
 import { nommer, useT } from '../../i18n/useT'
-import { CODE, CodeInconnu, chercherGroupe, nomComplet, repondre, type Groupe, type Presence } from '../../lib/groupe'
+import { CODE, CodeInconnu, GroupePerime, chercherGroupe, nomComplet, repondre, type Groupe, type Presence } from '../../lib/groupe'
 import { useAppStore } from '../../store/useAppStore'
 import { noteAvecLien } from '../NoteWhatsApp'
 import { Reveal } from '../Reveal'
@@ -15,7 +15,7 @@ import { Reveal } from '../Reveal'
  */
 type Etat = 'code' | 'chargement' | 'saisie' | 'envoi' | 'resume' | 'panne' | 'clos'
 /** Fenêtre par-dessus le formulaire : il manque quelque chose, ou l'envoi a échoué. */
-type Fenetre = { type: 'manquant'; champs: string[] } | { type: 'erreur' } | null
+type Fenetre = { type: 'manquant'; champs: string[] } | { type: 'erreur' } | { type: 'perime' } | null
 /** Ce que l'invité remplit pour chaque membre, dans l'ordre du groupe. */
 interface Saisie {
   presence: Presence
@@ -29,9 +29,11 @@ const memeNom = (a: string, b: string) => a.trim().toLocaleLowerCase() === b.tri
 /**
  * Formulaire RSVP par groupe (docs/CONCEPTION.md §7, ADR-0004). Le code
  * d'invitation, vérifié à l'accueil, donne la liste du groupe : chaque
- * membre a Oui / Non et, s'il le souhaite, un mot ; un seul envoi pour tous,
- * au moins un mot dans le groupe. La réponse reste modifiable jusqu'à la
- * clôture, et chacun peut revenir ajouter son mot sans effacer les autres.
+ * membre a Oui / Non et, s'il le souhaite, un mot. Chacun peut répondre pour
+ * soi sans attendre les autres (2026-10-22) : on n'envoie que les réponses
+ * données ou changées, les autres restent telles quelles. Il faut au moins
+ * une réponse, et au moins un mot dans le groupe une fois l'envoi fait. La
+ * réponse reste modifiable jusqu'à la clôture.
  */
 export function Rsvp() {
   const t = useT()
@@ -140,24 +142,33 @@ export function Rsvp() {
     if (!groupe || !code) return
     const donnees = new FormData(event.currentTarget)
     const website = String(donnees.get('website') ?? '')
-    const sansReponse = groupe.membres.map((_, i) => i).filter((i) => saisies[i].presence === '')
-    const sansMot = !saisies.some((s) => s.mot.trim() !== '')
-    setMarques({ membres: sansReponse, mot: sansMot })
-    if (sansReponse.length > 0 || sansMot) {
-      const manques = sansReponse.map((i) => nommer(t(r.missingPresence), groupe.membres[i].prenom))
+    const aucune = saisies.every((s) => s.presence === '')
+    // Le groupe tel qu'il sera après l'envoi : les mots déjà laissés par les autres comptent.
+    const sansMot = !groupe.membres.some((m, i) => (saisies[i].presence !== '' ? saisies[i].mot.trim() : m.mot) !== '')
+    setMarques({ membres: [], mot: sansMot })
+    if (aucune || sansMot) {
+      const manques = aucune ? [t(r.missingAnswer)] : []
       if (sansMot) manques.push(t(r.missingWord))
       setFenetre({ type: 'manquant', champs: manques })
+      return
+    }
+    // Seules les réponses données ou changées partent : celles des autres ne sont pas réécrites.
+    const envoyes = groupe.membres
+      .map((m, i) => ({ m, s: saisies[i] }))
+      .filter(({ m, s }) => s.presence !== '' && (s.presence !== m.presence || s.mot.trim() !== m.mot))
+    if (envoyes.length === 0) {
+      setEtat('resume')
       return
     }
     setEtat('envoi')
     try {
       const g = await repondre(
         code,
-        groupe.membres.map((m, i) => ({
+        envoyes.map(({ m, s }) => ({
           prenom: m.prenom,
           nom: m.nom,
-          presence: saisies[i].presence as 'Oui' | 'Non',
-          mot: saisies[i].mot.trim(),
+          presence: s.presence as 'Oui' | 'Non',
+          mot: s.mot.trim(),
         })),
         lang,
         website,
@@ -166,7 +177,23 @@ export function Rsvp() {
       setMerci(true)
       setEtat('resume')
     } catch (err) {
-      if (err instanceof Error && err.message === 'closed') {
+      if (err instanceof GroupePerime) {
+        // La liste a changé : on garde ce que l'invité a rempli, retrouvé par
+        // prénom (ou par place si la liste a gardé sa taille), et il renvoie.
+        const avant = groupe.membres
+        const apres = err.groupe.membres
+        setGroupe(err.groupe)
+        setSaisies(
+          apres.map((m, i) => {
+            const j = avant.findIndex((a) => memeNom(a.prenom, m.prenom))
+            const k = j >= 0 ? j : avant.length === apres.length ? i : -1
+            return k >= 0 ? saisies[k] : { presence: m.presence, mot: m.mot, ouvert: false }
+          }),
+        )
+        setMarques({ membres: [], mot: false })
+        setEtat('saisie')
+        setFenetre({ type: 'perime' })
+      } else if (err instanceof Error && err.message === 'closed') {
         setEtat('clos')
       } else if (err instanceof CodeInconnu) {
         setCode(null)
@@ -265,7 +292,7 @@ export function Rsvp() {
               ))}
             </ul>
             <button type="button" className="btn" onClick={() => code && charger(code, true, true)}>
-              {t(r.edit)}
+              {groupe.membres.some((m) => m.presence === '') ? t(r.addMine) : t(r.edit)}
             </button>
             <p className="form__note">{t(r.deadline)}</p>
           </>
@@ -338,7 +365,11 @@ export function Rsvp() {
           <div className="popup" role="alertdialog" aria-modal="true" aria-describedby="rsvp-popup-texte" onClick={fermer}>
             <div className="popup__card" onClick={(e) => e.stopPropagation()}>
               <p className="popup__text" id="rsvp-popup-texte">
-                {fenetre.type === 'manquant' ? t(r.missing).replace('{fields}', fenetre.champs.join(', ')) : t(r.errorGeneric)}
+                {fenetre.type === 'manquant'
+                  ? t(r.missing).replace('{fields}', fenetre.champs.join(', '))
+                  : fenetre.type === 'perime'
+                    ? t(r.stale)
+                    : t(r.errorGeneric)}
               </p>
               <button type="button" className="btn btn--solid" onClick={fermer} autoFocus>
                 {t(r.ok)}
