@@ -29,9 +29,11 @@ const memeNom = (a: string, b: string) => a.trim().toLocaleLowerCase() === b.tri
 /**
  * Formulaire RSVP par groupe (docs/CONCEPTION.md §7, ADR-0004). Le code
  * d'invitation, vérifié à l'accueil, donne la liste du groupe : chaque
- * membre a Oui / Non et, s'il le souhaite, un mot ; un seul envoi pour tous,
- * au moins un mot dans le groupe. La réponse reste modifiable jusqu'à la
- * clôture, et chacun peut revenir ajouter son mot sans effacer les autres.
+ * membre a Oui / Non et, s'il le souhaite, un mot. Chacun peut répondre pour
+ * soi sans attendre les autres (2026-10-22) : on n'envoie que les réponses
+ * données ou changées, les autres restent telles quelles. Il faut au moins
+ * une réponse, et au moins un mot dans le groupe une fois l'envoi fait. La
+ * réponse reste modifiable jusqu'à la clôture.
  */
 export function Rsvp() {
   const t = useT()
@@ -140,24 +142,33 @@ export function Rsvp() {
     if (!groupe || !code) return
     const donnees = new FormData(event.currentTarget)
     const website = String(donnees.get('website') ?? '')
-    const sansReponse = groupe.membres.map((_, i) => i).filter((i) => saisies[i].presence === '')
-    const sansMot = !saisies.some((s) => s.mot.trim() !== '')
-    setMarques({ membres: sansReponse, mot: sansMot })
-    if (sansReponse.length > 0 || sansMot) {
-      const manques = sansReponse.map((i) => nommer(t(r.missingPresence), groupe.membres[i].prenom))
+    const aucune = saisies.every((s) => s.presence === '')
+    // Le groupe tel qu'il sera après l'envoi : les mots déjà laissés par les autres comptent.
+    const sansMot = !groupe.membres.some((m, i) => (saisies[i].presence !== '' ? saisies[i].mot.trim() : m.mot) !== '')
+    setMarques({ membres: [], mot: sansMot })
+    if (aucune || sansMot) {
+      const manques = aucune ? [t(r.missingAnswer)] : []
       if (sansMot) manques.push(t(r.missingWord))
       setFenetre({ type: 'manquant', champs: manques })
+      return
+    }
+    // Seules les réponses données ou changées partent : celles des autres ne sont pas réécrites.
+    const envoyes = groupe.membres
+      .map((m, i) => ({ m, s: saisies[i] }))
+      .filter(({ m, s }) => s.presence !== '' && (s.presence !== m.presence || s.mot.trim() !== m.mot))
+    if (envoyes.length === 0) {
+      setEtat('resume')
       return
     }
     setEtat('envoi')
     try {
       const g = await repondre(
         code,
-        groupe.membres.map((m, i) => ({
+        envoyes.map(({ m, s }) => ({
           prenom: m.prenom,
           nom: m.nom,
-          presence: saisies[i].presence as 'Oui' | 'Non',
-          mot: saisies[i].mot.trim(),
+          presence: s.presence as 'Oui' | 'Non',
+          mot: s.mot.trim(),
         })),
         lang,
         website,
@@ -281,7 +292,7 @@ export function Rsvp() {
               ))}
             </ul>
             <button type="button" className="btn" onClick={() => code && charger(code, true, true)}>
-              {t(r.edit)}
+              {groupe.membres.some((m) => m.presence === '') ? t(r.addMine) : t(r.edit)}
             </button>
             <p className="form__note">{t(r.deadline)}</p>
           </>

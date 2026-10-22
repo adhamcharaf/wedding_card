@@ -4,7 +4,8 @@
  * Fonction Vercel, même projet que le site, appelée par l'écran d'accueil et
  * le formulaire sur `/api/rsvp` :
  *   GET  ?code=4821  → le groupe de ce code (membres, présences, mots), ou 404.
- *   POST             → la réponse du groupe (présence et mot par membre).
+ *   POST             → les réponses envoyées (présence et mot par membre) ;
+ *                      les membres absents de l'envoi gardent la leur.
  * Elle vérifie tout, refuse les envois après la clôture, et parle au script
  * attaché au Google Sheet d'Adham (`tools/sheets/Code.gs`), qui ne renvoie
  * jamais que le groupe demandé. L'adresse du script et le secret partagé
@@ -101,8 +102,9 @@ function lireMembres(valeur: unknown): Membre[] | null {
     if (mot === null) return null
     membres.push({ prenom, nom, presence: m.presence, mot })
   }
-  // Un mot obligatoire pour le groupe, pas pour chacun.
-  if (!membres.some((m) => m.mot)) return null
+  // Chacun répond quand il veut (2026-10-22) : seuls les membres envoyés sont
+  // écrits, les autres gardent leur réponse. Le mot obligatoire pour le groupe
+  // se vérifie dans le formulaire, qui connaît les mots déjà laissés.
   return membres
 }
 

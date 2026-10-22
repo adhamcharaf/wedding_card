@@ -159,8 +159,8 @@ export const wedding = {
     rsvp: {
       title: { fr: 'RSVP', en: 'RSVP' },
       intro: {
-        fr: "Merci de nous confirmer la présence de chacun : c'est cette réponse qui réserve vos places.",
-        en: "Please let us know who will be with us: this reply is what reserves your seats.",
+        fr: "Merci de nous confirmer votre présence : c'est cette réponse qui réserve vos places. Chacun peut répondre pour soi avec ce même lien, ou pour les autres s'il connaît leur réponse.",
+        en: 'Please let us know if you will be with us: this reply is what reserves your seats. Everyone can reply for themselves with this same link, or for the others if they know their answer.',
       },
       /** Le temps de retrouver le groupe. */
       loading: { fr: 'Un instant, nous retrouvons votre invitation.', en: 'One moment, we are finding your invitation.' },
@@ -195,13 +195,15 @@ export const wedding = {
       },
       /** Réponse déjà donnée : le récapitulatif du groupe. `{date}` reçoit la date du dernier envoi. */
       answered: { fr: 'Votre réponse du {date}', en: 'Your reply from {date}' },
-      /** Membre ajouté après coup, sans réponse encore. */
+      /** Membre qui n'a pas encore répondu (chacun répond quand il veut, 2026-10-22). */
       pending: { fr: 'pas encore de réponse', en: 'no reply yet' },
       edit: { fr: 'Modifier', en: 'Edit' },
+      /** Le même bouton quand une personne du groupe n'a pas encore répondu. */
+      addMine: { fr: 'Ajouter ma réponse', en: 'Add my reply' },
       cancel: { fr: 'Annuler', en: 'Cancel' },
       /** Fenêtre qui s'ouvre à l'envoi quand il manque quelque chose. `{fields}` reçoit la liste. */
       missing: { fr: 'Il manque encore : {fields}.', en: 'Still missing: {fields}.' },
-      missingPresence: { fr: 'la réponse de {name}', en: "{name}'s reply" },
+      missingAnswer: { fr: 'au moins une réponse', en: 'at least one reply' },
       missingWord: { fr: "un mot de l'un d'entre vous", en: 'a word from one of you' },
       ok: { fr: 'Compris', en: 'Got it' },
       errorGeneric: {
